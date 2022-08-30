@@ -1,0 +1,2 @@
+delete buttons;
+delete pages;

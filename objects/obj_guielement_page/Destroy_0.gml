@@ -1,0 +1,2 @@
+delete vecChildElements;
+delete vecChildElementsHeight;

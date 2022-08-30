@@ -1,0 +1,109 @@
+#macro GUIDepth -10000
+#macro GUIPageDepth -9900
+#macro GUIDefaultColor #000037
+#macro GUIDefaultAlpha 0.6
+
+globalvar gMouseOnGUI;
+gMouseOnGUI = false;
+
+globalvar __halignTemp, __valignTemp, __colTemp, __alphaTemp;
+__halignTemp = fa_left;
+__valignTemp = fa_top;
+__colTemp = c_white;
+__alphaTemp = 1.0;
+
+function SaveDrawSettings() {
+	__halignTemp = draw_get_halign();
+	__valignTemp = draw_get_valign();
+	__colTemp = draw_get_color();
+	__alphaTemp = draw_get_alpha();
+}
+
+function LoadDrawSettings() {
+	draw_set_halign(__halignTemp);
+	draw_set_valign(__valignTemp);
+	draw_set_color(__colTemp);
+	draw_set_alpha(__alphaTemp);
+}
+
+
+function GUI_GetStringWidthHalf(text) {
+	return string_width(text) / 2;
+}
+
+function GUI_GetStringHeightHalf(text) {
+	return string_height(text) / 2;
+}
+
+function GUI_MouseGuiOnMe(left, top, right, bottom) {
+	var mx = GetPositionXOnGUI(mouse_x);
+	var my = GetPositionYOnGUI(mouse_y);
+	var x1 = left;
+	var y1 = top;
+	var x2 = right;
+	var y2 = bottom;
+	if(point_in_rectangle(mx, my, x1, y1, x2, y2)) {
+		return true;
+	}
+	return false;
+}
+
+function GUI_DrawText(_xGui, _yGui, str, onCenter = false) {
+	if(onCenter) {
+		SaveDrawSettings();
+		
+		draw_set_halign(fa_center);
+		draw_set_valign(fa_middle);
+		draw_text(_xGui, _yGui, str);
+		
+		LoadDrawSettings();
+	} else {
+		draw_text(_xGui, _yGui, str);
+	}
+}
+
+function GUI_DrawRectangle(left, top, right, bottom, outline = false) {
+	draw_rectangle(
+		/*GetPositionXOnGUI(left),
+		GetPositionYOnGUI(top),
+		GetPositionXOnGUI(right),
+		GetPositionYOnGUI(bottom),*/
+		left, top, right, bottom,
+		outline
+	);
+}
+
+function GUI_DrawLabel(text, _xGui, _yGui, highLight = false) {
+	GUI_DrawLabel_ext(text, _xGui, _yGui, , , highLight);
+}
+
+function GUI_DrawLabel_ext(text, _xGui, _yGui, _widthHalf = undefined, _heightHalf = undefined, highLight = false) {
+	var _x = _xGui;
+	var _y = _yGui;
+	
+	SaveDrawSettings();
+	
+	
+	draw_set_halign(fa_center);
+	draw_set_valign(fa_middle);
+	draw_set_color(GUIDefaultColor);
+	draw_set_alpha(GUIDefaultAlpha);
+	
+	var strWHalf = ((_widthHalf == undefined) ? GUI_GetStringWidthHalf(text) : _widthHalf);
+	var strHHalf = ((_widthHalf == undefined) ? GUI_GetStringHeightHalf(text) : _heightHalf);
+	GUI_DrawRectangle(_x - strWHalf, _y - strHHalf, _x + strWHalf, _y + strHHalf, false);
+	
+	draw_set_color(c_white);
+	draw_set_alpha(1.0);
+	
+	GUI_DrawText(_x, _y, text);
+	
+	if(highLight) {
+		draw_set_alpha(0.4);
+		GUI_DrawRectangle(_x - strWHalf, _y - strHHalf, _x + strWHalf, _y + strHHalf, false);
+	}
+	
+	
+	LoadDrawSettings();
+}
+

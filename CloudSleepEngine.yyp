@@ -1,6 +1,26 @@
 {
   "resources": [
-    {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},"order":0,},
+    {"id":{"name":"textbox","path":"objects/textbox/textbox.yy",},"order":0,},
+    {"id":{"name":"obj_sandboxSceneElementsPages","path":"objects/obj_sandboxSceneElementsPages/obj_sandboxSceneElementsPages.yy",},"order":0,},
+    {"id":{"name":"obj_mainMenu","path":"objects/obj_mainMenu/obj_mainMenu.yy",},"order":0,},
+    {"id":{"name":"obj_GuiElement_Page","path":"objects/obj_GuiElement_Page/obj_GuiElement_Page.yy",},"order":1,},
+    {"id":{"name":"STLvector","path":"scripts/STLvector/STLvector.yy",},"order":7,},
+    {"id":{"name":"obj_debugDrawBox","path":"objects/obj_debugDrawBox/obj_debugDrawBox.yy",},"order":5,},
+    {"id":{"name":"rm_MainMenu","path":"rooms/rm_MainMenu/rm_MainMenu.yy",},"order":1,},
+    {"id":{"name":"animcurve_cameraLinear","path":"animcurves/animcurve_cameraLinear/animcurve_cameraLinear.yy",},"order":0,},
+    {"id":{"name":"GuiElementPage","path":"scripts/GuiElementPage/GuiElementPage.yy",},"order":9,},
+    {"id":{"name":"textbox_fns","path":"scripts/textbox_fns/textbox_fns.yy",},"order":1,},
+    {"id":{"name":"Mouse","path":"scripts/Mouse/Mouse.yy",},"order":5,},
+    {"id":{"name":"GUI","path":"scripts/GUI/GUI.yy",},"order":3,},
+    {"id":{"name":"GetPositionOnGUI","path":"scripts/GetPositionOnGUI/GetPositionOnGUI.yy",},"order":1,},
+    {"id":{"name":"Font","path":"scripts/Font/Font.yy",},"order":2,},
+    {"id":{"name":"obj_camera","path":"objects/obj_camera/obj_camera.yy",},"order":1,},
+    {"id":{"name":"Camera","path":"scripts/Camera/Camera.yy",},"order":8,},
+    {"id":{"name":"GuiElements","path":"scripts/GuiElements/GuiElements.yy",},"order":4,},
+    {"id":{"name":"Others","path":"scripts/Others/Others.yy",},"order":6,},
+    {"id":{"name":"obj_GuiElement_Button","path":"objects/obj_GuiElement_Button/obj_GuiElement_Button.yy",},"order":0,},
+    {"id":{"name":"__init","path":"scripts/__init/__init.yy",},"order":0,},
+    {"id":{"name":"rm_Sandbox","path":"rooms/rm_Sandbox/rm_Sandbox.yy",},"order":0,},
   ],
   "Options": [
     {"name":"Linux","path":"options/linux/options_linux.yy",},
@@ -9,14 +29,15 @@
     {"name":"Windows","path":"options/windows/options_windows.yy",},
     {"name":"operagx","path":"options/operagx/options_operagx.yy",},
   ],
-  "defaultScriptType": 0,
+  "defaultScriptType": 1,
   "isEcma": false,
   "configs": {
     "name": "Default",
     "children": [],
   },
   "RoomOrderNodes": [
-    {"roomId":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
+    {"roomId":{"name":"rm_MainMenu","path":"rooms/rm_MainMenu/rm_MainMenu.yy",},},
+    {"roomId":{"name":"rm_Sandbox","path":"rooms/rm_Sandbox/rm_Sandbox.yy",},},
   ],
   "Folders": [
     {"folderPath":"folders/Sprites.yy","order":1,"resourceVersion":"1.0","name":"Sprites","tags":[],"resourceType":"GMFolder",},
@@ -33,6 +54,10 @@
     {"folderPath":"folders/Animation Curves.yy","order":12,"resourceVersion":"1.0","name":"Animation Curves","tags":[],"resourceType":"GMFolder",},
     {"folderPath":"folders/Notes.yy","order":13,"resourceVersion":"1.0","name":"Notes","tags":[],"resourceType":"GMFolder",},
     {"folderPath":"folders/Extensions.yy","order":14,"resourceVersion":"1.0","name":"Extensions","tags":[],"resourceType":"GMFolder",},
+    {"folderPath":"folders/Textbox - Single line.yy","order":15,"resourceVersion":"1.0","name":"Textbox - Single line","tags":[],"resourceType":"GMFolder",},
+    {"folderPath":"folders/Objects/MainMenu.yy","order":2,"resourceVersion":"1.0","name":"MainMenu","tags":[],"resourceType":"GMFolder",},
+    {"folderPath":"folders/Objects/GuiElements.yy","order":3,"resourceVersion":"1.0","name":"GuiElements","tags":[],"resourceType":"GMFolder",},
+    {"folderPath":"folders/Objects/Sandbox.yy","order":4,"resourceVersion":"1.0","name":"Sandbox","tags":[],"resourceType":"GMFolder",},
   ],
   "AudioGroups": [
     {"targets":-1,"resourceVersion":"1.3","name":"audiogroup_default","resourceType":"GMAudioGroup",},
@@ -40,7 +65,11 @@
   "TextureGroups": [
     {"isScaled":true,"compressFormat":"bz2","autocrop":true,"border":2,"mipsToGenerate":0,"groupParent":null,"targets":-1,"resourceVersion":"1.3","name":"Default","resourceType":"GMTextureGroup",},
   ],
-  "IncludedFiles": [],
+  "IncludedFiles": [
+    {"CopyToMask":-1,"filePath":"datafiles/fonts","resourceVersion":"1.0","name":"SourceHanSansSC-Medium.otf","resourceType":"GMIncludedFile",},
+    {"CopyToMask":-1,"filePath":"datafiles/LICENSE/SourceHanSansSC","resourceVersion":"1.0","name":"LICENSE.txt","resourceType":"GMIncludedFile",},
+    {"CopyToMask":-1,"filePath":"datafiles/LICENSE/Textbox - Single line","resourceVersion":"1.0","name":"LICENSE","resourceType":"GMIncludedFile",},
+  ],
   "MetaData": {
     "IDEVersion": "2022.6.1.26",
   },
