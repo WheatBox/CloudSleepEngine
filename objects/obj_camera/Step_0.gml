@@ -5,10 +5,12 @@ if(canControlDelayTime > 0) {
 
 var cameraW = camera_get_view_width(view_camera[0]);
 var cameraH = camera_get_view_height(view_camera[0]);
-if(mouse_wheel_up()) {
-	camera_set_view_size(view_camera[0], cameraW * scaleMulitply, cameraH * scaleMulitply);
-} else if(mouse_wheel_down()) {
-	camera_set_view_size(view_camera[0], cameraW / scaleMulitply, cameraH / scaleMulitply);
+if(gMouseOnGUI == false) {
+	if(mouse_wheel_up()) {
+		camera_set_view_size(view_camera[0], cameraW * scaleMulitply, cameraH * scaleMulitply);
+	} else if(mouse_wheel_down()) {
+		camera_set_view_size(view_camera[0], cameraW / scaleMulitply, cameraH / scaleMulitply);
+	}
 }
 
 cameraW = camera_get_view_width(view_camera[0]);
@@ -17,7 +19,7 @@ cameraH = camera_get_view_height(view_camera[0]);
 mouseXPrevious ??= mouse_x;
 mouseYPrevious ??= mouse_y;
 
-if(gMouseOnGUI == false && mouse_check_button(mb_left) && mouseCameraMoveLock == false) {
+if(MouseMidHold() || !InstanceExists(gSandboxSceneElementsDragging) && gMouseOnGUI == false && MouseLeftHold() && mouseCameraMoveLock == false) {
 	cameraCenterX -= mouse_x - mouseXPrevious;
 	cameraCenterY -= mouse_y - mouseYPrevious;
 	
@@ -30,7 +32,7 @@ mouseXPrevious = mouse_x;
 mouseYPrevious = mouse_y;
 
 /*
-if(keyboard_check_pressed(vk_space) && mouseCameraMoveLock == false && instance_exists(obj_client)) {
+if(keyboard_check_pressed(vk_space) && mouseCameraMoveLock == false && InstanceExists(obj_client)) {
 	if(obj_client.MyCanUseSleeperId(mySleeperId)) {
 		findingPlayer = true;
 		findingPlayerCurveX = 0;
@@ -39,7 +41,7 @@ if(keyboard_check_pressed(vk_space) && mouseCameraMoveLock == false && instance_
 	}
 }
 
-if(findingPlayer && instance_exists(obj_client)) {
+if(findingPlayer && InstanceExists(obj_client)) {
 	if(obj_client.MyCanUseSleeperId(mySleeperId)) {
 		findingPlayerCurveX += 0.01;
 		cameraCenterX = MyCameraLinear(findingPlayerCurveX, findingPlayerStartX, obj_client.sleepers[mySleeperId].x);
@@ -48,3 +50,4 @@ if(findingPlayer && instance_exists(obj_client)) {
 }
 
 */
+

@@ -19,14 +19,22 @@ function CameraScale() {
 }
 
 function CameraLock() {
-	if(instance_exists(obj_camera)) {
+	if(InstanceExists(obj_camera)) {
 		obj_camera.mouseCameraMoveLock = true;
 	}
 }
 
 function CameraUnlock() {
-	if(instance_exists(obj_camera)) {
+	if(InstanceExists(obj_camera)) {
 		obj_camera.mouseCameraMoveLock = false;
 	}
+}
+
+function GuiWidth() {
+	return display_get_gui_width();
+}
+
+function GuiHeight() {
+	return display_get_gui_height();
 }
 

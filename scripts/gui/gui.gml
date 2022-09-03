@@ -1,7 +1,12 @@
 #macro GUIDepth -10000
 #macro GUIPageDepth -9900
+#macro GUIDragObjDepth -10100
+
 #macro GUIDefaultColor #000037
+#macro GUIDangerousColor c_red
+
 #macro GUIDefaultAlpha 0.6
+#macro GUIHighLightAlpha 0.3
 
 globalvar gMouseOnGUI;
 gMouseOnGUI = false;
@@ -27,6 +32,14 @@ function LoadDrawSettings() {
 }
 
 
+function GUI_GetStringWidth(text) {
+	return string_width(text);
+}
+
+function GUI_GetStringHeight(text) {
+	return string_height(text);
+}
+
 function GUI_GetStringWidthHalf(text) {
 	return string_width(text) / 2;
 }
@@ -50,13 +63,15 @@ function GUI_MouseGuiOnMe(left, top, right, bottom) {
 
 function GUI_DrawText(_xGui, _yGui, str, onCenter = false) {
 	if(onCenter) {
-		SaveDrawSettings();
+		var ha = fa_center;
+		var va = fa_middle;
 		
 		draw_set_halign(fa_center);
 		draw_set_valign(fa_middle);
 		draw_text(_xGui, _yGui, str);
 		
-		LoadDrawSettings();
+		draw_set_halign(ha);
+		draw_set_valign(va);
 	} else {
 		draw_text(_xGui, _yGui, str);
 	}
@@ -77,16 +92,19 @@ function GUI_DrawLabel(text, _xGui, _yGui, highLight = false) {
 	GUI_DrawLabel_ext(text, _xGui, _yGui, , , highLight);
 }
 
-function GUI_DrawLabel_ext(text, _xGui, _yGui, _widthHalf = undefined, _heightHalf = undefined, highLight = false) {
+function GUI_DrawLabel_ext(text, _xGui, _yGui, _widthHalf = undefined, _heightHalf = undefined, highLight = false, _color = GUIDefaultColor) {
 	var _x = _xGui;
 	var _y = _yGui;
 	
-	SaveDrawSettings();
+	var halignTemp = draw_get_halign();
+	var valignTemp = draw_get_valign();
+	var colTemp = draw_get_color();
+	var alphaTemp = draw_get_alpha();
 	
 	
 	draw_set_halign(fa_center);
 	draw_set_valign(fa_middle);
-	draw_set_color(GUIDefaultColor);
+	draw_set_color(_color);
 	draw_set_alpha(GUIDefaultAlpha);
 	
 	var strWHalf = ((_widthHalf == undefined) ? GUI_GetStringWidthHalf(text) : _widthHalf);
@@ -99,11 +117,22 @@ function GUI_DrawLabel_ext(text, _xGui, _yGui, _widthHalf = undefined, _heightHa
 	GUI_DrawText(_x, _y, text);
 	
 	if(highLight) {
-		draw_set_alpha(0.4);
+		draw_set_alpha(GUIHighLightAlpha);
 		GUI_DrawRectangle(_x - strWHalf, _y - strHHalf, _x + strWHalf, _y + strHHalf, false);
 	}
 	
 	
-	LoadDrawSettings();
+	draw_set_halign(halignTemp);
+	draw_set_valign(valignTemp);
+	draw_set_color(colTemp);
+	draw_set_alpha(alphaTemp);
+}
+
+function GUI_DrawSprite(spr, subimg, _xGui, _yGui) {
+	draw_sprite(spr, subimg, _xGui, _yGui);
+}
+
+function GUI_DrawSprite_ext(spr, subimg, _xGui, _yGui, xscale, yscale, rot, col, alpha) {
+	draw_sprite_ext(spr, subimg, _xGui, _yGui, xscale, yscale, rot, col, alpha);
 }
 

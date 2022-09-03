@@ -1,0 +1,2 @@
+gSandboxSceneElementsDragging = noone;
+

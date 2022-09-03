@@ -3,5 +3,6 @@ GUI_DrawLabel_ext(
 	, (width == undefined) ? undefined : width / 2
 	, (height == undefined) ? undefined : height / 2
 	, mouseOnMe
+	, color
 );
 

@@ -16,3 +16,7 @@ if(mouseOnMe == true){
 	}
 }
 
+if(Disposable && (MouseLeftPressed() || MouseRightPressed())) {
+	instance_destroy(id);
+}
+
