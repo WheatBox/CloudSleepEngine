@@ -1,4 +1,4 @@
-if(MouseLeftPressed() && gMouseOnGUI == false && !InstanceExists(gSandboxSceneElementsDragging) && gSandboxGuiElementsDragObjIsOnRightClick == false) {
+if(gMouseOnGUI == false && !InstanceExists(gSandboxSceneElementsDragging) && gSandboxGuiElementsDragObjIsOnRightClick == false) {
 	var checkSceneElementObj = noone;
 	switch(gSandboxSceneElementsLayer) {
 		case ESandboxSceneElementsLayers.backgrounds:
@@ -11,7 +11,10 @@ if(MouseLeftPressed() && gMouseOnGUI == false && !InstanceExists(gSandboxSceneEl
 		
 		collision_point_list(mouse_x, mouse_y, checkSceneElementObj, true, false, collisionList, false);
 		
-		gSandboxSceneElementsDragging = collisionList[| ds_list_size(collisionList) - 1];
+		insMouseOn = collisionList[| ds_list_size(collisionList) - 1];
+		if(MouseLeftPressed()) {
+			gSandboxSceneElementsDragging = insMouseOn;
+		}
 		
 		ds_list_destroy(collisionList);
 	}

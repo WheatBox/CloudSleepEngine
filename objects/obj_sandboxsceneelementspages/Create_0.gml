@@ -15,7 +15,7 @@ pageX = x + btWidth + 1;
 btOffsetX = btWidth / 2;
 btOffsetY = btHeight + 1;
 
-buttons.push_back(GuiElement_CreateButton_ext(x + btOffsetX, y + btOffsetY * 0, "保存场景包", btWidth, btHeight, function() {  }));
+buttons.push_back(GuiElement_CreateButton_ext(x + btOffsetX, y + btOffsetY * 0, "保存场景包", btWidth, btHeight, function() { SaveCloudPack(); }));
 buttons.push_back(noone);
 buttons.push_back(GuiElement_CreateButton_ext(x + btOffsetX, y + btOffsetY * 2, "玩家设置", btWidth, btHeight, function() { sandboxSceneElementsLayerNeedRecheck = true; if(GuiElement_PageGetIsWorking(pages.Container[
 	0])) { GuiElement_PageStopWorkAll(pages); } else { GuiElement_PageStopWorkAll(pages); GuiElement_PageStartWork(pages.Container[
@@ -72,7 +72,7 @@ MyInitPage = function(pageI) {
 			var arrLen = array_length(gBackgroundsSpritesStruct.sprites);
 			GuiElement_PageClearIns(pages.Container[workingI], 1, -1);
 			for(var i = 0; i < arrLen; i++) {
-				GuiElement_PageAddElement(pages.Container[workingI], GuiElement_CreateDragObj(pageWidth / 2, 8, gBackgroundsSpritesStruct.sprites[i], gBackgroundsStruct.filename[i], ESandboxSceneElementsLayers.backgrounds, pages.Container[workingI]));
+				GuiElement_PageAddElement(pages.Container[workingI], GuiElement_CreateDragObj(pageWidth / 2, 8, i, gBackgroundsSpritesStruct.sprites[i], gBackgroundsStruct.filename[i], ESandboxSceneElementsLayers.backgrounds, pages.Container[workingI]));
 			}
 			GuiElement_PageStopWork(pages.Container[workingI]);
 			GuiElement_PageStartWork(pages.Container[workingI]);

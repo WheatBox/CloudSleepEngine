@@ -22,6 +22,7 @@
     {"id":{"name":"GetPositionOnGUI","path":"scripts/GetPositionOnGUI/GetPositionOnGUI.yy",},"order":1,},
     {"id":{"name":"Font","path":"scripts/Font/Font.yy",},"order":2,},
     {"id":{"name":"obj_camera","path":"objects/obj_camera/obj_camera.yy",},"order":1,},
+    {"id":{"name":"obj_sandboxInitSceneElements","path":"objects/obj_sandboxInitSceneElements/obj_sandboxInitSceneElements.yy",},"order":4,},
     {"id":{"name":"obj_sandboxButtons","path":"objects/obj_sandboxButtons/obj_sandboxButtons.yy",},"order":2,},
     {"id":{"name":"Camera","path":"scripts/Camera/Camera.yy",},"order":8,},
     {"id":{"name":"obj_SceneElementBackground","path":"objects/obj_SceneElementBackground/obj_SceneElementBackground.yy",},"order":1,},
@@ -70,7 +71,7 @@
     {"folderPath":"folders/Objects/MainMenu.yy","order":2,"resourceVersion":"1.0","name":"MainMenu","tags":[],"resourceType":"GMFolder",},
     {"folderPath":"folders/Objects/GuiElements.yy","order":3,"resourceVersion":"1.0","name":"GuiElements","tags":[],"resourceType":"GMFolder",},
     {"folderPath":"folders/Objects/Sandbox.yy","order":4,"resourceVersion":"1.0","name":"Sandbox","tags":[],"resourceType":"GMFolder",},
-    {"folderPath":"folders/Objects/DragObjects.yy","order":7,"resourceVersion":"1.0","name":"DragObjects","tags":[],"resourceType":"GMFolder",},
+    {"folderPath":"folders/Objects/SceneElements.yy","order":7,"resourceVersion":"1.0","name":"SceneElements","tags":[],"resourceType":"GMFolder",},
   ],
   "AudioGroups": [
     {"targets":-1,"resourceVersion":"1.3","name":"audiogroup_default","resourceType":"GMAudioGroup",},

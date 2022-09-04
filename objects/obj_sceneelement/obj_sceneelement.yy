@@ -25,8 +25,8 @@
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "DragObjects",
-    "path": "folders/Objects/DragObjects.yy",
+    "name": "SceneElements",
+    "path": "folders/Objects/SceneElements.yy",
   },
   "resourceVersion": "1.0",
   "name": "obj_SceneElement",

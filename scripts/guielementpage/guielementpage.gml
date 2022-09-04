@@ -96,6 +96,10 @@ function GuiElement_PageClearIns(_pageIns, beginI, endI = 0) {
 	array_delete(_pageIns.vecChildElements.Container, beginI, endI - beginI + 1);
 	array_delete(_pageIns.vecChildElementsInitY.Container, beginI, endI - beginI + 1);
 	array_delete(_pageIns.vecChildElementsHeight.Container, beginI, endI - beginI + 1);
+	
+	
+	// 整理目前已放置的 SceneElements
+	// SceneElement_BackgroundsAlignAfterDelete(beginI, endI - beginI + 1);
 }
 
 /// @desc 对齐 Page 里的各个 Element

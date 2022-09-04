@@ -42,4 +42,3 @@ function SCENE_DrawRectangleOnGui_Radius(_x, _y, _radius, outline = false) {
 	);
 }
 
-

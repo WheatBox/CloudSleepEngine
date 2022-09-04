@@ -100,7 +100,7 @@ function GuiElement_CreatePage(_xGui, _yGui, _label, _width = undefined, _height
 	return ins;
 }
 
-function GuiElement_CreateDragObj(_xGui, _yGui, _sprite, _filename, _ESandboxSceneElementsLayer, _masterPage, _MaxWorH = 224) {
+function GuiElement_CreateDragObj(_xGui, _yGui, _materialId, _sprite, _filename, _ESandboxSceneElementsLayer, _masterPage, _MaxWorH = 224) {
 	var ins = noone;
 	
 	switch(_ESandboxSceneElementsLayer) {
@@ -110,6 +110,7 @@ function GuiElement_CreateDragObj(_xGui, _yGui, _sprite, _filename, _ESandboxSce
 			break;
 	}
 	
+	ins.materialId = _materialId;
 	ins.sprite_index = _sprite;
 	
 	if(ins.sprite_width > ins.sprite_height) {

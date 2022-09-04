@@ -21,3 +21,13 @@ function GetPositionYGridStandardization(_y, gridCellSize = SCENE_CellSize) {
 	return GetPositionXGridStandardization(_y, gridCellSize);
 }
 
+
+function ArrayReverse(arr) {
+	var len = array_length(arr);
+	for(var i = 0; i < len / 2; i++) {
+		var t = arr[i];
+		arr[i] = arr[len - i - 1];
+		arr[len - i - 1] = t;
+	}
+}
+

@@ -23,12 +23,13 @@
   "physicsShapePoints": [],
   "eventList": [
     {"isDnD":false,"eventNum":0,"eventType":3,"collisionObjectId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
+    {"isDnD":false,"eventNum":0,"eventType":1,"collisionObjectId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
   ],
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "DragObjects",
-    "path": "folders/Objects/DragObjects.yy",
+    "name": "SceneElements",
+    "path": "folders/Objects/SceneElements.yy",
   },
   "resourceVersion": "1.0",
   "name": "obj_SceneElementBackground",

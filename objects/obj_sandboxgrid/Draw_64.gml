@@ -4,10 +4,10 @@ if(gSceneElementsGridAlignmentEnable == false) {
 
 SaveDrawSettings();
 
-var leftPixel = left * cellSize;
-var rightPixel = right * cellSize;
-var topPixel = top * cellSize;
-var bottomPixel = bottom * cellSize;
+var leftPixel = gSceneStruct.left * cellSize;
+var rightPixel = gSceneStruct.right * cellSize;
+var topPixel = gSceneStruct.top * cellSize;
+var bottomPixel = gSceneStruct.bottom * cellSize;
 
 draw_set_color(GUIDefaultColor);
 draw_set_color(GUIDefaultAlpha);

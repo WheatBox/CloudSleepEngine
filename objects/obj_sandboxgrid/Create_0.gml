@@ -1,9 +1,9 @@
 // 网格的格子数量
 // 实际大小（单位：像素） = ((right - left) * cellSize) * ((bottom - top) * cellSize)
-left = 0;
-top = 0;
-right = 100;
-bottom = 80;
+/*left = gSceneStruct.left;
+top = gSceneStruct.top;
+right = gSceneStruct.right;
+bottom = gSceneStruct.bottom;*/
 
 lineWidth = 2;
 

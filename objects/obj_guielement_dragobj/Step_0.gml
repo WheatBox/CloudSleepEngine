@@ -9,7 +9,7 @@ if(MouseLeftPressed() && mouseOnMe && !InstanceExists(gSandboxSceneElementsDragg
 	
 	switch(mySandboxSceneElementsLayer) {
 		case ESandboxSceneElementsLayers.backgrounds:
-			mySceneElementIns = SceneElement_CreateBackground(sprite_index);
+			mySceneElementIns = SceneElement_CreateBackground(materialId, , , , sprite_index);
 			break;
 	}
 	

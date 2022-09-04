@@ -1,9 +1,9 @@
-var leftPixel = left * cellSize;
-var rightPixel = right * cellSize;
-var topPixel = top * cellSize;
-var bottomPixel = bottom * cellSize;
+var leftPixel = gSceneStruct.left * cellSize;
+var rightPixel = gSceneStruct.right * cellSize;
+var topPixel = gSceneStruct.top * cellSize;
+var bottomPixel = gSceneStruct.bottom * cellSize;
 
-if(gMouseOnGUI == false && mouseIsDragging == false) {
+if(gMouseOnGUI == false && mouseIsDragging == false && InstanceExists(gSandboxSceneElementsDragging) == false) {
 	if(SCENE_MouseOnMe_Radius(leftPixel, topPixel, draggerRadius * CameraScale())) {
 		draggerIdMouseOn = 0;
 	} else
@@ -32,20 +32,20 @@ if(draggerIdMouseOn != -1) {
 		
 		switch(draggerIdMouseOn) {
 			case 0:
-				left = floor(mx / cellSize);
-				top = floor(my / cellSize);
+				gSceneStruct.left = floor(mx / cellSize);
+				gSceneStruct.top = floor(my / cellSize);
 				break;
 			case 1:
-				right = floor(mx / cellSize);
-				top = floor(my / cellSize);
+				gSceneStruct.right = floor(mx / cellSize);
+				gSceneStruct.top = floor(my / cellSize);
 				break;
 			case 2:
-				left = floor(mx / cellSize);
-				bottom = floor(my / cellSize);
+				gSceneStruct.left = floor(mx / cellSize);
+				gSceneStruct.bottom = floor(my / cellSize);
 				break;
 			case 3:
-				right = floor(mx / cellSize);
-				bottom = floor(my / cellSize);
+				gSceneStruct.right = floor(mx / cellSize);
+				gSceneStruct.bottom = floor(my / cellSize);
 				break;
 		}
 	} else {

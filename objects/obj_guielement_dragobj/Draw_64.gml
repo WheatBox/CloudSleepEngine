@@ -23,7 +23,7 @@ if(mouseOnMe) {
 			GetPositionXOnGUI(mouse_x) + string_width(_btDeleteStr) / 2 + 12
 			, GetPositionYOnGUI(mouse_y) + string_height(_btDeleteStr) / 2 + 12
 			, _btDeleteStr
-			, function() { MyDelete(); }
+			, function() { MyDelete(); gSandboxGuiElementsDragObjIsOnRightClick = false; }
 			, true
 			, GUIDangerousColor
 		);

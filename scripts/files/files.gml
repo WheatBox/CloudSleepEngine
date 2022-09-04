@@ -6,11 +6,14 @@
 #macro FILEJSON_decorates "\\contents\\decorates.json"
 #macro FILEJSON_beds "\\contents\\beds.json"
 
+#macro FILEJSON_scene "\\contents\\scene.json"
+
 // #macro WORKFILEPATH ".\\packages\\" + PackName + "\\"
 #macro WORKFILEPATH "F:\\CSETemp\\packages\\" + PackName + "\\"
 
 #macro PackFileExtension ".cloudpack"
 
+// 打开素材包后，FilePath_backgrounds = WORKFILEPATH + FilePath_backgrounds;
 globalvar FilePath_backgrounds, FilePath_decorates, FilePath_beds;
 FilePath_backgrounds = FILEPATH_backgrounds;
 FilePath_decorates = FILEPATH_decorates;
@@ -31,6 +34,26 @@ globalvar gBackgroundsSpritesStruct, gDecoratesSpritesStruct, gBedsSpritesStruct
 gBackgroundsSpritesStruct = DefaultSpritesStruct;
 gDecoratesSpritesStruct = DefaultSpritesStruct;
 gBedsSpritesStruct = DefaultSpritesStruct;
+
+// Struct Scene Element
+function SSceneElement(_materialId, _xPos, _yPos) constructor {
+	materialId = _materialId;
+	xPos = _xPos;
+	yPos = _yPos;
+}
+
+globalvar gSceneStruct;
+gSceneStruct = {
+	left : 0,
+	top : 0,
+	right : 100,
+	bottom : 80,
+	
+	// 这三个数组内存储的都会是 new SSceneElement()
+	backgrounds : [],
+	decorates : [],
+	beds : []
+}
 
 /// @desc 由文件目录获取文件名称
 ///			第二个参数是是否要返回后缀
@@ -63,6 +86,22 @@ function FileNameGetPicture(_caption_ImportToWhere = "") {
 }
 
 function LoadCloudPack() {
+	var fscene = NULL;
+	
+	if(FileGetSize(WORKFILEPATH + FILEJSON_scene) > 0) {
+		fscene = FileRead(WORKFILEPATH + FILEJSON_scene);
+	}
+	
+	if(fscene != NULL) {
+		gSceneStruct = json_parse(fscene);
+		
+		gSceneStruct[$ "backgrounds"] ??= [];
+		gSceneStruct[$ "decorates"] ??= [];
+		gSceneStruct[$ "beds"] ??= [];
+	}
+	
+	
+	
 	var fbackgrounds = NULL;
 	
 	if(FileGetSize(WORKFILEPATH + FILEJSON_backgrounds) > 0) {
@@ -80,6 +119,36 @@ function LoadCloudPack() {
 				// 删除失效文件名
 				array_delete(gBackgroundsStruct.filename, i, 1);
 				_changed = true;
+				
+				// 删除失效文件名的场景物体（此时这些场景物体暂时还没有被放置
+				for(var j = 0; j < array_length(gSceneStruct.backgrounds); j++) {
+					if(!CheckStructCanBeUse(gSceneStruct.backgrounds[j])) {
+						continue;
+					}
+					if(gSceneStruct.backgrounds[j].materialId == i) {
+						array_delete(gSceneStruct.backgrounds, j, 1);
+					}
+				}
+				for(var j = 0; j < array_length(gSceneStruct.decorates); j++) {
+					if(!CheckStructCanBeUse(gSceneStruct.decorates[j])) {
+						continue;
+					}
+					if(gSceneStruct.decorates[j].materialId == i) {
+						array_delete(gSceneStruct.decorates, j, 1);
+					}
+				}
+				for(var j = 0; j < array_length(gSceneStruct.beds); j++) {
+					if(!CheckStructCanBeUse(gSceneStruct.beds[j])) {
+						continue;
+					}
+					if(gSceneStruct.beds[j].materialId == i) {
+						array_delete(gSceneStruct.beds, j, 1);
+					}
+				}
+				
+				// SceneElement_BackgroundsAlignAfterDelete(i, 1);
+				
+				i--;
 				continue;
 			}
 			
@@ -91,9 +160,55 @@ function LoadCloudPack() {
 		
 		// 如果有删除过失效文件名，进行重新写入json
 		if(_changed) {
-			var _changedjson = json_stringify(gBackgroundsStruct);
+			var _changedjson;
+			
+			_changedjson = json_stringify(gBackgroundsStruct);
 			FileWrite(WORKFILEPATH + FILEJSON_backgrounds, _changedjson);
+			
+			_changedjson = json_stringify(gSceneStruct);
+			FileWrite(WORKFILEPATH + FILEJSON_scene, _changedjson);
 		}
 	}
 }
 
+function SaveCloudPack() {
+	for(var i = 0; i < array_length(gSceneStruct.backgrounds); i++) {
+		if(CheckStructCanBeUse(gSceneStruct.backgrounds[i]) == false) {
+			continue;
+		}
+		delete gSceneStruct.backgrounds[i];
+	}
+	array_delete(gSceneStruct.backgrounds, 0, array_length(gSceneStruct.backgrounds));
+	
+	for(var i = 0; i < instance_count; i++) {
+		if(instance_id[i].object_index == obj_SceneElementBackground) {
+			DebugMes([i, instance_id[i].x]);
+			if(instance_id[i].materialId >= 0 && instance_id[i].materialId < array_length(gBackgroundsSpritesStruct.sprites)) {
+				array_push(gSceneStruct.backgrounds, new SSceneElement(instance_id[i].materialId, instance_id[i].x, instance_id[i].y));
+			}
+		}
+	}
+	// ArrayReverse(gSceneStruct.backgrounds);
+	
+	
+	var _jsonScene = json_stringify(gSceneStruct);
+	
+	var _jsonSceneFileWriteRes = FileWrite(WORKFILEPATH + FILEJSON_scene, _jsonScene);
+	if(_jsonSceneFileWriteRes != 0) {
+		show_message("保存失败！" + string(_jsonSceneFileWriteRes));
+	}
+}
+
+
+function CheckStructCanBeUse(_structVal) {
+	if(is_struct(_structVal) == true
+		&& _structVal != NULL
+		&& _structVal != "null"
+		&& _structVal != pointer_null
+		&& _structVal != undefined
+	) {
+		return true;
+	} else {
+		return false;
+	}
+}

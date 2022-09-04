@@ -1,2 +1,3 @@
 gSandboxSceneElementsDragging = noone;
+insMouseOn = noone;
 
