@@ -86,6 +86,62 @@ function FileNameGetPicture(_caption_ImportToWhere = "") {
 }
 
 function LoadCloudPack() {
+	var ChildFunc_LoadSprites = function(filePath, fileJson, _gSpriteStruct, _gStructStr, _gSceneStructArr) {
+		var _changed = false;
+	
+		var fstr = NULL;
+	
+		if(FileGetSize(fileJson) > 0) {
+			fstr = FileRead(fileJson);
+		}
+	
+		if(fstr != NULL) {
+			variable_global_set(_gStructStr, json_parse(fstr));
+			var _gStruct = variable_global_get(_gStructStr);
+			
+		
+			_changed = false;
+		
+			for(var i = 0; i < array_length(_gStruct.filename); i++) {
+				var _name = _gStruct.filename[i];
+			
+				if(FileGetSize(filePath + _name) <= 0) {
+					// 删除失效文件名
+					array_delete(_gStruct.filename, i, 1);
+					_changed = true;
+				
+					// 删除失效文件名的场景物体（此时这些场景物体暂时还没有被放置
+					for(var j = 0; j < array_length(_gSceneStructArr); j++) {
+						if(!CheckStructCanBeUse(_gSceneStructArr[j])) {
+							continue;
+						}
+						if(_gSceneStructArr[j].materialId == i) {
+							array_delete(_gSceneStructArr, j, 1);
+						}
+					}
+				
+					// SceneElement_BackgroundsAlignAfterDelete(i, 1);
+				
+					i--;
+					continue;
+				}
+			
+				var _sprTemp = sprite_add(filePath + _name, 1, false, true, 0, 0);
+				sprite_set_offset(_sprTemp, sprite_get_width(_sprTemp) / 2, sprite_get_height(_sprTemp) / 2);
+				sprite_set_bbox_mode(_sprTemp, bboxmode_fullimage);
+				array_push(_gSpriteStruct.sprites, _sprTemp);
+			}
+		
+			// 如果有删除过失效文件名，进行重新写入json
+			if(_changed) {
+				var _changedjson = json_stringify(_gStruct);
+				FileWrite(fileJson, _changedjson);
+			}
+		}
+	}
+	
+	
+	
 	var fscene = NULL;
 	
 	if(FileGetSize(WORKFILEPATH + FILEJSON_scene) > 0) {
@@ -102,160 +158,20 @@ function LoadCloudPack() {
 	
 	
 	
-#region 懒得封装了
-	var _changedScene = false;
-	var _changed = false;
-	
-	var fbackgrounds = NULL;
-	
-	if(FileGetSize(WORKFILEPATH + FILEJSON_backgrounds) > 0) {
-		fbackgrounds = FileRead(WORKFILEPATH + FILEJSON_backgrounds);
-	}
-	
-	if(fbackgrounds != NULL) {
-		gBackgroundsStruct = json_parse(fbackgrounds);
-		
-		_changed = false;
-		
-		for(var i = 0; i < array_length(gBackgroundsStruct.filename); i++) {
-			var _name = gBackgroundsStruct.filename[i];
-			
-			if(FileGetSize(WORKFILEPATH + FILEPATH_backgrounds + _name) <= 0) {
-				// 删除失效文件名
-				array_delete(gBackgroundsStruct.filename, i, 1);
-				_changed = true;
-				_changedScene = true;
-				
-				// 删除失效文件名的场景物体（此时这些场景物体暂时还没有被放置
-				for(var j = 0; j < array_length(gSceneStruct.backgrounds); j++) {
-					if(!CheckStructCanBeUse(gSceneStruct.backgrounds[j])) {
-						continue;
-					}
-					if(gSceneStruct.backgrounds[j].materialId == i) {
-						array_delete(gSceneStruct.backgrounds, j, 1);
-					}
-				}
-				
-				// SceneElement_BackgroundsAlignAfterDelete(i, 1);
-				
-				i--;
-				continue;
-			}
-			
-			var _sprTemp = sprite_add(WORKFILEPATH + FILEPATH_backgrounds + _name, 1, false, true, 0, 0);
-			sprite_set_offset(_sprTemp, sprite_get_width(_sprTemp) / 2, sprite_get_height(_sprTemp) / 2);
-			sprite_set_bbox_mode(_sprTemp, bboxmode_fullimage);
-			array_push(gBackgroundsSpritesStruct.sprites, _sprTemp);
-		}
-		
-		// 如果有删除过失效文件名，进行重新写入json
-		if(_changed) {
-			var _changedjson = json_stringify(gBackgroundsStruct);
-			FileWrite(WORKFILEPATH + FILEJSON_backgrounds, _changedjson);
-		}
-	}
-#endregion
-	
-#region 就这样用吧
-	var fdecorates = NULL;
-	
-	if(FileGetSize(WORKFILEPATH + FILEJSON_decorates) > 0) {
-		fdecorates = FileRead(WORKFILEPATH + FILEJSON_decorates);
-	}
-	
-	if(fdecorates != NULL) {
-		gDecoratesStruct = json_parse(fdecorates);
-		
-		_changed = false;
-		for(var i = 0; i < array_length(gDecoratesStruct.filename); i++) {
-			var _name = gDecoratesStruct.filename[i];
-			
-			if(FileGetSize(WORKFILEPATH + FILEPATH_decorates + _name) <= 0) {
-				// 删除失效文件名
-				array_delete(gDecoratesStruct.filename, i, 1);
-				_changed = true;
-				_changedScene = true;
-				
-				// 删除失效文件名的场景物体（此时这些场景物体暂时还没有被放置
-				for(var j = 0; j < array_length(gSceneStruct.decorates); j++) {
-					if(!CheckStructCanBeUse(gSceneStruct.decorates[j])) {
-						continue;
-					}
-					if(gSceneStruct.decorates[j].materialId == i) {
-						array_delete(gSceneStruct.decorates, j, 1);
-					}
-				}
-				
-				i--;
-				continue;
-			}
-			
-			var _sprTemp = sprite_add(WORKFILEPATH + FILEPATH_decorates + _name, 1, false, true, 0, 0);
-			sprite_set_offset(_sprTemp, sprite_get_width(_sprTemp) / 2, sprite_get_height(_sprTemp) / 2);
-			sprite_set_bbox_mode(_sprTemp, bboxmode_fullimage);
-			array_push(gDecoratesSpritesStruct.sprites, _sprTemp);
-		}
-		
-		// 如果有删除过失效文件名，进行重新写入json
-		if(_changed) {
-			var _changedjson = json_stringify(gDecoratesStruct);
-			FileWrite(WORKFILEPATH + FILEJSON_decorates, _changedjson);
-		}
-	}
-#endregion
-	
-#region 问题不大
-	var fbeds = NULL;
-	
-	if(FileGetSize(WORKFILEPATH + FILEJSON_beds) > 0) {
-		fbeds = FileRead(WORKFILEPATH + FILEJSON_beds);
-	}
-	
-	if(fbeds != NULL) {
-		gBedsStruct = json_parse(fbeds);
-		
-		_changed = false;
-		for(var i = 0; i < array_length(gBedsStruct.filename); i++) {
-			var _name = gBedsStruct.filename[i];
-			
-			if(FileGetSize(WORKFILEPATH + FILEPATH_beds + _name) <= 0) {
-				// 删除失效文件名
-				array_delete(gBedsStruct.filename, i, 1);
-				_changed = true;
-				
-				// 删除失效文件名的场景物体（此时这些场景物体暂时还没有被放置
-				for(var j = 0; j < array_length(gSceneStruct.beds); j++) {
-					if(!CheckStructCanBeUse(gSceneStruct.beds[j])) {
-						continue;
-					}
-					if(gSceneStruct.beds[j].materialId == i) {
-						array_delete(gSceneStruct.beds, j, 1);
-					}
-				}
-				
-				i--;
-				continue;
-			}
-			
-			var _sprTemp = sprite_add(WORKFILEPATH + FILEPATH_beds + _name, 1, false, true, 0, 0);
-			sprite_set_offset(_sprTemp, sprite_get_width(_sprTemp) / 2, sprite_get_height(_sprTemp) / 2);
-			sprite_set_bbox_mode(_sprTemp, bboxmode_fullimage);
-			array_push(gBedsSpritesStruct.sprites, _sprTemp);
-		}
-		
-		// 如果有删除过失效文件名，进行重新写入json
-		if(_changed) {
-			var _changedjson = json_stringify(gBedsStruct);
-			FileWrite(WORKFILEPATH + FILEJSON_beds, _changedjson);
-		}
-	}
-#endregion
+	ChildFunc_LoadSprites(WORKFILEPATH + FILEPATH_backgrounds, WORKFILEPATH + FILEJSON_backgrounds, gBackgroundsSpritesStruct, "gBackgroundsStruct", gSceneStruct.backgrounds);
+	ChildFunc_LoadSprites(WORKFILEPATH + FILEPATH_decorates, WORKFILEPATH + FILEJSON_decorates, gDecoratesSpritesStruct, "gDecoratesStruct", gSceneStruct.decorates);
+	ChildFunc_LoadSprites(WORKFILEPATH + FILEPATH_beds, WORKFILEPATH + FILEJSON_beds, gBedsSpritesStruct, "gBedsStruct", gSceneStruct.beds);
 
-	
-	if(_changedScene) {
+
+
+	if(1) {
 		var _changedjson = json_stringify(gSceneStruct);
 		FileWrite(WORKFILEPATH + FILEJSON_scene, _changedjson);
 	}
+	
+	DebugMes([gBackgroundsStruct, gBackgroundsSpritesStruct, gSceneStruct.backgrounds]);
+	DebugMes([gDecoratesStruct, gDecoratesSpritesStruct, gSceneStruct.decorates]);
+	DebugMes([gBedsStruct, gBedsSpritesStruct, gSceneStruct.beds]);
 }
 
 function SaveCloudPack() {

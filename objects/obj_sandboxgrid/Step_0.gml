@@ -34,18 +34,34 @@ if(draggerIdMouseOn != -1) {
 			case 0:
 				gSceneStruct.left = floor(mx / cellSize);
 				gSceneStruct.top = floor(my / cellSize);
+				
+				gSceneStruct.left = clamp(gSceneStruct.left, -infinity, gSceneStruct.right - 10);
+				gSceneStruct.top = clamp(gSceneStruct.top, -infinity, gSceneStruct.bottom - 10);
+				
 				break;
 			case 1:
 				gSceneStruct.right = floor(mx / cellSize);
 				gSceneStruct.top = floor(my / cellSize);
+				
+				gSceneStruct.right = clamp(gSceneStruct.right, gSceneStruct.left + 10, infinity);
+				gSceneStruct.top = clamp(gSceneStruct.top, -infinity, gSceneStruct.bottom - 10);
+				
 				break;
 			case 2:
 				gSceneStruct.left = floor(mx / cellSize);
 				gSceneStruct.bottom = floor(my / cellSize);
+				
+				gSceneStruct.left = clamp(gSceneStruct.left, -infinity, gSceneStruct.right - 10);
+				gSceneStruct.bottom = clamp(gSceneStruct.bottom, gSceneStruct.top + 10, infinity);
+				
 				break;
 			case 3:
 				gSceneStruct.right = floor(mx / cellSize);
 				gSceneStruct.bottom = floor(my / cellSize);
+				
+				gSceneStruct.right = clamp(gSceneStruct.right, gSceneStruct.left + 10, infinity);
+				gSceneStruct.bottom = clamp(gSceneStruct.bottom, gSceneStruct.top + 10, infinity);
+				
 				break;
 		}
 	} else {
