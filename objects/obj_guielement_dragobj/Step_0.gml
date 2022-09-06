@@ -11,6 +11,12 @@ if(MouseLeftPressed() && mouseOnMe && !InstanceExists(gSandboxSceneElementsDragg
 		case ESandboxSceneElementsLayers.backgrounds:
 			mySceneElementIns = SceneElement_CreateBackground(materialId, , , , sprite_index);
 			break;
+		case ESandboxSceneElementsLayers.decorates:
+			mySceneElementIns = SceneElement_CreateDecorate(materialId, , , , sprite_index);
+			break;
+		case ESandboxSceneElementsLayers.beds:
+			mySceneElementIns = SceneElement_CreateBed(materialId, , , , sprite_index);
+			break;
 	}
 	
 	gSandboxSceneElementsDragging = mySceneElementIns;

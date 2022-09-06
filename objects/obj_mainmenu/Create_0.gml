@@ -2,7 +2,7 @@ DebugMes("working_directory = " + string(working_directory));
 DebugMes("program_directory = " + string(program_directory));
 DebugMes("temp_directory = " + string(temp_directory));
 
-GuiElement_CreateButton_ext(128, 128, "新建场景包", 256, 64, function() {
+GuiElement_CreateButton_ext(128, 128, "新建场景包", 256, 64, , function() {
 	DebugMes("Create New ScenePackage");
 	
 	PackName = get_string("给新场景包取个名字吧~\n请使用英文名！不要输入中文！！！\n请使用英文名！不要输入中文！！！\n请使用英文名！不要输入中文！！！\n", "");
@@ -28,7 +28,7 @@ GuiElement_CreateButton_ext(128, 128, "新建场景包", 256, 64, function() {
 	}
 });
 
-GuiElement_CreateButton_ext(128, 228, "打开场景包", 256, 64, function() {
+GuiElement_CreateButton_ext(128, 228, "打开场景包", 256, 64, , function() {
 	var filename = get_open_filename_ext("云睡觉场景包(*"+ PackFileExtension +")|*" + PackFileExtension, "", program_directory, "打开场景包");
 	if(filename != "") {
 		PackName = GetNameFromFileName(filename, false);
@@ -48,7 +48,7 @@ GuiElement_CreateButton_ext(128, 228, "打开场景包", 256, 64, function() {
 	}
 });
 
-GuiElement_CreateButton_ext(128, 328, "退出", 256, 64, function() {
+GuiElement_CreateButton_ext(128, 328, "退出", 256, 64, , function() {
 	DebugMes("Exit");
 	game_end();
 });

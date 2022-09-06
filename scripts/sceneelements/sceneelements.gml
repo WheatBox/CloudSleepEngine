@@ -1,14 +1,28 @@
-#macro SceneDepth -100
+#macro SceneDepthBackgrounds -100
+#macro SceneDepthDecorates -200
+#macro SceneDepthBeds -300
 
 globalvar gSceneElementsGridAlignmentEnable;
 gSceneElementsGridAlignmentEnable = true;
 
 function SceneElement_CreateBackground(_materialId, _isDragging = true, _x = mouse_x, _y = mouse_y, sprite = -1) {
-	var ins = instance_create_depth(_x, _y, SceneDepth + 1, obj_SceneElementBackground);
+	return SceneElement_Create(obj_SceneElementBackground, SceneDepthBackgrounds + 1, gBackgroundsSpritesStruct, _materialId, _isDragging, _x, _y, sprite);
+}
+
+function SceneElement_CreateDecorate(_materialId, _isDragging = true, _x = mouse_x, _y = mouse_y, sprite = -1) {
+	return SceneElement_Create(obj_SceneElementDecorate, SceneDepthDecorates + 1, gDecoratesSpritesStruct, _materialId, _isDragging, _x, _y, sprite);
+}
+
+function SceneElement_CreateBed(_materialId, _isDragging = true, _x = mouse_x, _y = mouse_y, sprite = -1) {
+	return SceneElement_Create(obj_SceneElementBed, SceneDepthBeds + 1, gBedsSpritesStruct, _materialId, _isDragging, _x, _y, sprite);
+}
+
+function SceneElement_Create(_obj, _depth, __gSpriteStruct, _materialId, _isDragging = true, _x = mouse_x, _y = mouse_y, sprite = -1) {
+	var ins = instance_create_depth(_x, _y, _depth, _obj);
 	
 	if(sprite == -1) {
-		if(_materialId >= 0 && _materialId < array_length(gBackgroundsSpritesStruct.sprites)) {
-			sprite = gBackgroundsSpritesStruct.sprites[_materialId];
+		if(_materialId >= 0 && _materialId < array_length(__gSpriteStruct.sprites)) {
+			sprite = __gSpriteStruct.sprites[_materialId];
 		}
 	}
 	ins.sprite_index = sprite;
@@ -25,8 +39,22 @@ function SceneElement_CreateBackground(_materialId, _isDragging = true, _x = mou
 	return ins;
 }
 
+
+
 function SceneElement_ClearBackgroundIns(_materialId, counts = 1) {
-	with(obj_SceneElementBackground) {
+	SceneElement_ClearIns(obj_SceneElementBackground, _materialId, counts);
+}
+
+function SceneElement_ClearDecorateIns(_materialId, counts = 1) {
+	SceneElement_ClearIns(obj_SceneElementDecorate, _materialId, counts);
+}
+
+function SceneElement_ClearBedIns(_materialId, counts = 1) {
+	SceneElement_ClearIns(obj_SceneElementBed, _materialId, counts);
+}
+
+function SceneElement_ClearIns(_obj, _materialId, counts = 1) {
+	with(_obj) {
 		if(materialId >= _materialId && materialId < _materialId + counts) {
 			instance_destroy(id);
 		} else if(materialId >= _materialId + counts) {
@@ -34,6 +62,8 @@ function SceneElement_ClearBackgroundIns(_materialId, counts = 1) {
 		}
 	}
 }
+
+
 
 /*
 /// @desc 删除 GuiElement 后整理目前已放置的 obj_SceneElementBackgrounds

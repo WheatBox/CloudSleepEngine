@@ -4,6 +4,12 @@ if(gMouseOnGUI == false && !InstanceExists(gSandboxSceneElementsDragging) && gSa
 		case ESandboxSceneElementsLayers.backgrounds:
 			checkSceneElementObj = obj_SceneElementBackground;
 			break;
+		case ESandboxSceneElementsLayers.decorates:
+			checkSceneElementObj = obj_SceneElementDecorate;
+			break;
+		case ESandboxSceneElementsLayers.beds:
+			checkSceneElementObj = obj_SceneElementBed;
+			break;
 	}
 	
 	if(checkSceneElementObj != noone) {

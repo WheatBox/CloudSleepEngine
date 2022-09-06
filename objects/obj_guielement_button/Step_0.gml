@@ -12,7 +12,7 @@ if(mouseOnMe == true){
 	gMouseOnGUI = true;
 	
 	if(MouseLeftPressed()) {
-		MyPressedFunction();
+		MyPressedFunction(MyPressedFunctionArgs);
 	}
 }
 

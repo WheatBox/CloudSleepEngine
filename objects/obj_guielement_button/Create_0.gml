@@ -1,6 +1,7 @@
 labelText = "";
 
 MyPressedFunction = function() {};
+MyPressedFunctionArgs = undefined;
 
 width = undefined;
 height = undefined;
