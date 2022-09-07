@@ -167,9 +167,18 @@ function LoadCloudPack() {
 				}
 			
 				var _sprTemp = sprite_add(filePath + _name, 1, false, true, 0, 0);
+				// 此处的 offset 和 bbox 都只是编辑器内为了拖拽而设定的，实际游戏内的值以 _gStruct 结构体内的值为准
 				sprite_set_offset(_sprTemp, sprite_get_width(_sprTemp) / 2, sprite_get_height(_sprTemp) / 2);
 				sprite_set_bbox_mode(_sprTemp, bboxmode_fullimage);
 				array_push(_gSpriteStruct.sprites, _sprTemp);
+				
+				
+				// 修复 offset
+				if(variable_struct_exists(_gStruct.materials[i], "offset")) {
+					if(array_length(_gStruct.materials[i].offset) < 2) {
+						_gStruct.materials[i].offset = [sprite_get_width(_sprTemp) / 2, sprite_get_height(_sprTemp) / 2];
+					}
+				}
 			}
 		
 			// 如果有删除过失效文件名，进行重新写入json
@@ -263,11 +272,32 @@ function SaveCloudPack() {
 	// ArrayReverse(gSceneStruct.backgrounds);
 	
 	
-	var _jsonScene = json_stringify(gSceneStruct);
 	
-	var _jsonSceneFileWriteRes = FileWrite(WORKFILEPATH + FILEJSON_scene, _jsonScene);
+	var _jsonSceneFileWriteRes;
+	var _jsonStr;
+	
+	_jsonStr = json_stringify(gSceneStruct);
+	_jsonSceneFileWriteRes = FileWrite(WORKFILEPATH + FILEJSON_scene, _jsonStr);
 	if(_jsonSceneFileWriteRes != 0) {
-		show_message("保存失败！" + string(_jsonSceneFileWriteRes));
+		show_message(FILEJSON_scene + "保存失败！" + string(_jsonSceneFileWriteRes));
+	}
+	
+	_jsonStr = json_stringify(gBackgroundsStruct);
+	_jsonSceneFileWriteRes = FileWrite(WORKFILEPATH + FILEJSON_backgrounds, _jsonStr);
+	if(_jsonSceneFileWriteRes != 0) {
+		show_message(FILEJSON_backgrounds + "保存失败！" + string(_jsonSceneFileWriteRes));
+	}
+	
+	_jsonStr = json_stringify(gDecoratesStruct);
+	_jsonSceneFileWriteRes = FileWrite(WORKFILEPATH + FILEJSON_decorates, _jsonStr);
+	if(_jsonSceneFileWriteRes != 0) {
+		show_message(FILEJSON_decorates + "保存失败！" + string(_jsonSceneFileWriteRes));
+	}
+	
+	_jsonStr = json_stringify(gBedsStruct);
+	_jsonSceneFileWriteRes = FileWrite(WORKFILEPATH + FILEJSON_beds, _jsonStr);
+	if(_jsonSceneFileWriteRes != 0) {
+		show_message(FILEJSON_beds + "保存失败！" + string(_jsonSceneFileWriteRes));
 	}
 }
 

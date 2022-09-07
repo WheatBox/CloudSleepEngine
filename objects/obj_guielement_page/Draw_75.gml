@@ -1,4 +1,4 @@
-SaveDrawSettings();
+// SaveDrawSettings();
 
 draw_set_color(GUIDefaultColor);
 draw_set_alpha(labelAlpha);
@@ -13,4 +13,4 @@ if(scrollY >= scrollYSpeed) {
 	labelAlpha = lerp(labelAlpha, 1, 0.1);
 }
 
-LoadDrawSettings();
+// LoadDrawSettings();

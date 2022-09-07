@@ -1,4 +1,4 @@
-SaveDrawSettings();
+// SaveDrawSettings();
 
 draw_set_alpha(1.0);
 draw_set_color(c_white);
@@ -18,26 +18,45 @@ if(mouseOnMe) {
 	if(MouseRightPressed() && !InstanceExists(gSandboxSceneElementsDragging)) {
 		gSandboxGuiElementsDragObjIsOnRightClick = true;
 		
+		
+		var buttonsOffsetX = GetPositionXOnGUI(mouse_x) + 12;
+		var buttonsOffsetY = GetPositionYOnGUI(mouse_y) + 12;
+		
+		switch(mySandboxSceneElementsLayer) {
+			case ESandboxSceneElementsLayers.decorates:
+				materialMasterArr = gDecoratesStruct.materials;
+				break;
+			case ESandboxSceneElementsLayers.beds:
+				materialMasterArr = gBedsStruct.materials;
+				break;
+		}
+		switch(mySandboxSceneElementsLayer) {
+			case ESandboxSceneElementsLayers.decorates:
+			case ESandboxSceneElementsLayers.beds:
+				var newbtStr = "";
+				var newins = noone;
+				
+				newbtStr = "更改物体中心点";
+				newins = GuiElement_CreateButton(buttonsOffsetX + string_width(newbtStr) / 2, buttonsOffsetY + string_height(newbtStr) / 2, newbtStr, function() { GuiElement_CreateOffsetSetter(materialMasterArr, materialId, sprite_index); gSandboxGuiElementsDragObjIsOnRightClick = false; }, true);
+				newins.depth = depth - 1;
+				
+				buttonsOffsetY += 36;
+				
+				break;
+		}
+		
 		var _btDeleteStr = "是否决定删除 " + myFilename;
-		myDeleteButtonIns = GuiElement_CreateButton(
-			GetPositionXOnGUI(mouse_x) + string_width(_btDeleteStr) / 2 + 12
-			, GetPositionYOnGUI(mouse_y) + string_height(_btDeleteStr) / 2 + 12
-			, _btDeleteStr
-			, function() { MyDelete(); gSandboxGuiElementsDragObjIsOnRightClick = false; }
-			, true
-			, GUIDangerousColor
-		);
+		myDeleteButtonIns = GuiElement_CreateButton(buttonsOffsetX + string_width(_btDeleteStr) / 2, buttonsOffsetY + string_height(_btDeleteStr) / 2, _btDeleteStr, function() { MyDelete(); gSandboxGuiElementsDragObjIsOnRightClick = false; }, true, GUIDangerousColor);
 		myDeleteButtonIns.depth = depth - 1;
 	}
 }
 
 if(myDeleteButtonIns != noone) {
 	if(InstanceExists(myDeleteButtonIns) == false) {
-		instance_destroy(myDeleteButtonIns);
 		myDeleteButtonIns = noone;
 		gSandboxGuiElementsDragObjIsOnRightClick = false;
 	}
 }
 
-LoadDrawSettings();
+// LoadDrawSettings();
 

@@ -93,6 +93,11 @@ function GuiElement_CreateImportButton(explorerCaption, filePath, fileJson, gStr
 						sprite_set_offset(_sprTemp, sprite_get_width(_sprTemp) / 2, sprite_get_height(_sprTemp) / 2);
 						sprite_set_bbox_mode(_sprTemp, bboxmode_automatic);
 						array_push(__gSpriteStruct.sprites, _sprTemp);
+						
+						// 设定 offset
+						if(variable_struct_exists(__gStruct.materials[i], "offset")) {
+							__gStruct.materials[i].offset = [sprite_get_width(_sprTemp) / 2, sprite_get_height(_sprTemp) / 2];
+						}
 					
 						MyRefreshPage();
 					}
@@ -185,6 +190,15 @@ function GuiElement_CreateDragObj(_xGui, _yGui, _materialId, _sprite, _filename,
 	ins.myFilename = _filename;
 	ins.masterPage = _masterPage;
 	ins.mySandboxSceneElementsLayer = _ESandboxSceneElementsLayer;
+	
+	return ins;
+}
+
+function GuiElement_CreateOffsetSetter(_materialMasterArr, _materialId, _sprite) {
+	var ins = instance_create_depth(0, 0, GUIDepth, obj_GuiElement_OffsetSetter);
+	ins.materialMasterArr = _materialMasterArr;
+	ins.materialId = _materialId;
+	ins.sprite = _sprite;
 	
 	return ins;
 }

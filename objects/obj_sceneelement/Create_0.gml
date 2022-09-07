@@ -9,3 +9,10 @@ mygSceneStructI = -1;
 
 inited = false;
 
+
+basex = x;
+basey = y;
+
+offsetx = 0;
+offsety = 0;
+

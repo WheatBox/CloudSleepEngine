@@ -1,6 +1,6 @@
 event_inherited();
 
-AsyncDepth();
+AsyncDepth(basey);
 
 switch(gSandboxSceneElementsLayer) {
 	case ESandboxSceneElementsLayers.nothing:
@@ -15,3 +15,7 @@ if(inited == false) {
 	inited = true;
 }
 
+if(array_length(gBedsStruct.materials[materialId].offset) >= 2) {
+	offsetx = gBedsStruct.materials[materialId].offset[0];
+	offsety = gBedsStruct.materials[materialId].offset[1];
+}

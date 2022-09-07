@@ -3,19 +3,21 @@ image_blend = c_white;
 if(gSandboxSceneElementsDragging == id && isDragging == false) {
 	isDragging = true;
 	
-	dragOffx = mouse_x - x;
-	dragOffy = mouse_y - y;
+	dragOffx = mouse_x - basex;
+	dragOffy = mouse_y - basey;
 }
 
 if(isDragging) {
 	gSandboxSceneElementsDragging = id;
 	
-	x = mouse_x - dragOffx;
-	y = mouse_y - dragOffy;
+	// x = mouse_x - dragOffx;
+	// y = mouse_y - dragOffy;
+	basex = mouse_x - dragOffx;
+	basey = mouse_y - dragOffy;
 	
 	if(gSceneElementsGridAlignmentEnable) {
-		x = GetPositionXGridStandardization(x);
-		y = GetPositionYGridStandardization(y);
+		basex = GetPositionXGridStandardization(basex);
+		basey = GetPositionYGridStandardization(basey);
 	}
 	
 	if(MouseLeftHold() == false) {
@@ -37,6 +39,15 @@ if(isDragging) {
 			}
 		}
 	}
+}
+
+// 先运算上一帧得到的 offsetx
+x = basex + sprite_get_width(sprite_index) / 2 - offsetx;
+y = basey + sprite_get_height(sprite_index) / 2 - offsety;
+
+if(sprite_exists(sprite_index)) {
+	offsetx = sprite_get_xoffset(sprite_index);
+	offsety = sprite_get_yoffset(sprite_index);
 }
 
 /*

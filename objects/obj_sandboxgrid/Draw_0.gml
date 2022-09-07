@@ -1,4 +1,4 @@
-SaveDrawSettings();
+// SaveDrawSettings();
 
 draw_set_color(c_black);
 
@@ -21,4 +21,4 @@ for(var ix = gSceneStruct.left; ix <= gSceneStruct.right; ix++) {
 	draw_line_width(ix * cellSize, topPixel, ix * cellSize, bottomPixel, lineWidth);
 }
 
-LoadDrawSettings();
+// LoadDrawSettings();

@@ -2,7 +2,7 @@ if(gSceneElementsGridAlignmentEnable == false) {
 	exit;
 }
 
-SaveDrawSettings();
+// SaveDrawSettings();
 
 var leftPixel = gSceneStruct.left * cellSize;
 var rightPixel = gSceneStruct.right * cellSize;
@@ -29,5 +29,5 @@ if(draggerIdMouseOn != -1) {
 	SCENE_DrawRectangleOnGui_Radius(_x, _y, draggerRadius, false);
 }
 
-LoadDrawSettings();
+// LoadDrawSettings();
 

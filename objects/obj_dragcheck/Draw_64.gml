@@ -1,4 +1,4 @@
-SaveDrawSettings();
+// SaveDrawSettings();
 
 if(insMouseOn != noone && insMouseOn != undefined && instance_exists(insMouseOn)) {
 	draw_set_color(GUIDefaultColor);
@@ -6,4 +6,4 @@ if(insMouseOn != noone && insMouseOn != undefined && instance_exists(insMouseOn)
 	SCENE_DrawRectangleOnGui(insMouseOn.bbox_left, insMouseOn.bbox_top, insMouseOn.bbox_right, insMouseOn.bbox_bottom, true);
 }
 
-LoadDrawSettings();
+// LoadDrawSettings();

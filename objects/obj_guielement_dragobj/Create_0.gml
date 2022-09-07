@@ -1,5 +1,6 @@
 myFilename = "";
 
+materialMasterArr = undefined;
 materialId = -1;
 
 width = 256;

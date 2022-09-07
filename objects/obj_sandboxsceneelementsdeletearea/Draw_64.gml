@@ -1,4 +1,4 @@
-SaveDrawSettings();
+// SaveDrawSettings();
 
 if(InstanceExists(gSandboxSceneElementsDragging)) {
 	myLeft = GuiWidth() - width;
@@ -12,4 +12,4 @@ if(InstanceExists(gSandboxSceneElementsDragging)) {
 
 sceneElementOnMe = false;
 
-LoadDrawSettings();
+// LoadDrawSettings();
