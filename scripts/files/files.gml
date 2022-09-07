@@ -22,13 +22,30 @@ FilePath_beds = FILEPATH_beds;
 globalvar PackName;
 PackName = "";
 
-#macro DefaultStruct { filename : [] }
+function SSingleStruct_Background(_fname = "") constructor {
+	filename = _fname;
+};
+function SSingleStruct_Decorate(_fname = "") constructor {
+	filename = _fname;
+	hitbox = [];
+	offset = [];
+};
+function SSingleStruct_Bed(_fname = "") constructor {
+	filename = _fname;
+	hitbox = [];
+	offset = [];
+};
+
+#macro DefaultStructBackgrounds { materials : [] }
+#macro DefaultStructDecorates { materials : [] }
+#macro DefaultStructBeds { materials : [] }
+
 #macro DefaultSpritesStruct { sprites : [] }
 
 globalvar gBackgroundsStruct, gDecoratesStruct, gBedsStruct;
-gBackgroundsStruct = DefaultStruct;
-gDecoratesStruct = DefaultStruct;
-gBedsStruct = DefaultStruct;
+gBackgroundsStruct = DefaultStructBackgrounds;
+gDecoratesStruct = DefaultStructDecorates;
+gBedsStruct = DefaultStructBeds;
 
 globalvar gBackgroundsSpritesStruct, gDecoratesSpritesStruct, gBedsSpritesStruct;
 gBackgroundsSpritesStruct = DefaultSpritesStruct;
@@ -96,18 +113,41 @@ function LoadCloudPack() {
 		}
 	
 		if(fstr != NULL) {
-			variable_global_set(_gStructStr, json_parse(fstr));
+			// variable_global_set(_gStructStr, json_parse(fstr));
+			
 			var _gStruct = variable_global_get(_gStructStr);
+			
+			var _jsonCopyTemp = json_parse(fstr);
+			if(variable_struct_exists(_jsonCopyTemp, "materials")) {
+				var _jsonCopyTempMaterialsLen = array_length(_jsonCopyTemp.materials);
+				for(var iJson = 0; iJson < _jsonCopyTempMaterialsLen; iJson++) {
+					if(CheckStructCanBeUse(_jsonCopyTemp.materials[iJson]) == false) {
+						continue;
+					}
+					
+					_gStruct.materials[iJson] = _jsonCopyTemp.materials[iJson];
+					/*
+					if(variable_struct_exists(_jsonCopyTemp.materials[iJson], "filename")) {
+						_gStruct.materials[iJson].filename = _jsonCopyTemp.materials[iJson].filename;
+					}
+					if(variable_struct_exists(_jsonCopyTemp.materials[iJson], "hitbox")) {
+						_gStruct.materials[iJson].hitbox = _jsonCopyTemp.materials[iJson].hitbox;
+					}
+					if(variable_struct_exists(_jsonCopyTemp.materials[iJson], "offset")) {
+						_gStruct.materials[iJson].offset = _jsonCopyTemp.materials[iJson].offset;
+					}*/
+				}
+			}
 			
 		
 			_changed = false;
 		
-			for(var i = 0; i < array_length(_gStruct.filename); i++) {
-				var _name = _gStruct.filename[i];
+			for(var i = 0; i < array_length(_gStruct.materials); i++) {
+				var _name = _gStruct.materials[i].filename;
 			
 				if(FileGetSize(filePath + _name) <= 0) {
 					// 删除失效文件名
-					array_delete(_gStruct.filename, i, 1);
+					array_delete(_gStruct.materials, i, 1);
 					_changed = true;
 				
 					// 删除失效文件名的场景物体（此时这些场景物体暂时还没有被放置

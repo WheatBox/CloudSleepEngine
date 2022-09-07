@@ -1,5 +1,7 @@
 event_inherited();
 
+AsyncDepth();
+
 switch(gSandboxSceneElementsLayer) {
 	case ESandboxSceneElementsLayers.nothing:
 	case ESandboxSceneElementsLayers.decorates:

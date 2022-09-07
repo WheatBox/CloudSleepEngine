@@ -5,6 +5,7 @@ function GuiElement_CreateImportBackgroundButton(_xGui, _yGui, _label, _width = 
 		, gBackgroundsStruct
 		, gBackgroundsSpritesStruct
 		, "gBackgroundsStruct"
+		, SSingleStruct_Background
 		, _xGui, _yGui, _label, _width, _height
 	);
 }
@@ -16,6 +17,7 @@ function GuiElement_CreateImportDecorateButton(_xGui, _yGui, _label, _width = un
 		, gDecoratesStruct
 		, gDecoratesSpritesStruct
 		, "gDecoratesStruct"
+		, SSingleStruct_Decorate
 		, _xGui, _yGui, _label, _width, _height
 	);
 }
@@ -27,13 +29,14 @@ function GuiElement_CreateImportBedButton(_xGui, _yGui, _label, _width = undefin
 		, gBedsStruct
 		, gBedsSpritesStruct
 		, "gBedsStruct"
+		, SSingleStruct_Bed
 		, _xGui, _yGui, _label, _width, _height
 	);
 }
 
-function GuiElement_CreateImportButton(explorerCaption, filePath, fileJson, gStruct, gSpriteStruct, gStructStr, _xGui, _yGui, _label, _width = undefined, _height = undefined) {
+function GuiElement_CreateImportButton(explorerCaption, filePath, fileJson, gStruct, gSpriteStruct, gStructStr, structgStructMaterialsPush, _xGui, _yGui, _label, _width = undefined, _height = undefined) {
 	var ins = GuiElement_CreateButton_ext(_xGui, _yGui, _label, _width, _height,
-		[explorerCaption, filePath, fileJson, gStruct, gSpriteStruct, gStructStr],
+		[explorerCaption, filePath, fileJson, gStruct, gSpriteStruct, gStructStr, structgStructMaterialsPush],
 		function(args) {
 			var __ExplorerCaption = args[0];
 			var __FilePath = args[1];
@@ -41,6 +44,7 @@ function GuiElement_CreateImportButton(explorerCaption, filePath, fileJson, gStr
 			var __gStruct = args[3];
 			var __gSpriteStruct = args[4];
 			var __gStructStr = args[5];
+			var __structgStructMaterialsPush = args[6];
 			
 			var filename = FileNameGetPicture(__ExplorerCaption);
 			if(filename != "") {
@@ -48,8 +52,8 @@ function GuiElement_CreateImportButton(explorerCaption, filePath, fileJson, gStr
 				
 				var _conflicted = false;
 				// 检查是否重复了
-				for(var i = 0; i < array_length(__gStruct.filename); i++) {
-					if(__gStruct.filename[i] == _name) {
+				for(var i = 0; i < array_length(__gStruct.materials); i++) {
+					if(__gStruct.materials[i].filename == _name) {
 						_conflicted = true;
 						show_message("导入的图片与已有的图片名称冲突！");
 						break;
@@ -70,7 +74,7 @@ function GuiElement_CreateImportButton(explorerCaption, filePath, fileJson, gStr
 					var _jsonName = __FileJson;
 					
 					// 写入
-					array_push(__gStruct.filename, _name);
+					array_push(__gStruct.materials, new __structgStructMaterialsPush(_name));
 					var _jsonDest = json_stringify(__gStruct);
 					FileWrite(_jsonName, _jsonDest);
 					

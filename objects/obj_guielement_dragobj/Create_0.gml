@@ -37,9 +37,9 @@ MyDelete = function() {
 		
 		
 		var myIOnStruct = -1;
-		var myIOnStructLen = array_length(_tempStruct.filename);
+		var myIOnStructLen = array_length(_tempStruct.materials);
 		for(var i = 0; i < myIOnStructLen; i++) {
-			if(_tempStruct.filename[i] == myFilename) {
+			if(_tempStruct.materials[i].filename == myFilename) {
 				myIOnStruct = i;
 			}
 		}
@@ -75,7 +75,7 @@ MyDelete = function() {
 			if(myIOnStruct != -1) {
 				switch(mySandboxSceneElementsLayer) {
 					case ESandboxSceneElementsLayers.backgrounds:
-						array_delete(gBackgroundsStruct.filename, myIOnStruct, 1);
+						array_delete(gBackgroundsStruct.materials, myIOnStruct, 1);
 						array_delete(gBackgroundsSpritesStruct.sprites, myIOnStruct, 1);
 						_jsonTemp = json_stringify(gBackgroundsStruct);
 						
@@ -84,7 +84,7 @@ MyDelete = function() {
 						FileRemove(WORKFILEPATH + FILEPATH_backgrounds + myFilename);
 						break;
 					case ESandboxSceneElementsLayers.decorates:
-						array_delete(gDecoratesStruct.filename, myIOnStruct, 1);
+						array_delete(gDecoratesStruct.materials, myIOnStruct, 1);
 						array_delete(gDecoratesSpritesStruct.sprites, myIOnStruct, 1);
 						_jsonTemp = json_stringify(gDecoratesStruct);
 						
@@ -93,7 +93,7 @@ MyDelete = function() {
 						FileRemove(WORKFILEPATH + FILEPATH_decorates + myFilename);
 						break;
 					case ESandboxSceneElementsLayers.beds:
-						array_delete(gBedsStruct.filename, myIOnStruct, 1);
+						array_delete(gBedsStruct.materials, myIOnStruct, 1);
 						array_delete(gBedsSpritesStruct.sprites, myIOnStruct, 1);
 						_jsonTemp = json_stringify(gBedsStruct);
 						

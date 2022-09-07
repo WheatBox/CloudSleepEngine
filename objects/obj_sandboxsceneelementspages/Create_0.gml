@@ -75,19 +75,19 @@ MyInitPage = function(pageI) {
 		case 1:
 			arrLen = array_length(gBackgroundsSpritesStruct.sprites);
 			for(var i = 0; i < arrLen; i++) {
-				GuiElement_PageAddElement(pages.Container[workingI], GuiElement_CreateDragObj(pageWidth / 2, 8, i, gBackgroundsSpritesStruct.sprites[i], gBackgroundsStruct.filename[i], ESandboxSceneElementsLayers.backgrounds, pages.Container[workingI]));
+				GuiElement_PageAddElement(pages.Container[workingI], GuiElement_CreateDragObj(pageWidth / 2, 8, i, gBackgroundsSpritesStruct.sprites[i], gBackgroundsStruct.materials[i].filename, ESandboxSceneElementsLayers.backgrounds, pages.Container[workingI]));
 			}
 			break;
 		case 2:
 			arrLen = array_length(gDecoratesSpritesStruct.sprites);
 			for(var i = 0; i < arrLen; i++) {
-				GuiElement_PageAddElement(pages.Container[workingI], GuiElement_CreateDragObj(pageWidth / 2, 8, i, gDecoratesSpritesStruct.sprites[i], gDecoratesStruct.filename[i], ESandboxSceneElementsLayers.decorates, pages.Container[workingI]));
+				GuiElement_PageAddElement(pages.Container[workingI], GuiElement_CreateDragObj(pageWidth / 2, 8, i, gDecoratesSpritesStruct.sprites[i], gDecoratesStruct.materials[i].filename, ESandboxSceneElementsLayers.decorates, pages.Container[workingI]));
 			}
 			break;
 		case 3:
 			arrLen = array_length(gBedsSpritesStruct.sprites);
 			for(var i = 0; i < arrLen; i++) {
-				GuiElement_PageAddElement(pages.Container[workingI], GuiElement_CreateDragObj(pageWidth / 2, 8, i, gBedsSpritesStruct.sprites[i], gBedsStruct.filename[i], ESandboxSceneElementsLayers.beds, pages.Container[workingI]));
+				GuiElement_PageAddElement(pages.Container[workingI], GuiElement_CreateDragObj(pageWidth / 2, 8, i, gBedsSpritesStruct.sprites[i], gBedsStruct.materials[i].filename, ESandboxSceneElementsLayers.beds, pages.Container[workingI]));
 			}
 			break;
 	}

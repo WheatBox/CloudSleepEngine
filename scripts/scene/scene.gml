@@ -1,4 +1,5 @@
 #macro SCENE_CellSize 32
+#macro SCENE_MinimumSize 10
 
 function SCENE_MouseOnMe(left, top, right, bottom) {
 	var mx = mouse_x;

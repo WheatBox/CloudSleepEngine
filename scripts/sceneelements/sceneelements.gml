@@ -1,6 +1,5 @@
-#macro SceneDepthBackgrounds -100
-#macro SceneDepthDecorates -200
-#macro SceneDepthBeds -300
+#macro SceneDepthBackgrounds 1000
+#macro SceneDepthDynamicAdd -1000
 
 globalvar gSceneElementsGridAlignmentEnable;
 gSceneElementsGridAlignmentEnable = true;
@@ -10,11 +9,11 @@ function SceneElement_CreateBackground(_materialId, _isDragging = true, _x = mou
 }
 
 function SceneElement_CreateDecorate(_materialId, _isDragging = true, _x = mouse_x, _y = mouse_y, sprite = -1) {
-	return SceneElement_Create(obj_SceneElementDecorate, SceneDepthDecorates + 1, gDecoratesSpritesStruct, _materialId, _isDragging, _x, _y, sprite);
+	return SceneElement_Create(obj_SceneElementDecorate, SceneDepthDynamicAdd, gDecoratesSpritesStruct, _materialId, _isDragging, _x, _y, sprite);
 }
 
 function SceneElement_CreateBed(_materialId, _isDragging = true, _x = mouse_x, _y = mouse_y, sprite = -1) {
-	return SceneElement_Create(obj_SceneElementBed, SceneDepthBeds + 1, gBedsSpritesStruct, _materialId, _isDragging, _x, _y, sprite);
+	return SceneElement_Create(obj_SceneElementBed, SceneDepthDynamicAdd, gBedsSpritesStruct, _materialId, _isDragging, _x, _y, sprite);
 }
 
 function SceneElement_Create(_obj, _depth, __gSpriteStruct, _materialId, _isDragging = true, _x = mouse_x, _y = mouse_y, sprite = -1) {

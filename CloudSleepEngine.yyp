@@ -5,6 +5,7 @@
     {"id":{"name":"obj_SceneElementBed","path":"objects/obj_SceneElementBed/obj_SceneElementBed.yy",},"order":3,},
     {"id":{"name":"obj_SceneElementDecorate","path":"objects/obj_SceneElementDecorate/obj_SceneElementDecorate.yy",},"order":2,},
     {"id":{"name":"obj_mainMenu","path":"objects/obj_mainMenu/obj_mainMenu.yy",},"order":0,},
+    {"id":{"name":"obj_GuiElement_SetHitbox","path":"objects/obj_GuiElement_SetHitbox/obj_GuiElement_SetHitbox.yy",},"order":3,},
     {"id":{"name":"obj_GuiElement_Page","path":"objects/obj_GuiElement_Page/obj_GuiElement_Page.yy",},"order":1,},
     {"id":{"name":"file_dll","path":"scripts/file_dll/file_dll.yy",},"order":11,},
     {"id":{"name":"Files","path":"scripts/Files/Files.yy",},"order":10,},
