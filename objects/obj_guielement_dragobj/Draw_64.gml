@@ -42,10 +42,16 @@ if(mouseOnMe) {
 				
 				buttonsOffsetY += 36;
 				
+				newbtStr = "更改物体碰撞体积";
+				newins = GuiElement_CreateButton(buttonsOffsetX + string_width(newbtStr) / 2, buttonsOffsetY + string_height(newbtStr) / 2, newbtStr, function() { GuiElement_CreateHitboxSetter(materialMasterArr, materialId, sprite_index); gSandboxGuiElementsDragObjIsOnRightClick = false; }, true);
+				newins.depth = depth - 1;
+				
+				buttonsOffsetY += 36;
+				
 				break;
 		}
 		
-		var _btDeleteStr = "是否决定删除 " + myFilename;
+		var _btDeleteStr = "删除 " + myFilename;
 		myDeleteButtonIns = GuiElement_CreateButton(buttonsOffsetX + string_width(_btDeleteStr) / 2, buttonsOffsetY + string_height(_btDeleteStr) / 2, _btDeleteStr, function() { MyDelete(); gSandboxGuiElementsDragObjIsOnRightClick = false; }, true, GUIDangerousColor);
 		myDeleteButtonIns.depth = depth - 1;
 	}

@@ -17,7 +17,7 @@ btOffsetY = btHeight + 1;
 
 buttons.push_back(GuiElement_CreateButton_ext(x + btOffsetX, y + btOffsetY * 0, "保存场景包", btWidth, btHeight, , function() { SaveCloudPack(); }));
 buttons.push_back(noone);
-buttons.push_back(GuiElement_CreateButton_ext(x + btOffsetX, y + btOffsetY * 2, "玩家设置", btWidth, btHeight, , function() { sandboxSceneElementsLayerNeedRecheck = true; if(GuiElement_PageGetIsWorking(pages.Container[
+buttons.push_back(GuiElement_CreateButton_ext(x + btOffsetX, y + btOffsetY * 2, "睡客设置", btWidth, btHeight, , function() { sandboxSceneElementsLayerNeedRecheck = true; if(GuiElement_PageGetIsWorking(pages.Container[
 	0])) { GuiElement_PageStopWorkAll(pages); } else { GuiElement_PageStopWorkAll(pages); GuiElement_PageStartWork(pages.Container[
 	0]); } }));
 buttons.push_back(GuiElement_CreateButton_ext(x + btOffsetX, y + btOffsetY * 3, "背景", btWidth, btHeight, , function() { sandboxSceneElementsLayerNeedRecheck = true; if(GuiElement_PageGetIsWorking(pages.Container[
@@ -30,7 +30,7 @@ buttons.push_back(GuiElement_CreateButton_ext(x + btOffsetX, y + btOffsetY * 5, 
 	3])) { GuiElement_PageStopWorkAll(pages); } else { GuiElement_PageStopWorkAll(pages); GuiElement_PageStartWork(pages.Container[
 	3]); } }));
 
-pages.push_back(GuiElement_CreatePage(pageX, y - btHeight / 2, "玩家设置", pageWidth));
+pages.push_back(GuiElement_CreatePage(pageX, y - btHeight / 2, "睡客设置", pageWidth));
 pages.push_back(GuiElement_CreatePage(pageX, y - btHeight / 2, "背景", pageWidth));
 pages.push_back(GuiElement_CreatePage(pageX, y - btHeight / 2, "不可互动物体", pageWidth));
 pages.push_back(GuiElement_CreatePage(pageX, y - btHeight / 2, "\"床\"?", pageWidth));

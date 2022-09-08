@@ -203,3 +203,12 @@ function GuiElement_CreateOffsetSetter(_materialMasterArr, _materialId, _sprite)
 	return ins;
 }
 
+function GuiElement_CreateHitboxSetter(_materialMasterArr, _materialId, _sprite) {
+	var ins = instance_create_depth(0, 0, GUIDepth, obj_GuiElement_HitboxSetter);
+	ins.materialMasterArr = _materialMasterArr;
+	ins.materialId = _materialId;
+	ins.sprite = _sprite;
+	
+	return ins;
+}
+

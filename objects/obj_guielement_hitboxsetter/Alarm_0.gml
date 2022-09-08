@@ -1,7 +1,9 @@
 if(materialId >= 0 && materialId < array_length(materialMasterArr)) {
-	if(array_length(materialMasterArr[materialId].offset) >= 2) {
-		myoffx = round(materialMasterArr[materialId].offset[0]);
-		myoffy = round(materialMasterArr[materialId].offset[1]);
+	if(array_length(materialMasterArr[materialId].hitbox) >= 4) {
+		myhitLeft = round(materialMasterArr[materialId].hitbox[0]);
+		myhitTop = round(materialMasterArr[materialId].hitbox[1]);
+		myhitRight = round(materialMasterArr[materialId].hitbox[2]);
+		myhitBottom = round(materialMasterArr[materialId].hitbox[3]);
 	} else {
 		MyAutoSet();
 	}
@@ -24,7 +26,7 @@ if(sprite != undefined && sprite_exists(sprite)) {
 	spriteBottom = (top + bottom) / 2 + yscale * sprite_get_height(sprite) / 2;
 }
 
-MyAsyncXYTextbox();
+MyAsyncHitboxTextbox();
 
 
 inited = true;

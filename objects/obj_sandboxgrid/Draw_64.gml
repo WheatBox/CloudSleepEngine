@@ -9,8 +9,8 @@ var rightPixel = gSceneStruct.right * cellSize;
 var topPixel = gSceneStruct.top * cellSize;
 var bottomPixel = gSceneStruct.bottom * cellSize;
 
-draw_set_color(GUIDefaultColor);
-draw_set_color(GUIDefaultAlpha);
+draw_set_color(c_black);
+draw_set_alpha(GUIDefaultAlpha);
 
 SCENE_DrawRectangleOnGui_Radius(leftPixel, topPixel, draggerRadius, false);
 SCENE_DrawRectangleOnGui_Radius(rightPixel, topPixel, draggerRadius, false);

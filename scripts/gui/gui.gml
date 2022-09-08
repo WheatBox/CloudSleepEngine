@@ -61,6 +61,19 @@ function GUI_MouseGuiOnMe(left, top, right, bottom) {
 	return false;
 }
 
+function GUI_MouseGuiOnMe_Radius(_x, _y, _radius) {
+	var mx = GetPositionXOnGUI(mouse_x);
+	var my = GetPositionYOnGUI(mouse_y);
+	var x1 = _x - _radius;
+	var y1 = _y - _radius;
+	var x2 = _x + _radius;
+	var y2 = _y + _radius;
+	if(point_in_rectangle(mx, my, x1, y1, x2, y2)) {
+		return true;
+	}
+	return false;
+}
+
 function GUI_DrawText(_xGui, _yGui, str, onCenter = false) {
 	if(onCenter) {
 		var ha = fa_center;
@@ -84,6 +97,13 @@ function GUI_DrawRectangle(left, top, right, bottom, outline = false) {
 		GetPositionXOnGUI(right),
 		GetPositionYOnGUI(bottom),*/
 		left, top, right, bottom,
+		outline
+	);
+}
+
+function GUI_DrawRectangle_Radius(_x, _y, _radius, outline = false) {
+	draw_rectangle(
+		_x - _radius, _y - _radius, _x + _radius, _y + _radius,
 		outline
 	);
 }
