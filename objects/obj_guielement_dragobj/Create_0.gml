@@ -22,6 +22,9 @@ MyDelete = function() {
 		
 		var _tempStruct = undefined;
 		switch(mySandboxSceneElementsLayer) {
+			case ESandboxSceneElementsLayers.sleepers:
+				_tempStruct = gSleepersStruct;
+				break;
 			case ESandboxSceneElementsLayers.backgrounds:
 				_tempStruct = gBackgroundsStruct;
 				break;
@@ -58,6 +61,9 @@ MyDelete = function() {
 			GuiElement_PageClearIns(masterPage, myIOnMasterPage, 0);
 			
 			switch(mySandboxSceneElementsLayer) {
+				case ESandboxSceneElementsLayers.sleepers:
+					SceneElement_ClearSleeperIns(myIOnMasterPage - 1, 1);
+					break;
 				case ESandboxSceneElementsLayers.backgrounds:
 					SceneElement_ClearBackgroundIns(myIOnMasterPage - 1, 1);
 					break;
@@ -75,6 +81,15 @@ MyDelete = function() {
 			
 			if(myIOnStruct != -1) {
 				switch(mySandboxSceneElementsLayer) {
+					case ESandboxSceneElementsLayers.sleepers:
+						array_delete(gSleepersStruct.materials, myIOnStruct, 1);
+						array_delete(gSleepersSpritesStruct.sprites, myIOnStruct, 1);
+						_jsonTemp = json_stringify(gSleepersStruct);
+						
+						FileWrite(WORKFILEPATH + FILEJSON_sleepers, _jsonTemp);
+						
+						FileRemove(WORKFILEPATH + FILEPATH_sleepers + myFilename);
+						break;
 					case ESandboxSceneElementsLayers.backgrounds:
 						array_delete(gBackgroundsStruct.materials, myIOnStruct, 1);
 						array_delete(gBackgroundsSpritesStruct.sprites, myIOnStruct, 1);

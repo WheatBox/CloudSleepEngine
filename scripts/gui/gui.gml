@@ -156,3 +156,7 @@ function GUI_DrawSprite_ext(spr, subimg, _xGui, _yGui, xscale, yscale, rot, col,
 	draw_sprite_ext(spr, subimg, _xGui, _yGui, xscale, yscale, rot, col, alpha);
 }
 
+function GUI_DrawSurface(surf, _xGui, _yGui) {
+	draw_surface(surf, _xGui, _yGui);
+}
+

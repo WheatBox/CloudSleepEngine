@@ -17,7 +17,7 @@ btOffsetY = btHeight + 1;
 
 buttons.push_back(GuiElement_CreateButton_ext(x + btOffsetX, y + btOffsetY * 0, "保存场景包", btWidth, btHeight, , function() { SaveCloudPack(); }));
 buttons.push_back(noone);
-buttons.push_back(GuiElement_CreateButton_ext(x + btOffsetX, y + btOffsetY * 2, "睡客设置", btWidth, btHeight, , function() { sandboxSceneElementsLayerNeedRecheck = true; if(GuiElement_PageGetIsWorking(pages.Container[
+buttons.push_back(GuiElement_CreateButton_ext(x + btOffsetX, y + btOffsetY * 2, "睡客", btWidth, btHeight, , function() { sandboxSceneElementsLayerNeedRecheck = true; if(GuiElement_PageGetIsWorking(pages.Container[
 	0])) { GuiElement_PageStopWorkAll(pages); } else { GuiElement_PageStopWorkAll(pages); GuiElement_PageStartWork(pages.Container[
 	0]); } }));
 buttons.push_back(GuiElement_CreateButton_ext(x + btOffsetX, y + btOffsetY * 3, "背景", btWidth, btHeight, , function() { sandboxSceneElementsLayerNeedRecheck = true; if(GuiElement_PageGetIsWorking(pages.Container[
@@ -30,7 +30,7 @@ buttons.push_back(GuiElement_CreateButton_ext(x + btOffsetX, y + btOffsetY * 5, 
 	3])) { GuiElement_PageStopWorkAll(pages); } else { GuiElement_PageStopWorkAll(pages); GuiElement_PageStartWork(pages.Container[
 	3]); } }));
 
-pages.push_back(GuiElement_CreatePage(pageX, y - btHeight / 2, "睡客设置", pageWidth));
+pages.push_back(GuiElement_CreatePage(pageX, y - btHeight / 2, "睡客", pageWidth));
 pages.push_back(GuiElement_CreatePage(pageX, y - btHeight / 2, "背景", pageWidth));
 pages.push_back(GuiElement_CreatePage(pageX, y - btHeight / 2, "不可互动物体", pageWidth));
 pages.push_back(GuiElement_CreatePage(pageX, y - btHeight / 2, "\"床\"?", pageWidth));
@@ -41,6 +41,7 @@ myHeight = display_get_gui_height() - y;
 
 
 /* 添加组件到各个 页面 里 */
+GuiElement_PageAddElement(pages.Container[0], GuiElement_CreateImportSleeperButton(pageWidth / 2, 0, "导入素材", pageWidth - 32, 36));
 GuiElement_PageAddElement(pages.Container[1], GuiElement_CreateImportBackgroundButton(pageWidth / 2, 0, "导入素材", pageWidth - 32, 36));
 GuiElement_PageAddElement(pages.Container[2], GuiElement_CreateImportDecorateButton(pageWidth / 2, 0, "导入素材", pageWidth - 32, 36));
 GuiElement_PageAddElement(pages.Container[3], GuiElement_CreateImportBedButton(pageWidth / 2, 0, "导入素材", pageWidth - 32, 36));
@@ -72,6 +73,12 @@ MyInitPage = function(pageI) {
 	var arrLen = -1;
 	GuiElement_PageClearIns(pages.Container[workingI], 1, -1);
 	switch(workingI) {
+		case 0:
+			arrLen = array_length(gSleepersSpritesStruct.sprites);
+			for(var i = 0; i < arrLen; i++) {
+				GuiElement_PageAddElement(pages.Container[workingI], GuiElement_CreateDragObj(pageWidth / 2, 8, i, gSleepersSpritesStruct.sprites[i], gSleepersStruct.materials[i].filename, ESandboxSceneElementsLayers.sleepers, pages.Container[workingI]));
+			}
+			break;
 		case 1:
 			arrLen = array_length(gBackgroundsSpritesStruct.sprites);
 			for(var i = 0; i < arrLen; i++) {
@@ -96,6 +103,7 @@ MyInitPage = function(pageI) {
 }
 
 MyInitPageAll = function() {
+	MyInitPage(0);
 	MyInitPage(1);
 	MyInitPage(2);
 	MyInitPage(3);

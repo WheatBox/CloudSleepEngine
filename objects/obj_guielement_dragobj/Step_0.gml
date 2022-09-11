@@ -8,6 +8,9 @@ if(MouseLeftPressed() && mouseOnMe && !InstanceExists(gSandboxSceneElementsDragg
 	isDragging = true;
 	
 	switch(mySandboxSceneElementsLayer) {
+		case ESandboxSceneElementsLayers.sleepers:
+			mySceneElementIns = SceneElement_CreateSleeper(materialId, , , , sprite_index);
+			break;
 		case ESandboxSceneElementsLayers.backgrounds:
 			mySceneElementIns = SceneElement_CreateBackground(materialId, , , , sprite_index);
 			break;

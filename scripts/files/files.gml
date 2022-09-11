@@ -1,7 +1,11 @@
+#macro FILEPATH_sleepers "\\contents\\sleepers\\"
 #macro FILEPATH_backgrounds "\\contents\\backgrounds\\"
 #macro FILEPATH_decorates "\\contents\\decorates\\"
 #macro FILEPATH_beds "\\contents\\beds\\"
 
+#macro FILEPATH_beds_bedsleep "\\contents\\beds\\bedsleep\\"
+
+#macro FILEJSON_sleepers "\\contents\\sleepers.json"
 #macro FILEJSON_backgrounds "\\contents\\backgrounds.json"
 #macro FILEJSON_decorates "\\contents\\decorates.json"
 #macro FILEJSON_beds "\\contents\\beds.json"
@@ -13,15 +17,14 @@
 
 #macro PackFileExtension ".cloudpack"
 
-// 打开素材包后，FilePath_backgrounds = WORKFILEPATH + FilePath_backgrounds;
-globalvar FilePath_backgrounds, FilePath_decorates, FilePath_beds;
-FilePath_backgrounds = FILEPATH_backgrounds;
-FilePath_decorates = FILEPATH_decorates;
-FilePath_beds = FILEPATH_beds;
 
 globalvar PackName;
 PackName = "";
 
+function SSingleStruct_Sleeper(_fname = "") constructor {
+	filename = _fname;
+	offset = [];
+};
 function SSingleStruct_Background(_fname = "") constructor {
 	filename = _fname;
 };
@@ -34,20 +37,24 @@ function SSingleStruct_Bed(_fname = "") constructor {
 	filename = _fname;
 	hitbox = [];
 	offset = [];
+	sleepfilenames = [];
 };
 
+#macro DefaultStructSleepers { materials : [] }
 #macro DefaultStructBackgrounds { materials : [] }
 #macro DefaultStructDecorates { materials : [] }
 #macro DefaultStructBeds { materials : [] }
 
 #macro DefaultSpritesStruct { sprites : [] }
 
-globalvar gBackgroundsStruct, gDecoratesStruct, gBedsStruct;
+globalvar gSleepersStruct, gBackgroundsStruct, gDecoratesStruct, gBedsStruct;
+gSleepersStruct = DefaultStructSleepers;
 gBackgroundsStruct = DefaultStructBackgrounds;
 gDecoratesStruct = DefaultStructDecorates;
 gBedsStruct = DefaultStructBeds;
 
-globalvar gBackgroundsSpritesStruct, gDecoratesSpritesStruct, gBedsSpritesStruct;
+globalvar gSleepersSpritesStruct, gBackgroundsSpritesStruct, gDecoratesSpritesStruct, gBedsSpritesStruct;
+gSleepersSpritesStruct = DefaultSpritesStruct;
 gBackgroundsSpritesStruct = DefaultSpritesStruct;
 gDecoratesSpritesStruct = DefaultSpritesStruct;
 gBedsSpritesStruct = DefaultSpritesStruct;
@@ -66,7 +73,8 @@ gSceneStruct = {
 	right : 100,
 	bottom : 80,
 	
-	// 这三个数组内存储的都会是 new SSceneElement()
+	// 这几个数组内存储的都会是 new SSceneElement()
+	sleepers : [],
 	backgrounds : [],
 	decorates : [],
 	beds : []
@@ -99,7 +107,7 @@ function GetNameFromFileName(filename, withExtension = true) {
 }
 
 function FileNameGetPicture(_caption_ImportToWhere = "") {
-	return get_open_filename_ext("图片(*.png, *.jpg, *.jpeg)|*.png;*.jpg;*.jpeg", "", program_directory, "导入图片" + ((_caption_ImportToWhere == "") ? (" 到 " + _caption_ImportToWhere) : ""));
+	return get_open_filename_ext("图片(*.png, *.jpg, *.jpeg)|*.png;*.jpg;*.jpeg", "", program_directory, "导入图片" + ((_caption_ImportToWhere != "") ? (" 到 " + _caption_ImportToWhere) : ""));
 }
 
 function LoadCloudPack() {
@@ -169,7 +177,7 @@ function LoadCloudPack() {
 				var _sprTemp = sprite_add(filePath + _name, 1, false, true, 0, 0);
 				// 此处的 offset 和 bbox 都只是编辑器内为了拖拽而设定的，实际游戏内的值以 _gStruct 结构体内的值为准
 				sprite_set_offset(_sprTemp, sprite_get_width(_sprTemp) / 2, sprite_get_height(_sprTemp) / 2);
-				sprite_set_bbox_mode(_sprTemp, bboxmode_fullimage);
+				sprite_set_bbox_mode(_sprTemp, DragObjBboxMode);
 				array_push(_gSpriteStruct.sprites, _sprTemp);
 				
 				
@@ -200,6 +208,7 @@ function LoadCloudPack() {
 	if(fscene != NULL) {
 		gSceneStruct = json_parse(fscene);
 		
+		gSceneStruct[$ "sleepers"] ??= [];
 		gSceneStruct[$ "backgrounds"] ??= [];
 		gSceneStruct[$ "decorates"] ??= [];
 		gSceneStruct[$ "beds"] ??= [];
@@ -207,6 +216,7 @@ function LoadCloudPack() {
 	
 	
 	
+	ChildFunc_LoadSprites(WORKFILEPATH + FILEPATH_sleepers, WORKFILEPATH + FILEJSON_sleepers, gSleepersSpritesStruct, "gSleepersStruct", gSceneStruct.sleepers);
 	ChildFunc_LoadSprites(WORKFILEPATH + FILEPATH_backgrounds, WORKFILEPATH + FILEJSON_backgrounds, gBackgroundsSpritesStruct, "gBackgroundsStruct", gSceneStruct.backgrounds);
 	ChildFunc_LoadSprites(WORKFILEPATH + FILEPATH_decorates, WORKFILEPATH + FILEJSON_decorates, gDecoratesSpritesStruct, "gDecoratesStruct", gSceneStruct.decorates);
 	ChildFunc_LoadSprites(WORKFILEPATH + FILEPATH_beds, WORKFILEPATH + FILEJSON_beds, gBedsSpritesStruct, "gBedsStruct", gSceneStruct.beds);
@@ -218,86 +228,50 @@ function LoadCloudPack() {
 		FileWrite(WORKFILEPATH + FILEJSON_scene, _changedjson);
 	}
 	
+	DebugMes([gSleepersStruct, gSleepersSpritesStruct, gSceneStruct.sleepers]);
 	DebugMes([gBackgroundsStruct, gBackgroundsSpritesStruct, gSceneStruct.backgrounds]);
 	DebugMes([gDecoratesStruct, gDecoratesSpritesStruct, gSceneStruct.decorates]);
 	DebugMes([gBedsStruct, gBedsSpritesStruct, gSceneStruct.beds]);
 }
 
 function SaveCloudPack() {
-	for(var i = 0; i < array_length(gSceneStruct.backgrounds); i++) {
-		if(CheckStructCanBeUse(gSceneStruct.backgrounds[i]) == false) {
-			continue;
+	var ChildFunc_Save = function(fileJson, _gStruct, _gSpriteStruct, _gSceneStructArr, _obj_SceneElement) {
+		for(var i = 0; i < array_length(_gSceneStructArr); i++) {
+			if(CheckStructCanBeUse(_gSceneStructArr[i]) == false) {
+				continue;
+			}
+			delete _gSceneStructArr[i];
 		}
-		delete gSceneStruct.backgrounds[i];
-	}
-	array_delete(gSceneStruct.backgrounds, 0, array_length(gSceneStruct.backgrounds));
-	
-	for(var i = 0; i < array_length(gSceneStruct.decorates); i++) {
-		if(CheckStructCanBeUse(gSceneStruct.decorates[i]) == false) {
-			continue;
-		}
-		delete gSceneStruct.decorates[i];
-	}
-	array_delete(gSceneStruct.decorates, 0, array_length(gSceneStruct.decorates));
-	
-	for(var i = 0; i < array_length(gSceneStruct.beds); i++) {
-		if(CheckStructCanBeUse(gSceneStruct.beds[i]) == false) {
-			continue;
-		}
-		delete gSceneStruct.beds[i];
-	}
-	array_delete(gSceneStruct.beds, 0, array_length(gSceneStruct.beds));
-	
-	for(var i = 0; i < instance_count; i++) {
-		if(instance_id[i].object_index == obj_SceneElementBackground) {
-			DebugMes(["Saving Background", i, instance_id[i].x]);
-			if(instance_id[i].materialId >= 0 && instance_id[i].materialId < array_length(gBackgroundsSpritesStruct.sprites)) {
-				array_push(gSceneStruct.backgrounds, new SSceneElement(instance_id[i].materialId, instance_id[i].x, instance_id[i].y));
+		array_delete(_gSceneStructArr, 0, array_length(_gSceneStructArr));
+		
+		
+		for(var i = 0; i < instance_count; i++) {
+			if(instance_id[i].object_index == _obj_SceneElement) {
+				if(instance_id[i].materialId >= 0 && instance_id[i].materialId < array_length(_gSpriteStruct.sprites)) {
+					array_push(_gSceneStructArr, new SSceneElement(instance_id[i].materialId, instance_id[i].x, instance_id[i].y));
+				}
 			}
 		}
-		if(instance_id[i].object_index == obj_SceneElementDecorate) {
-			DebugMes(["Saving Decorate", i, instance_id[i].x]);
-			if(instance_id[i].materialId >= 0 && instance_id[i].materialId < array_length(gDecoratesSpritesStruct.sprites)) {
-				array_push(gSceneStruct.decorates, new SSceneElement(instance_id[i].materialId, instance_id[i].x, instance_id[i].y));
-			}
-		}
-		if(instance_id[i].object_index == obj_SceneElementBed) {
-			DebugMes(["Saving Bed", i, instance_id[i].x]);
-			if(instance_id[i].materialId >= 0 && instance_id[i].materialId < array_length(gBedsSpritesStruct.sprites)) {
-				array_push(gSceneStruct.beds, new SSceneElement(instance_id[i].materialId, instance_id[i].x, instance_id[i].y));
-			}
+		
+		
+		var _jsonStr = json_stringify(_gStruct);
+		var _jsonSceneFileWriteRes = FileWrite(fileJson, _jsonStr);
+		if(_jsonSceneFileWriteRes != 0) {
+			show_message(string(fileJson) + "保存失败！" + string(_jsonSceneFileWriteRes));
 		}
 	}
 	
-	// ArrayReverse(gSceneStruct.backgrounds);
+	
+	ChildFunc_Save(WORKFILEPATH + FILEJSON_sleepers, gSleepersStruct, gSleepersSpritesStruct, gSceneStruct.sleepers, obj_SceneElementSleeper);
+	ChildFunc_Save(WORKFILEPATH + FILEJSON_backgrounds, gBackgroundsStruct, gBackgroundsSpritesStruct, gSceneStruct.backgrounds, obj_SceneElementBackground);
+	ChildFunc_Save(WORKFILEPATH + FILEJSON_decorates, gDecoratesStruct, gDecoratesSpritesStruct, gSceneStruct.decorates, obj_SceneElementDecorate);
+	ChildFunc_Save(WORKFILEPATH + FILEJSON_beds, gBedsStruct, gBedsSpritesStruct, gSceneStruct.beds, obj_SceneElementBed);
 	
 	
-	
-	var _jsonSceneFileWriteRes;
-	var _jsonStr;
-	
-	_jsonStr = json_stringify(gSceneStruct);
-	_jsonSceneFileWriteRes = FileWrite(WORKFILEPATH + FILEJSON_scene, _jsonStr);
+	var _jsonStr = json_stringify(gSceneStruct);
+	var _jsonSceneFileWriteRes = FileWrite(WORKFILEPATH + FILEJSON_scene, _jsonStr);
 	if(_jsonSceneFileWriteRes != 0) {
-		show_message(FILEJSON_scene + "保存失败！" + string(_jsonSceneFileWriteRes));
-	}
-	
-	_jsonStr = json_stringify(gBackgroundsStruct);
-	_jsonSceneFileWriteRes = FileWrite(WORKFILEPATH + FILEJSON_backgrounds, _jsonStr);
-	if(_jsonSceneFileWriteRes != 0) {
-		show_message(FILEJSON_backgrounds + "保存失败！" + string(_jsonSceneFileWriteRes));
-	}
-	
-	_jsonStr = json_stringify(gDecoratesStruct);
-	_jsonSceneFileWriteRes = FileWrite(WORKFILEPATH + FILEJSON_decorates, _jsonStr);
-	if(_jsonSceneFileWriteRes != 0) {
-		show_message(FILEJSON_decorates + "保存失败！" + string(_jsonSceneFileWriteRes));
-	}
-	
-	_jsonStr = json_stringify(gBedsStruct);
-	_jsonSceneFileWriteRes = FileWrite(WORKFILEPATH + FILEJSON_beds, _jsonStr);
-	if(_jsonSceneFileWriteRes != 0) {
-		show_message(FILEJSON_beds + "保存失败！" + string(_jsonSceneFileWriteRes));
+		show_message(WORKFILEPATH + FILEJSON_scene + "保存失败！" + string(_jsonSceneFileWriteRes));
 	}
 }
 

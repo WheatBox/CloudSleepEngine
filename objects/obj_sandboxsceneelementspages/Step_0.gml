@@ -6,6 +6,7 @@ if(sandboxSceneElementsLayerNeedRecheck) {
 		if(pages.Container[i].working) {
 			switch(i) {
 				case 0:
+					gSandboxSceneElementsLayer = ESandboxSceneElementsLayers.sleepers;
 					break;
 				case 1:
 					gSandboxSceneElementsLayer = ESandboxSceneElementsLayers.backgrounds;

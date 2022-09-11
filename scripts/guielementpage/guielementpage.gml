@@ -110,7 +110,7 @@ function GuiElement_PageAlign(_pageIns) {
 	var _len = _pageIns.vecChildElements.size();
 	for(var i = 0; i < _len; i++) {
 		var ins = _pageIns.vecChildElements.Container[i];
-		ins.y = _pageIns.y + 32;
+		ins.y = _pageIns.y + 32 - _pageIns.scrollY;
 		
 		for(var j = 0; j <= i; j++) {
 			ins.y += _pageIns.vecChildElementsHeight.Container[j];

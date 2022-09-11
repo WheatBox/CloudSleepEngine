@@ -12,8 +12,11 @@ if(working == false) {
 				scrollY -= scrollYSpeed;
 			}
 		} else if(mouse_wheel_down()) {
-			MyScrollElements(-scrollYSpeed);
-			scrollY += scrollYSpeed;
+			if(InstanceExists(vecChildElements.back()))
+			if(0 + scrollYSpeed * 2 < vecChildElements.back().bbox_top) {
+				MyScrollElements(-scrollYSpeed);
+				scrollY += scrollYSpeed;
+			}
 		}
 	}
 }

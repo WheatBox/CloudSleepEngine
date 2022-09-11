@@ -23,6 +23,12 @@ if(mouseOnMe) {
 		var buttonsOffsetY = GetPositionYOnGUI(mouse_y) + 12;
 		
 		switch(mySandboxSceneElementsLayer) {
+			case ESandboxSceneElementsLayers.sleepers:
+				materialMasterArr = gSleepersStruct.materials;
+				break;
+			case ESandboxSceneElementsLayers.backgrounds:
+				materialMasterArr = gBackgroundsStruct.materials;
+				break;
 			case ESandboxSceneElementsLayers.decorates:
 				materialMasterArr = gDecoratesStruct.materials;
 				break;
@@ -30,23 +36,39 @@ if(mouseOnMe) {
 				materialMasterArr = gBedsStruct.materials;
 				break;
 		}
+		var newbtYAdd = 32;
+		var newbtStr = "";
+		var newins = noone;
 		switch(mySandboxSceneElementsLayer) {
+			case ESandboxSceneElementsLayers.sleepers:
 			case ESandboxSceneElementsLayers.decorates:
 			case ESandboxSceneElementsLayers.beds:
-				var newbtStr = "";
-				var newins = noone;
 				
 				newbtStr = "更改物体中心点";
 				newins = GuiElement_CreateButton(buttonsOffsetX + string_width(newbtStr) / 2, buttonsOffsetY + string_height(newbtStr) / 2, newbtStr, function() { GuiElement_CreateOffsetSetter(materialMasterArr, materialId, sprite_index); gSandboxGuiElementsDragObjIsOnRightClick = false; }, true);
 				newins.depth = depth - 1;
 				
-				buttonsOffsetY += 36;
+				buttonsOffsetY += newbtYAdd;
 				
+		}
+		switch(mySandboxSceneElementsLayer) {
+			case ESandboxSceneElementsLayers.decorates:
+			case ESandboxSceneElementsLayers.beds:
 				newbtStr = "更改物体碰撞体积";
 				newins = GuiElement_CreateButton(buttonsOffsetX + string_width(newbtStr) / 2, buttonsOffsetY + string_height(newbtStr) / 2, newbtStr, function() { GuiElement_CreateHitboxSetter(materialMasterArr, materialId, sprite_index); gSandboxGuiElementsDragObjIsOnRightClick = false; }, true);
 				newins.depth = depth - 1;
 				
-				buttonsOffsetY += 36;
+				buttonsOffsetY += newbtYAdd;
+				
+				break;
+		}
+		switch(mySandboxSceneElementsLayer) {
+			case ESandboxSceneElementsLayers.beds:
+				newbtStr = "编辑睡客互动";
+				newins = GuiElement_CreateButton(buttonsOffsetX + string_width(newbtStr) / 2, buttonsOffsetY + string_height(newbtStr) / 2, newbtStr, function() { GuiElement_CreateBedSleepSetter(materialMasterArr, materialId, sprite_index); gSandboxGuiElementsDragObjIsOnRightClick = false; }, true);
+				newins.depth = depth - 1;
+				
+				buttonsOffsetY += newbtYAdd;
 				
 				break;
 		}

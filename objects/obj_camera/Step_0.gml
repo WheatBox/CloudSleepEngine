@@ -51,3 +51,4 @@ if(findingPlayer && InstanceExists(obj_client)) {
 
 */
 
+gMouseOnGUI = false;

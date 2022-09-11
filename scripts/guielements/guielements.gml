@@ -1,3 +1,15 @@
+function GuiElement_CreateImportSleeperButton(_xGui, _yGui, _label, _width = undefined, _height = undefined) {
+	return GuiElement_CreateImportButton("睡客"
+		, WORKFILEPATH + FILEPATH_sleepers
+		, WORKFILEPATH + FILEJSON_sleepers
+		, gSleepersStruct
+		, gSleepersSpritesStruct
+		, "gSleepersStruct"
+		, SSingleStruct_Sleeper
+		, _xGui, _yGui, _label, _width, _height
+	);
+}
+
 function GuiElement_CreateImportBackgroundButton(_xGui, _yGui, _label, _width = undefined, _height = undefined) {
 	return GuiElement_CreateImportButton("背景"
 		, WORKFILEPATH + FILEPATH_backgrounds
@@ -74,9 +86,11 @@ function GuiElement_CreateImportButton(explorerCaption, filePath, fileJson, gStr
 					var _jsonName = __FileJson;
 					
 					// 写入
-					array_push(__gStruct.materials, new __structgStructMaterialsPush(_name));
-					var _jsonDest = json_stringify(__gStruct);
-					FileWrite(_jsonName, _jsonDest);
+					if(_jsonName != "") {
+						array_push(__gStruct.materials, new __structgStructMaterialsPush(_name));
+						var _jsonDest = json_stringify(__gStruct);
+						FileWrite(_jsonName, _jsonDest);
+					}
 					
 					// 读取
 					/*
@@ -91,7 +105,7 @@ function GuiElement_CreateImportButton(explorerCaption, filePath, fileJson, gStr
 					if(object_index == obj_sandboxSceneElementsPages) {
 						var _sprTemp = sprite_add(__FilePath + _name, 1, false, true, 0, 0);
 						sprite_set_offset(_sprTemp, sprite_get_width(_sprTemp) / 2, sprite_get_height(_sprTemp) / 2);
-						sprite_set_bbox_mode(_sprTemp, bboxmode_automatic);
+						sprite_set_bbox_mode(_sprTemp, DragObjBboxMode);
 						array_push(__gSpriteStruct.sprites, _sprTemp);
 						
 						// 设定 offset
@@ -168,6 +182,7 @@ function GuiElement_CreateDragObj(_xGui, _yGui, _materialId, _sprite, _filename,
 	var ins = noone;
 	
 	switch(_ESandboxSceneElementsLayer) {
+		case ESandboxSceneElementsLayers.sleepers:
 		case ESandboxSceneElementsLayers.backgrounds:
 		case ESandboxSceneElementsLayers.decorates:
 		case ESandboxSceneElementsLayers.beds:
@@ -205,6 +220,15 @@ function GuiElement_CreateOffsetSetter(_materialMasterArr, _materialId, _sprite)
 
 function GuiElement_CreateHitboxSetter(_materialMasterArr, _materialId, _sprite) {
 	var ins = instance_create_depth(0, 0, GUIDepth, obj_GuiElement_HitboxSetter);
+	ins.materialMasterArr = _materialMasterArr;
+	ins.materialId = _materialId;
+	ins.sprite = _sprite;
+	
+	return ins;
+}
+
+function GuiElement_CreateBedSleepSetter(_materialMasterArr, _materialId, _sprite) {
+	var ins = instance_create_depth(0, 0, GUIDepth, obj_GuiElement_BedSleepSetter);
 	ins.materialMasterArr = _materialMasterArr;
 	ins.materialId = _materialId;
 	ins.sprite = _sprite;

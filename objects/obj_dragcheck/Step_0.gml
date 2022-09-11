@@ -1,6 +1,9 @@
 if(gMouseOnGUI == false && !InstanceExists(gSandboxSceneElementsDragging) && gSandboxGuiElementsDragObjIsOnRightClick == false) {
 	var checkSceneElementObj = noone;
 	switch(gSandboxSceneElementsLayer) {
+		case ESandboxSceneElementsLayers.sleepers:
+			checkSceneElementObj = obj_SceneElementSleeper;
+			break;
 		case ESandboxSceneElementsLayers.backgrounds:
 			checkSceneElementObj = obj_SceneElementBackground;
 			break;

@@ -4,6 +4,10 @@
 globalvar gSceneElementsGridAlignmentEnable;
 gSceneElementsGridAlignmentEnable = true;
 
+function SceneElement_CreateSleeper(_materialId, _isDragging = true, _x = mouse_x, _y = mouse_y, sprite = -1) {
+	return SceneElement_Create(obj_SceneElementSleeper, SceneDepthDynamicAdd, gSleepersSpritesStruct, _materialId, _isDragging, _x, _y, sprite);
+}
+
 function SceneElement_CreateBackground(_materialId, _isDragging = true, _x = mouse_x, _y = mouse_y, sprite = -1) {
 	return SceneElement_Create(obj_SceneElementBackground, SceneDepthBackgrounds + 1, gBackgroundsSpritesStruct, _materialId, _isDragging, _x, _y, sprite);
 }
@@ -33,12 +37,13 @@ function SceneElement_Create(_obj, _depth, __gSpriteStruct, _materialId, _isDrag
 	// 因为我也不知道为啥，反正不这么写而直接填 SceneDepth 就会导致晚创建的物体在早创建的物体的下面
 	ins.depth--;
 	
-	DebugMes(["new bg:", ins, _x, ins.depth]);
-	
 	return ins;
 }
 
 
+function SceneElement_ClearSleeperIns(_materialId, counts = 1) {
+	SceneElement_ClearIns(obj_SceneElementSleeper, _materialId, counts);
+}
 
 function SceneElement_ClearBackgroundIns(_materialId, counts = 1) {
 	SceneElement_ClearIns(obj_SceneElementBackground, _materialId, counts);

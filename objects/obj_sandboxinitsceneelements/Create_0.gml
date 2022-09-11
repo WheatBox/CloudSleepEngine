@@ -1,30 +1,18 @@
-var _sceneStructBackgroundsLen = array_length(gSceneStruct.backgrounds);
-for(var i = 0; i < _sceneStructBackgroundsLen; i++) {
-	if(CheckStructCanBeUse(gSceneStruct.backgrounds[i])) {
-		if(gSceneStruct.backgrounds[i].materialId >= 0 && gSceneStruct.backgrounds[i].materialId < array_length(gBackgroundsSpritesStruct.sprites)) {
-			var _newIns = SceneElement_CreateBackground(gSceneStruct.backgrounds[i].materialId, false, gSceneStruct.backgrounds[i].xPos, gSceneStruct.backgrounds[i].yPos);
-			_newIns.inited = true;
-			_newIns.mygSceneStructI = i;
+var MyChildFunc_CreateSceneElements = function(_gSpriteStruct, _gSceneStructArr, _func_SceneElement_Create) {
+	var _sceneStructLen = array_length(_gSceneStructArr);
+	for(var i = 0; i < _sceneStructLen; i++) {
+		if(CheckStructCanBeUse(_gSceneStructArr[i])) {
+			if(_gSceneStructArr[i].materialId >= 0 && _gSceneStructArr[i].materialId < array_length(_gSpriteStruct.sprites)) {
+				var _newIns = _func_SceneElement_Create(_gSceneStructArr[i].materialId, false, _gSceneStructArr[i].xPos, _gSceneStructArr[i].yPos);
+				_newIns.inited = true;
+				_newIns.mygSceneStructI = i;
+			}
 		}
 	}
 }
-var _sceneStructDecoratesLen = array_length(gSceneStruct.decorates);
-for(var i = 0; i < _sceneStructDecoratesLen; i++) {
-	if(CheckStructCanBeUse(gSceneStruct.decorates[i])) {
-		if(gSceneStruct.decorates[i].materialId >= 0 && gSceneStruct.decorates[i].materialId < array_length(gDecoratesSpritesStruct.sprites)) {
-			var _newIns = SceneElement_CreateDecorate(gSceneStruct.decorates[i].materialId, false, gSceneStruct.decorates[i].xPos, gSceneStruct.decorates[i].yPos);
-			_newIns.inited = true;
-			_newIns.mygSceneStructI = i;
-		}
-	}
-}
-var _sceneStructBedsLen = array_length(gSceneStruct.beds);
-for(var i = 0; i < _sceneStructBedsLen; i++) {
-	if(CheckStructCanBeUse(gSceneStruct.beds[i])) {
-		if(gSceneStruct.beds[i].materialId >= 0 && gSceneStruct.beds[i].materialId < array_length(gBedsSpritesStruct.sprites)) {
-			var _newIns = SceneElement_CreateBed(gSceneStruct.beds[i].materialId, false, gSceneStruct.beds[i].xPos, gSceneStruct.beds[i].yPos);
-			_newIns.inited = true;
-			_newIns.mygSceneStructI = i;
-		}
-	}
-}
+
+MyChildFunc_CreateSceneElements(gSleepersSpritesStruct, gSceneStruct.sleepers, SceneElement_CreateSleeper);
+MyChildFunc_CreateSceneElements(gBackgroundsSpritesStruct, gSceneStruct.backgrounds, SceneElement_CreateBackground);
+MyChildFunc_CreateSceneElements(gDecoratesSpritesStruct, gSceneStruct.decorates, SceneElement_CreateDecorate);
+MyChildFunc_CreateSceneElements(gBedsSpritesStruct, gSceneStruct.beds, SceneElement_CreateBed);
+

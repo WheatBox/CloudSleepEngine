@@ -17,10 +17,6 @@ GuiElement_CreateButton_ext(128, 128, "新建场景包", 256, 64, , function() {
 		DebugMes("_newpackfilename: " + _newpackfilename);
 		
 		if(fwriteRes == 0) {
-			FilePath_backgrounds = WORKFILEPATH + FilePath_backgrounds;
-			FilePath_decorates = WORKFILEPATH + FilePath_decorates;
-			FilePath_beds = WORKFILEPATH + FilePath_beds;
-			
 			room_goto(rm_Sandbox);
 		} else {
 			show_message("新建文件失败！" + string(fwriteRes));
@@ -34,11 +30,6 @@ GuiElement_CreateButton_ext(128, 228, "打开场景包", 256, 64, , function() {
 		PackName = GetNameFromFileName(filename, false);
 		
 		DebugMes("Open ScenePackage : " + filename + " | PackName : " + PackName);
-		
-		FilePath_backgrounds = WORKFILEPATH + FilePath_backgrounds;
-		FilePath_decorates = WORKFILEPATH + FilePath_decorates;
-		FilePath_beds = WORKFILEPATH + FilePath_beds;
-		
 		
 		LoadCloudPack();
 		
