@@ -17,23 +17,22 @@ btOffsetY = btHeight + 1;
 
 buttons.push_back(GuiElement_CreateButton_ext(x + btOffsetX, y + btOffsetY * 0, "保存场景包", btWidth, btHeight, , function() { SaveCloudPack(); }));
 buttons.push_back(noone);
-buttons.push_back(GuiElement_CreateButton_ext(x + btOffsetX, y + btOffsetY * 2, "睡客", btWidth, btHeight, , function() { sandboxSceneElementsLayerNeedRecheck = true; if(GuiElement_PageGetIsWorking(pages.Container[
-	0])) { GuiElement_PageStopWorkAll(pages); } else { GuiElement_PageStopWorkAll(pages); GuiElement_PageStartWork(pages.Container[
-	0]); } }));
-buttons.push_back(GuiElement_CreateButton_ext(x + btOffsetX, y + btOffsetY * 3, "背景", btWidth, btHeight, , function() { sandboxSceneElementsLayerNeedRecheck = true; if(GuiElement_PageGetIsWorking(pages.Container[
-	1])) { GuiElement_PageStopWorkAll(pages); } else { GuiElement_PageStopWorkAll(pages); GuiElement_PageStartWork(pages.Container[
-	1]); } }));
-buttons.push_back(GuiElement_CreateButton_ext(x + btOffsetX, y + btOffsetY * 4, "不可互动物体", btWidth, btHeight, , function() { sandboxSceneElementsLayerNeedRecheck = true; if(GuiElement_PageGetIsWorking(pages.Container[
-	2])) { GuiElement_PageStopWorkAll(pages); } else { GuiElement_PageStopWorkAll(pages); GuiElement_PageStartWork(pages.Container[
-	2]); } }));
-buttons.push_back(GuiElement_CreateButton_ext(x + btOffsetX, y + btOffsetY * 5, "\"床\"?", btWidth, btHeight, , function() { sandboxSceneElementsLayerNeedRecheck = true; if(GuiElement_PageGetIsWorking(pages.Container[
-	3])) { GuiElement_PageStopWorkAll(pages); } else { GuiElement_PageStopWorkAll(pages); GuiElement_PageStartWork(pages.Container[
-	3]); } }));
+var _iTemp = 0;
+MyFuncPagePressed = function(args) { sandboxSceneElementsLayerNeedRecheck = true; if(GuiElement_PageGetIsWorking(pages.Container[args[0]])) { GuiElement_PageStopWorkAll(pages); } else { GuiElement_PageStopWorkAll(pages); GuiElement_PageStartWork(pages.Container[args[0]]); } };
+buttons.push_back(GuiElement_CreateButton_ext(x + btOffsetX, y + btOffsetY * 2, "睡客", btWidth, btHeight, [_iTemp++], function(args) { MyFuncPagePressed(args); }));
+buttons.push_back(GuiElement_CreateButton_ext(x + btOffsetX, y + btOffsetY * 3, "背景", btWidth, btHeight, [_iTemp++], function(args) { MyFuncPagePressed(args); }));
+buttons.push_back(GuiElement_CreateButton_ext(x + btOffsetX, y + btOffsetY * 4, "不可互动物体", btWidth, btHeight, [_iTemp++], function(args) { MyFuncPagePressed(args); }));
+buttons.push_back(GuiElement_CreateButton_ext(x + btOffsetX, y + btOffsetY * 5, "\"床\"?", btWidth, btHeight, [_iTemp++], function(args) { MyFuncPagePressed(args); }));
+
+buttons.push_back(GuiElement_CreateButton_ext(x + btOffsetX, GuiHeight() - 16, "场景包设置", btWidth, btHeight, [_iTemp++], function(args) { MyFuncPagePressed(args); }));
+
 
 pages.push_back(GuiElement_CreatePage(pageX, y - btHeight / 2, "睡客", pageWidth));
 pages.push_back(GuiElement_CreatePage(pageX, y - btHeight / 2, "背景", pageWidth));
 pages.push_back(GuiElement_CreatePage(pageX, y - btHeight / 2, "不可互动物体", pageWidth));
 pages.push_back(GuiElement_CreatePage(pageX, y - btHeight / 2, "\"床\"?", pageWidth));
+
+pages.push_back(GuiElement_CreatePage(pageX, y - btHeight / 2, "场景包设置", pageWidth));
 
 // myWidth = btWidth + pageWidth + 32;
 myWidth = btWidth;
@@ -45,6 +44,17 @@ GuiElement_PageAddElement(pages.Container[0], GuiElement_CreateImportSleeperButt
 GuiElement_PageAddElement(pages.Container[1], GuiElement_CreateImportBackgroundButton(pageWidth / 2, 0, "导入素材", pageWidth - 32, 36));
 GuiElement_PageAddElement(pages.Container[2], GuiElement_CreateImportDecorateButton(pageWidth / 2, 0, "导入素材", pageWidth - 32, 36));
 GuiElement_PageAddElement(pages.Container[3], GuiElement_CreateImportBedButton(pageWidth / 2, 0, "导入素材", pageWidth - 32, 36));
+
+GuiElement_PageAddElement_Multi(pages.Container[4]
+	, [
+		GuiElement_CreateButton_ext(pageWidth / 2, 0, "查看该场景包的GUID", pageWidth - 32, 36, , function() { var _packReadRes = ReadCloudPackGuid(); if(_packReadRes != NULL) { clipboard_set_text(_packReadRes); show_message(_packReadRes + "\n--------------------\n内容已复制到剪切板"); } }),
+		GuiElement_CreateButton_ext(pageWidth / 2, 0, "重新生成该场景包的GUID", pageWidth - 32, 36, , function() { var _packReadRes = RemakeCloudPackGuid(); if(_packReadRes != NULL) { clipboard_set_text(_packReadRes); show_message("新的GUID：\n" + _packReadRes + "\n--------------------\n内容已复制到剪切板"); } }, , GUIDangerousColor),
+		GuiElement_CreateButton_ext(pageWidth / 2, 36, "编辑主客户端版本号", pageWidth - 32, 36, , function() { EditCloudPackMainClient(); }),
+		GuiElement_CreateButton_ext(pageWidth / 2, 0, "编辑主客户端获取方式", pageWidth - 32, 36, , function() { EditCloudPackMainClientHowToGet(); }),
+		GuiElement_CreateButton_ext(pageWidth / 2, 0, "编辑兼容客户端版本号", pageWidth - 32, 36, , function() { EditCloudPackCompatibleClients(); }),
+	]
+);
+
 
 
 alarm_set(0, 1);

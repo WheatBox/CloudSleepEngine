@@ -276,15 +276,183 @@ function SaveCloudPack() {
 }
 
 
-function CheckStructCanBeUse(_structVal) {
-	if(is_struct(_structVal) == true
-		&& _structVal != NULL
-		&& _structVal != "null"
-		&& _structVal != pointer_null
-		&& _structVal != undefined
-	) {
-		return true;
+
+/*
+{
+	"guid": "{xxxxxxxxx}",
+	"mainclient": "xxxxxxxx",
+	"mainclient_howtoget": "xxxxxxxx",
+	"compatibleclients": [
+		"xxxxxx",
+		"xxxxxxxx"
+	]
+}
+*/
+
+function ReadCloudPackGuid() {
+	var res = "";
+	
+	var packfname = WORKFILEPATH + PackName + ".cloudpack";
+	var fReadRes = FileRead(packfname);
+	if(fReadRes == NULL) {
+		show_message("读取 " + string(packfname) + " 失败！");
+		return NULL;
+	}
+	
+	if(fReadRes == "") {
+		show_message(string(packfname) + " 文件为空！");
+		return NULL;
+	}
+	
+	var _structTemp = {};
+	try {
+		_structTemp = json_parse(fReadRes);
+	} catch(error) {
+		show_message(packfname + "\n这什么鬼文件，看不懂，下一个\n" + "" + string(error.message));
+		return NULL;
+	}
+	
+	if(CheckStructCanBeUse(_structTemp)) {
+		if(variable_struct_get(_structTemp, "guid") != undefined) {
+			res = _structTemp.guid;
+		} else {
+			show_message("无法从 " + string(packfname) + " 中找到Guid！");
+			return NULL;
+		}
+	}
+	
+	return res;
+}
+
+function RemakeCloudPackGuid() {
+	if(show_question("你确定要这么做吗？") == false) {
+		return NULL;
+	}
+	if(show_question("你真的确定要这么做吗？？") == false) {
+		return NULL;
+	}
+	
+	var packfname = WORKFILEPATH + PackName + ".cloudpack";
+	var fReadRes = FileRead(packfname);
+	if(fReadRes == NULL) {
+		show_message("读取 " + string(packfname) + " 失败！");
+		return NULL;
+	}
+	
+	var _structTemp = {};
+	try {
+		_structTemp = json_parse(fReadRes);
+	} catch(error) {
+		_structTemp = {};
+	}
+	
+	if(CheckStructCanBeUse(_structTemp)) {
+		_structTemp.guid = GuidGenerate();
+	}
+	
+	var fWriteRes = FileWrite(packfname, json_stringify(_structTemp));
+	if(fWriteRes != 0) {
+		show_message("写入文件失败");
+		
+		return NULL;
+	}
+	
+	return _structTemp.guid;
+}
+
+function EditCloudPackMainClient() {
+	var packfname = WORKFILEPATH + PackName + ".cloudpack";
+	var fReadRes = FileRead(packfname);
+	if(fReadRes == NULL) {
+		show_message("读取 " + string(packfname) + " 失败！");
+		return;
+	}
+	
+	var _structTemp = {};
+	try {
+		_structTemp = json_parse(fReadRes);
+	} catch(error) {
+		_structTemp = {};
+	}
+	
+	var strTemp = "";
+	if(variable_struct_get(_structTemp, "mainclient") != undefined) {
+		strTemp = get_string("编辑该场景包的主客户端版本号", string(_structTemp.mainclient));
 	} else {
-		return false;
+		_structTemp.mainclient = "";
+		strTemp = get_string("编辑该场景包的主客户端版本号", "");
+	}
+	if(strTemp != "") {
+		_structTemp.mainclient = strTemp;
+	}
+	
+	var fWriteRes = FileWrite(packfname, json_stringify(_structTemp));
+	if(fWriteRes != 0) {
+		show_message("写入文件失败");
 	}
 }
+
+function EditCloudPackMainClientHowToGet() {
+	var packfname = WORKFILEPATH + PackName + ".cloudpack";
+	var fReadRes = FileRead(packfname);
+	if(fReadRes == NULL) {
+		show_message("读取 " + string(packfname) + " 失败！");
+		return;
+	}
+	
+	var _structTemp = {};
+	try {
+		_structTemp = json_parse(fReadRes);
+	} catch(error) {
+		_structTemp = {};
+	}
+	
+	var strTemp = "";
+	if(variable_struct_get(_structTemp, "mainclient_howtoget") != undefined) {
+		strTemp = get_string("编辑该场景包的主客户端的获取方式", string(_structTemp.mainclient_howtoget));
+	} else {
+		_structTemp.mainclient_howtoget = "";
+		strTemp = get_string("编辑该场景包的主客户端的获取方式", "");
+	}
+	if(strTemp != "") {
+		_structTemp.mainclient_howtoget = strTemp;
+	}
+	
+	var fWriteRes = FileWrite(packfname, json_stringify(_structTemp));
+	if(fWriteRes != 0) {
+		show_message("写入文件失败");
+	}
+}
+
+function EditCloudPackCompatibleClients() {
+	var packfname = WORKFILEPATH + PackName + ".cloudpack";
+	var fReadRes = FileRead(packfname);
+	if(fReadRes == NULL) {
+		show_message("读取 " + string(packfname) + " 失败！");
+		return;
+	}
+	
+	var _structTemp = {};
+	try {
+		_structTemp = json_parse(fReadRes);
+	} catch(error) {
+		_structTemp = {};
+	}
+	
+	var strTemp = "";
+	if(variable_struct_get(_structTemp, "compatibleclients") != undefined) {
+		strTemp = get_string("编辑该场景包的兼容客户端的版本号（不同客户端之间用\"$$\"分割\n例如AVer1.0.0$$BVer1.2.1$$CVer1.5.6）", string(_structTemp.compatibleclients));
+	} else {
+		_structTemp.compatibleclients = "";
+		strTemp = get_string("编辑该场景包的兼容客户端的版本号（不同客户端之间用\"$$\"分割\n例如AVer1.0.0$$BVer1.2.1$$CVer1.5.6）", "");
+	}
+	if(strTemp != "") {
+		_structTemp.compatibleclients = strTemp;
+	}
+	
+	var fWriteRes = FileWrite(packfname, json_stringify(_structTemp));
+	if(fWriteRes != 0) {
+		show_message("写入文件失败");
+	}
+}
+

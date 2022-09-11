@@ -1,7 +1,7 @@
 {
   "resourceType": "GMScript",
   "resourceVersion": "1.0",
-  "name": "Others",
+  "name": "HEX_DEC",
   "isDnD": false,
   "isCompatibility": false,
   "parent": {

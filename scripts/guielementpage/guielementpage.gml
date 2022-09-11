@@ -1,3 +1,14 @@
+function GuiElement_PageAddElement_Multi(pageIns, arrElementIns, arrElementHeight = undefined) {
+	var len = array_length(arrElementIns);
+	for(var i = 0; i < len; i++) {
+		if(arrElementHeight == undefined) {
+			GuiElement_PageAddElement(pageIns, arrElementIns[i], undefined);
+		} else {
+			GuiElement_PageAddElement(pageIns, arrElementIns[i], arrElementHeight[i]);
+		}
+	}
+}
+
 /// 注意！！！elementIns.y 在此处变为增量y，如果想要紧挨着最后一个元素添加，请直接设0！！！
 function GuiElement_PageAddElement(pageIns, elementIns, elementHeight = undefined) {
 	with(pageIns) {
