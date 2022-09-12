@@ -5,7 +5,8 @@ if(window_get_cursor() == cr_handpoint) {
 var w = window_get_width();
 var h = window_get_height();
 
-if(w != windowWidth || h != windowHeight) {
+
+if((w != windowWidth || h != windowHeight) && surface_exists(application_surface) && (w != 0 && h != 0)) {
 	DebugMes(["WindowResize", w, h]);
 	
 	surface_resize(application_surface, w, h);
