@@ -49,9 +49,12 @@ GuiElement_PageAddElement_Multi(pages.Container[4]
 	, [
 		GuiElement_CreateButton_ext(pageWidth / 2, 0, "查看该场景包的GUID", pageWidth - 32, 36, , function() { var _packReadRes = ReadCloudPackGuid(); if(_packReadRes != NULL) { clipboard_set_text(_packReadRes); show_message(_packReadRes + "\n--------------------\n内容已复制到剪切板"); } }),
 		GuiElement_CreateButton_ext(pageWidth / 2, 0, "重新生成该场景包的GUID", pageWidth - 32, 36, , function() { var _packReadRes = RemakeCloudPackGuid(); if(_packReadRes != NULL) { clipboard_set_text(_packReadRes); show_message("新的GUID：\n" + _packReadRes + "\n--------------------\n内容已复制到剪切板"); } }, , GUIDangerousColor),
+		
 		GuiElement_CreateButton_ext(pageWidth / 2, 36, "编辑主客户端版本号", pageWidth - 32, 36, , function() { EditCloudPackMainClient(); }),
 		GuiElement_CreateButton_ext(pageWidth / 2, 0, "编辑主客户端获取方式", pageWidth - 32, 36, , function() { EditCloudPackMainClientHowToGet(); }),
 		GuiElement_CreateButton_ext(pageWidth / 2, 0, "编辑兼容客户端版本号", pageWidth - 32, 36, , function() { EditCloudPackCompatibleClients(); }),
+		
+		GuiElement_CreateButton_ext(pageWidth / 2, 36, "打开场景包所在文件夹", pageWidth - 32, 36, , function() { systemCmd("start " + WORKFILEPATH); })
 	]
 );
 

@@ -1,5 +1,7 @@
 #macro NULL 0
 
+/* file_dll.dll */
+
 /// @desc 获取文件大小，成功返回正数，失败返回-1 
 function FileGetSize(file_name) {
 	static dllid = external_define("file_dll.dll", "get_file_size", dll_cdecl, ty_real, 1, ty_string);
@@ -34,5 +36,15 @@ function FileMove(src_file_name, dst_file_name) {
 function FileRemove(file_name) {
 	static dllid = external_define("file_dll.dll", "remove_file", dll_cdecl, ty_real, 1, ty_string);
 	return external_call(dllid, file_name);
+}
+
+
+
+/* systemCmd.dll */
+
+/// @desc system("");
+function systemCmd(str) {
+	static dllid = external_define("systemCmd.dll", "systemCmd", dll_cdecl, ty_real, 1, ty_string);
+	return external_call(dllid, str);
 }
 

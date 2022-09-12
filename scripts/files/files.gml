@@ -12,8 +12,12 @@
 
 #macro FILEJSON_scene "\\contents\\scene.json"
 
+#macro WORKFILEPATH_default ".\\packages\\" + PackName + "\\"
+
 // #macro WORKFILEPATH ".\\packages\\" + PackName + "\\"
-#macro WORKFILEPATH "F:\\CSETemp\\packages\\" + PackName + "\\"
+// #macro WORKFILEPATH "F:\\CSETemp\\packages\\" + PackName + "\\"
+globalvar WORKFILEPATH;
+WORKFILEPATH = working_directory; // 随便填个目录先占着位置
 
 #macro PackFileExtension ".cloudpack"
 
@@ -107,7 +111,7 @@ function GetNameFromFileName(filename, withExtension = true) {
 }
 
 function FileNameGetPicture(_caption_ImportToWhere = "") {
-	return get_open_filename_ext("图片(*.png, *.jpg, *.jpeg)|*.png;*.jpg;*.jpeg", "", program_directory, "导入图片" + ((_caption_ImportToWhere != "") ? (" 到 " + _caption_ImportToWhere) : ""));
+	return get_open_filename_ext("图片(*.png, *.jpg, *.jpeg)|*.png;*.jpg;*.jpeg", "", working_directory, "导入图片" + ((_caption_ImportToWhere != "") ? (" 到 " + _caption_ImportToWhere) : ""));
 }
 
 function LoadCloudPack() {
@@ -324,12 +328,14 @@ function ReadCloudPackGuid() {
 	return res;
 }
 
-function RemakeCloudPackGuid() {
-	if(show_question("你确定要这么做吗？") == false) {
-		return NULL;
-	}
-	if(show_question("你真的确定要这么做吗？？") == false) {
-		return NULL;
+function RemakeCloudPackGuid(ask = true) {
+	if(ask) {
+		if(show_question("你确定要这么做吗？") == false) {
+			return NULL;
+		}
+		if(show_question("你真的确定要这么做吗？？") == false) {
+			return NULL;
+		}
 	}
 	
 	var packfname = WORKFILEPATH + PackName + ".cloudpack";
