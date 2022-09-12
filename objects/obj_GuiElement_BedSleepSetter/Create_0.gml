@@ -26,10 +26,12 @@ mouseOnMe = false;
 
 myImageMinimumWidthHeight = 128;
 
-left = 512;
+width = 768;
+
+left = GuiWidth() - width;
 top = 0;
-right = 1280;
-bottom = 720;
+right = left + width;
+bottom = GuiHeight();
 
 scrollYSpeed = 50;
 scrollY = 0;

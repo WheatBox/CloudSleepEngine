@@ -1,0 +1,1 @@
+buttonGridAlignmentIns.x = GuiWidth() - _labelGridAlignmentWidth / 2;

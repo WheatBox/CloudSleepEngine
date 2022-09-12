@@ -14,8 +14,11 @@ function CameraHeight() {
 	return camera_get_view_height(view_camera[0]);
 }
 
-function CameraScale() {
-	return CameraWidth() / 1280;
+function CameraScale(useWidth_0_OrHeight_1_ = 0) {
+	if(useWidth_0_OrHeight_1_) {
+		return CameraHeight() / GuiHeight();
+	}
+	return CameraWidth() / GuiWidth();
 }
 
 function CameraLock() {

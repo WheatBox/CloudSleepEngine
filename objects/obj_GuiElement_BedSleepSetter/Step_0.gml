@@ -1,3 +1,7 @@
+left = GuiWidth() - width;
+right = left + width;
+bottom = GuiHeight();
+
 if(GUI_MouseGuiOnMe(left, top, right, bottom)) {
 	mouseOnMe = true;
 	gMouseOnGUI = true;

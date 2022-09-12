@@ -22,3 +22,10 @@ if(sandboxSceneElementsLayerNeedRecheck) {
 	}
 }
 // DebugMes(gSandboxSceneElementsLayer);
+
+myHeight = GuiHeight() - y;
+buttons.back().y = GuiHeight() - 16;
+for(var i = 0; i < pages.size(); i++) {
+	pages.Container[i].height = GuiHeight();
+}
+

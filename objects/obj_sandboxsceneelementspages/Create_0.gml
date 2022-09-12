@@ -36,7 +36,7 @@ pages.push_back(GuiElement_CreatePage(pageX, y - btHeight / 2, "场景包设置"
 
 // myWidth = btWidth + pageWidth + 32;
 myWidth = btWidth;
-myHeight = display_get_gui_height() - y;
+myHeight = GuiHeight() - y;
 
 
 /* 添加组件到各个 页面 里 */
