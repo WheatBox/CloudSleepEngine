@@ -54,6 +54,8 @@ GuiElement_PageAddElement_Multi(pages.Container[4]
 		GuiElement_CreateButton_ext(pageWidth / 2, 0, "编辑主客户端获取方式", pageWidth - 32, 36, , function() { EditCloudPackMainClientHowToGet(); }),
 		GuiElement_CreateButton_ext(pageWidth / 2, 0, "编辑兼容客户端版本号", pageWidth - 32, 36, , function() { EditCloudPackCompatibleClients(); }),
 		
+		GuiElement_CreateButton_ext(pageWidth / 2, 36, "编辑默认服务器地址", pageWidth - 32, 36, , function() { EditCloudPackIpPort(); }),
+		
 		GuiElement_CreateButton_ext(pageWidth / 2, 36, "打开场景包所在文件夹", pageWidth - 32, 36, , function() { systemCmd("start " + WORKFILEPATH); })
 	]
 );

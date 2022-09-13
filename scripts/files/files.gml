@@ -283,13 +283,11 @@ function SaveCloudPack() {
 
 /*
 {
-	"guid": "{xxxxxxxxx}",
-	"mainclient": "xxxxxxxx",
-	"mainclient_howtoget": "xxxxxxxx",
-	"compatibleclients": [
-		"xxxxxx",
-		"xxxxxxxx"
-	]
+	"guid":"{xxxxxxxxx}",
+	"mainclient":"xxxxxxxx",
+	"mainclient_howtoget":"xxxxxxxx",
+	"compatibleclients":"xxxxxx$$xxxxxx$$xxxx",
+	"ipport":"xxx.xxx.xxx.xxx:xxxxx"
 }
 */
 
@@ -366,12 +364,13 @@ function RemakeCloudPackGuid(ask = true) {
 	return _structTemp.guid;
 }
 
-function EditCloudPackMainClient() {
+/// @desc 返回 [packfname, _structTemp]
+function EditCloudPack_Head() {
 	var packfname = WORKFILEPATH + PackName + ".cloudpack";
 	var fReadRes = FileRead(packfname);
 	if(fReadRes == NULL) {
 		show_message("读取 " + string(packfname) + " 失败！");
-		return;
+		return NULL;
 	}
 	
 	var _structTemp = {};
@@ -380,6 +379,18 @@ function EditCloudPackMainClient() {
 	} catch(error) {
 		_structTemp = {};
 	}
+	
+	return [packfname, _structTemp];
+}
+
+function EditCloudPackMainClient() {
+	var temp = EditCloudPack_Head();
+	if(temp == NULL) {
+		return;
+	}
+	var packfname = temp[0];
+	var _structTemp = temp[1];
+	
 	
 	var strTemp = "";
 	if(variable_struct_get(_structTemp, "mainclient") != undefined) {
@@ -399,19 +410,13 @@ function EditCloudPackMainClient() {
 }
 
 function EditCloudPackMainClientHowToGet() {
-	var packfname = WORKFILEPATH + PackName + ".cloudpack";
-	var fReadRes = FileRead(packfname);
-	if(fReadRes == NULL) {
-		show_message("读取 " + string(packfname) + " 失败！");
+	var temp = EditCloudPack_Head();
+	if(temp == NULL) {
 		return;
 	}
+	var packfname = temp[0];
+	var _structTemp = temp[1];
 	
-	var _structTemp = {};
-	try {
-		_structTemp = json_parse(fReadRes);
-	} catch(error) {
-		_structTemp = {};
-	}
 	
 	var strTemp = "";
 	if(variable_struct_get(_structTemp, "mainclient_howtoget") != undefined) {
@@ -431,19 +436,13 @@ function EditCloudPackMainClientHowToGet() {
 }
 
 function EditCloudPackCompatibleClients() {
-	var packfname = WORKFILEPATH + PackName + ".cloudpack";
-	var fReadRes = FileRead(packfname);
-	if(fReadRes == NULL) {
-		show_message("读取 " + string(packfname) + " 失败！");
+	var temp = EditCloudPack_Head();
+	if(temp == NULL) {
 		return;
 	}
+	var packfname = temp[0];
+	var _structTemp = temp[1];
 	
-	var _structTemp = {};
-	try {
-		_structTemp = json_parse(fReadRes);
-	} catch(error) {
-		_structTemp = {};
-	}
 	
 	var strTemp = "";
 	if(variable_struct_get(_structTemp, "compatibleclients") != undefined) {
@@ -454,6 +453,32 @@ function EditCloudPackCompatibleClients() {
 	}
 	if(strTemp != "") {
 		_structTemp.compatibleclients = strTemp;
+	}
+	
+	var fWriteRes = FileWrite(packfname, json_stringify(_structTemp));
+	if(fWriteRes != 0) {
+		show_message("写入文件失败");
+	}
+}
+
+function EditCloudPackIpPort() {
+	var temp = EditCloudPack_Head();
+	if(temp == NULL) {
+		return;
+	}
+	var packfname = temp[0];
+	var _structTemp = temp[1];
+	
+	
+	var strTemp = "";
+	if(variable_struct_get(_structTemp, "ipport") != undefined) {
+		strTemp = get_string("编辑该场景包的默认服务器地址（IP和端口间用\":\"分割\n例如：127.0.0.1:14514）", string(_structTemp.ipport));
+	} else {
+		_structTemp.ipport = "";
+		strTemp = get_string("编辑该场景包的默认服务器地址（IP和端口间用\":\"分割\n例如：127.0.0.1:14514）", "");
+	}
+	if(strTemp != "") {
+		_structTemp.ipport = strTemp;
 	}
 	
 	var fWriteRes = FileWrite(packfname, json_stringify(_structTemp));

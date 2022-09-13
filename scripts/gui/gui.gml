@@ -112,7 +112,7 @@ function GUI_DrawLabel(text, _xGui, _yGui, highLight = false) {
 	GUI_DrawLabel_ext(text, _xGui, _yGui, , , highLight);
 }
 
-function GUI_DrawLabel_ext(text, _xGui, _yGui, _widthHalf = undefined, _heightHalf = undefined, highLight = false, _color = GUIDefaultColor) {
+function GUI_DrawLabel_ext(text, _xGui, _yGui, _widthHalf = undefined, _heightHalf = undefined, highLight = false, _color = GUIDefaultColor, _alpha = GUIDefaultAlpha) {
 	var _x = _xGui;
 	var _y = _yGui;
 	
@@ -125,7 +125,7 @@ function GUI_DrawLabel_ext(text, _xGui, _yGui, _widthHalf = undefined, _heightHa
 	draw_set_halign(fa_center);
 	draw_set_valign(fa_middle);
 	draw_set_color(_color);
-	draw_set_alpha(GUIDefaultAlpha);
+	draw_set_alpha(_alpha);
 	
 	var strWHalf = ((_widthHalf == undefined) ? GUI_GetStringWidthHalf(text) : _widthHalf);
 	var strHHalf = ((_widthHalf == undefined) ? GUI_GetStringHeightHalf(text) : _heightHalf);
