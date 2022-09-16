@@ -103,7 +103,7 @@ MyImportBedSleep = function(i_arrBedSleepStructs) {
 	DebugMes([_fnameLongTemp, " copy to ", _copyToFilename]);
 	
 	if(_copyRes != 0) {
-		show_message("文件复制失败！\n请确认文件目录或文件名中没有使用中文");
+		show_message("文件复制失败！");
 		return false;
 	}
 	

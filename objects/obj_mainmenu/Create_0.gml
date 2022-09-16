@@ -5,7 +5,7 @@ DebugMes("temp_directory = " + string(temp_directory));
 GuiElement_CreateButton_ext(128, 128, "新建场景包", 256, 64, , function() {
 	DebugMes("Create New ScenePackage");
 	
-	PackName = get_string("给新场景包取个名字吧~\n请使用英文名！不要输入中文！！！\n请使用英文名！不要输入中文！！！\n请使用英文名！不要输入中文！！！\n", "");
+	PackName = get_string("给新场景包取个名字吧~", "");
 	if(PackName != "") {
 		WORKFILEPATH = WORKFILEPATH_default;
 		
