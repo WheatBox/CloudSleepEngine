@@ -12,6 +12,8 @@
 
 #macro FILEJSON_scene "\\contents\\scene.json"
 
+#macro FILEJSON_TextboxPlaceHolders "\\contents\\TextboxPlaceHolders.json"
+
 #macro WORKFILEPATH_default ".\\packages\\" + PackName + "\\"
 
 // #macro WORKFILEPATH ".\\packages\\" + PackName + "\\"
@@ -485,5 +487,19 @@ function EditCloudPackIpPort() {
 	if(fWriteRes != 0) {
 		show_message("写入文件失败");
 	}
+}
+
+
+function EditTextboxPlaceHolders() {
+	if(file_exists(WORKFILEPATH + FILEJSON_TextboxPlaceHolders) == false) {
+		FileWrite(WORKFILEPATH + FILEJSON_TextboxPlaceHolders,
+			"[" + "\n" + 
+				"\"在此处输入文字\"," + "\n" + 
+				"\"用户名：$NAME\"," + "\n" + 
+				"\"占位文本可以有多行\"" + "\n" + 
+			"]"
+		);
+	}
+	systemCmd("start " + WORKFILEPATH + FILEJSON_TextboxPlaceHolders);
 }
 
