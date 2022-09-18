@@ -66,7 +66,7 @@ vecMyGuiElements = new vector();
 var _strTemp = "";
 
 _strTemp = "自动设定";
-vecMyGuiElements.push_back(GuiElement_CreateButton(left + 32 + string_width(_strTemp) / 2, bottom + bottomEdgeHeight / 2, _strTemp, function() { MyAutoSet(); MyAsyncHitboxTextbox(); }));
+vecMyGuiElements.push_back(GuiElement_CreateButton(left + 32 + string_width(_strTemp) / 2, bottom + bottomEdgeHeight / 2, _strTemp, function() { MyAutoSet(); MySynchHitboxTextbox(); }));
 
 
 // hitLeft/Top/Right/Bottom 文本框
@@ -104,7 +104,7 @@ for(var i = 0; i < vecMyGuiElements.size(); i++) {
 }
 
 
-MyAsyncHitboxTextbox = function() {
+MySynchHitboxTextbox = function() {
 	if(InstanceExists(hitLeftTextboxIns)) {
 		hitLeftTextboxIns.curt.tx = (string(myhitLeft));
 	}

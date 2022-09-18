@@ -50,7 +50,7 @@ function ArrayReverse(arr) {
 
 
 /// @desc 同步 depth
-function AsyncDepth(_y = y) {
+function SynchDepth(_y = y) {
 	depth = - GetPositionYOnGUI(_y) + SceneDepthDynamicAdd;
 }
 

@@ -26,7 +26,7 @@ if(sprite != undefined && sprite_exists(sprite)) {
 	spriteBottom = (top + bottom) / 2 + yscale * sprite_get_height(sprite) / 2;
 }
 
-MyAsyncHitboxTextbox();
+MySynchHitboxTextbox();
 
 
 inited = true;

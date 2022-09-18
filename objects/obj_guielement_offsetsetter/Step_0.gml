@@ -24,7 +24,7 @@ if(inited) {
 	}
 	
 	if((xTextboxIns.curt.fo || yTextboxIns.curt.fo) == false) {
-		MyAsyncXYTextbox();
+		MySynchXYTextbox();
 	}
 }
 

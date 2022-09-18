@@ -1,6 +1,6 @@
 event_inherited();
 
-AsyncDepth(basey);
+SynchDepth(basey);
 
 switch(gSandboxSceneElementsLayer) {
 	case ESandboxSceneElementsLayers.nothing:

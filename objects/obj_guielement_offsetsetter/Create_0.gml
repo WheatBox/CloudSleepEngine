@@ -47,7 +47,7 @@ vecMyGuiElements = new vector();
 var _strTemp = "";
 
 _strTemp = "自动设定";
-vecMyGuiElements.push_back(GuiElement_CreateButton(left + 32 + string_width(_strTemp) / 2, bottom + bottomEdgeHeight / 2, _strTemp, function() { MyAutoSet(); MyAsyncXYTextbox(); }));
+vecMyGuiElements.push_back(GuiElement_CreateButton(left + 32 + string_width(_strTemp) / 2, bottom + bottomEdgeHeight / 2, _strTemp, function() { MyAutoSet(); MySynchXYTextbox(); }));
 
 // x和y文本框
 var _xyTextboxWidth = string_width("000000");
@@ -72,7 +72,7 @@ for(var i = 0; i < vecMyGuiElements.size(); i++) {
 }
 
 
-MyAsyncXYTextbox = function() {
+MySynchXYTextbox = function() {
 	if(InstanceExists(xTextboxIns)) {
 		xTextboxIns.curt.tx = (string(myoffx));
 	}

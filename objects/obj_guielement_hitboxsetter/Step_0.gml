@@ -97,7 +97,7 @@ if(inited) {
 	}
 	
 	if((hitLeftTextboxIns.curt.fo || hitTopTextboxIns.curt.fo || hitRightTextboxIns.curt.fo || hitBottomTextboxIns.curt.fo) == false) {
-		MyAsyncHitboxTextbox();
+		MySynchHitboxTextbox();
 	}
 }
 
