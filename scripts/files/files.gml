@@ -254,7 +254,11 @@ function SaveCloudPack() {
 		for(var i = 0; i < instance_count; i++) {
 			if(instance_id[i].object_index == _obj_SceneElement) {
 				if(instance_id[i].materialId >= 0 && instance_id[i].materialId < array_length(_gSpriteStruct.sprites)) {
-					array_push(_gSceneStructArr, new SSceneElement(instance_id[i].materialId, instance_id[i].x, instance_id[i].y));
+					array_push(_gSceneStructArr
+						, new SSceneElement(
+							instance_id[i].materialId
+							, instance_id[i].basex
+							, instance_id[i].basey));
 				}
 			}
 		}
