@@ -283,6 +283,9 @@ function SaveCloudPack() {
 	if(_jsonSceneFileWriteRes != 0) {
 		show_message(WORKFILEPATH + FILEJSON_scene + "保存失败！" + string(_jsonSceneFileWriteRes));
 	}
+	
+	
+	GuiElement_CreateMessage("场景包保存完毕");
 }
 
 
