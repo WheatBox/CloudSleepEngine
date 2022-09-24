@@ -1,2 +1,2 @@
-window_set_cursor(cr_default);
+GUI_SetCursorDefault();
 

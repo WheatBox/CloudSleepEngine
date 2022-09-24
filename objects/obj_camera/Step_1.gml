@@ -1,6 +1,4 @@
-if(window_get_cursor() == cr_handpoint) {
-	window_set_cursor(cr_default);
-}
+GUI_SetCursorDefault();
 
 var w = window_get_width();
 var h = window_get_height();

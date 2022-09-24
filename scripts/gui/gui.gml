@@ -5,6 +5,7 @@
 
 #macro GUIDefaultColor #000037
 #macro GUIDangerousColor c_red
+#macro GUIWarningColor c_yellow
 
 #macro GUIDefaultAlpha 0.6
 #macro GUIHighLightAlpha 0.3
@@ -91,6 +92,22 @@ function GUI_DrawText(_xGui, _yGui, str, onCenter = false) {
 	}
 }
 
+function GUI_DrawTextTransformed(_xGui, _yGui, str, xscale, yscale, angle, onCenter = false) {
+	if(onCenter) {
+		var ha = fa_center;
+		var va = fa_middle;
+		
+		draw_set_halign(fa_center);
+		draw_set_valign(fa_middle);
+		draw_text_transformed(_xGui, _yGui, str, xscale, yscale, angle);
+		
+		draw_set_halign(ha);
+		draw_set_valign(va);
+	} else {
+		draw_text_transformed(_xGui, _yGui, str, xscale, yscale, angle);
+	}
+}
+
 function GUI_DrawRectangle(left, top, right, bottom, outline = false) {
 	draw_rectangle(
 		/*GetPositionXOnGUI(left),
@@ -159,5 +176,26 @@ function GUI_DrawSprite_ext(spr, subimg, _xGui, _yGui, xscale, yscale, rot, col,
 
 function GUI_DrawSurface(surf, _xGui, _yGui) {
 	draw_surface(surf, _xGui, _yGui);
+}
+
+
+globalvar __CursorTEMP;
+__CursorTEMP = cr_default;
+function GUI_SetCursorHandpoint() {
+	if(window_get_cursor() != cr_handpoint) {
+		window_set_cursor(cr_handpoint);
+	}
+	__CursorTEMP = cr_handpoint;
+}
+function GUI_SetCursorDefault() {
+	if(window_get_cursor() == cr_handpoint) {
+		// 等到下一帧看看 GUI_SetCursorHandpoint(); 会不会被再次触发（也就是鼠标依然在按钮上）
+		// 如果再次触发，那么忽略，进行下一次检查的准备（__CursorTEMP = cr_default）
+		if(__CursorTEMP == cr_default) {
+			window_set_cursor(__CursorTEMP);
+		} else {
+			__CursorTEMP = cr_default;
+		}
+	}
 }
 
