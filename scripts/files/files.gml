@@ -507,6 +507,11 @@ function EditTextboxPlaceHolders() {
 			"]"
 		);
 	}
-	systemCmd("start " + WORKFILEPATH + FILEJSON_TextboxPlaceHolders);
+	OpenInExplorer(WORKFILEPATH + FILEJSON_TextboxPlaceHolders);
+}
+
+
+function OpenInExplorer(fname) {
+	systemCmd("start \"\" \"" + fname + "\"");
 }
 

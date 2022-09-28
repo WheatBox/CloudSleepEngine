@@ -58,7 +58,7 @@ GuiElement_PageAddElement_Multi(pages.Container[4]
 		
 		GuiElement_CreateButton_ext(pageWidth / 2, 36, "编辑聊天框背景占位文字", pageWidth - 32, 36, , function() { EditTextboxPlaceHolders(); }),
 		
-		GuiElement_CreateButton_ext(pageWidth / 2, 36, "打开场景包所在文件夹", pageWidth - 32, 36, , function() { systemCmd("start " + WORKFILEPATH); })
+		GuiElement_CreateButton_ext(pageWidth / 2, 36, "打开场景包所在文件夹", pageWidth - 32, 36, , function() { OpenInExplorer(WORKFILEPATH); })
 	]
 );
 
