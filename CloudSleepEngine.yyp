@@ -3,6 +3,7 @@
   "resourceVersion": "1.6",
   "name": "CloudSleepEngine",
   "resources": [
+    {"id":{"name":"GetNthPower2Tier_","path":"scripts/GetNthPower2Tier_/GetNthPower2Tier_.yy",},"order":16,},
     {"id":{"name":"textbox","path":"objects/textbox/textbox.yy",},"order":0,},
     {"id":{"name":"obj_sandboxSceneElementsPages","path":"objects/obj_sandboxSceneElementsPages/obj_sandboxSceneElementsPages.yy",},"order":0,},
     {"id":{"name":"obj_SceneElementBed","path":"objects/obj_SceneElementBed/obj_SceneElementBed.yy",},"order":3,},

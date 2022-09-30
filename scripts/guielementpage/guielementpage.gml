@@ -87,7 +87,7 @@ function GuiElement_PageStopWorkAll(_vector) {
 }
 
 /// @desc 
-///			将 endI 设为 0，为仅仅只删除 beginI 对应的 ins（默认
+///			将 endI 设为 0，为仅仅只删除 beginI 对应的 ins（默认），
 ///			将 endI 设为 -1，删除直至结尾
 function GuiElement_PageClearIns(_pageIns, beginI, endI = 0) {
 	if(endI == -1) {
