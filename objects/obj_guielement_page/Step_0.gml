@@ -3,9 +3,9 @@ if(working == false) {
 } else {
 	visible = true;
 	
-	if(GUI_MouseGuiOnMe(x, y, x + width, y + height)) {
+	if(GUI_MouseGuiOnMe(x, y, x + width + scrollBarWidthMax, y + height) && scrollBarIsDragging == false) {
 		gMouseOnGUI = true;
-		
+		/*
 		if(mouse_wheel_up()) {
 			if(scrollY > 0) {
 				MyScrollElements(scrollYSpeed);
@@ -17,7 +17,14 @@ if(working == false) {
 				MyScrollElements(-scrollYSpeed);
 				scrollY += scrollYSpeed;
 			}
-		}
+		}*/
+		
+		scrollY = ScrollYCalculate(scrollY, scrollYSpeed, 0, height, childElementsBottom);
+	}
+	
+	if(scrollY != scrollYPrev) {
+		MyScrollElements(scrollY - scrollYPrev);
+		scrollYPrev = scrollY;
 	}
 }
 

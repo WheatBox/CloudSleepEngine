@@ -128,6 +128,7 @@ MyInitPageAll = function() {
 
 
 /* 这一段代码用以调试功能 */
+
 /*
 GuiElement_PageAddElement(pages.Container[2], GuiElement_CreateButton(pageWidth / 2, 0, "测试按钮", function() { show_message("我是一个测试按钮"); }));
 GuiElement_PageAddElement(pages.Container[2], GuiElement_CreateButton(pageWidth / 2, 0, "测试按钮2", function() { show_message("我是另一个测试按钮"); }));
@@ -137,7 +138,9 @@ GuiElement_PageAddElement(pages.Container[2], GuiElement_CreateButton_ext(pageWi
 GuiElement_PageAddElement(pages.Container[2], GuiElement_CreateButton(pageWidth / 2, 0, "测试按钮4", function() { show_message("我是第4444个测试按钮"); }));
 GuiElement_PageAddElement(pages.Container[2], GuiElement_CreateButton(pageWidth / 2, 16, "隔得远一点的按钮", function() { show_message("捏黑~"); }));
 GuiElement_PageAddElement(pages.Container[2], GuiElement_CreateButton(pageWidth / 2, 0, "紧贴着隔得远一点的按钮的按钮", function() { show_message("捏嘿嘿嘿嘿~"); }));
+GuiElement_PageAddElement(pages.Container[2], GuiElement_CreateButton_ext(pageWidth / 2, 0, "测试按钮", 128, 64, , function() { show_message("我是一个测试按钮"); }));
 */
+
 /*
 GuiElement_PageAddElement(pages.Container[2], GuiElement_CreateButton_ext(pageWidth / 2, 0, "按钮", 96, 200, , function() { show_message("我是一个测试按钮"); }));
 GuiElement_PageAddElement(pages.Container[2], GuiElement_CreateButton(pageWidth / 2, 0, "我也是按钮", function() { show_message("我是另一个测试按钮"); }));
