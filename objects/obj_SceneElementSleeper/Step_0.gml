@@ -8,7 +8,7 @@ switch(gSandboxSceneElementsLayer) {
 		image_alpha = 1.0;
 		break;
 	default:
-		image_alpha = 0.2;
+		image_alpha = gOutFocusLayerAlpha;
 }
 
 if(inited == false) {

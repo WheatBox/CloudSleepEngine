@@ -44,6 +44,7 @@
     {"id":{"name":"obj_SceneElementSleeper","path":"objects/obj_SceneElementSleeper/obj_SceneElementSleeper.yy",},"order":4,},
     {"id":{"name":"HEX_DEC","path":"scripts/HEX_DEC/HEX_DEC.yy",},"order":15,},
     {"id":{"name":"__init","path":"scripts/__init/__init.yy",},"order":0,},
+    {"id":{"name":"obj_GuiElement_SlidingRod","path":"objects/obj_GuiElement_SlidingRod/obj_GuiElement_SlidingRod.yy",},"order":7,},
     {"id":{"name":"rm_Sandbox","path":"rooms/rm_Sandbox/rm_Sandbox.yy",},"order":0,},
   ],
   "Options": [
