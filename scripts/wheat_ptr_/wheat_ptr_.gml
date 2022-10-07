@@ -5,7 +5,7 @@ enum EWheatPtrType {
 }
 
 /// @desc 小麦指针，不是指针的指针，UwU 有小麦麦在这里帮你指着就不怕找不到了哦喵呜
-/// @arg {Enum} _EWheatPtrType_Or_wheat_ptr 变量的类型，例如 EWheatPtrType.Global，也可以直接填写一个 wheat_ptr，若这么做，则会跳过后面两个参数
+/// @arg {Real} _EWheatPtrType_Or_wheat_ptr 变量的类型，例如 EWheatPtrType.Global，也可以直接填写一个 wheat_ptr，若这么做，则会跳过后面两个参数
 /// @arg {Struct} _varMasterStructOrIns 如果变量类型为 EWheatPtrType.Struct或Ins，此处请填入目标结构体或实例，若为 Global 请跳过
 /// @arg {String} _variableName 变量名称（填入一个字符串）
 function wheat_ptr(_EWheatPtrType_Or_wheat_ptr = EWheatPtrType.Global, _varMasterStructOrIns = noone, _variableName = "") constructor {
@@ -128,7 +128,7 @@ function wheat_ptr(_EWheatPtrType_Or_wheat_ptr = EWheatPtrType.Global, _varMaste
 }
 
 /// @desc 小麦指针，不是指针的指针，UwU 有小麦麦在这里帮你指着就不怕找不到了哦喵呜，使用该函数创建的 wheat_ptr 不需要手动 delete 来释放内存呢~
-/// @arg {Enum} _EWheatPtrType_Or_wheat_ptr 变量的类型，例如 EWheatPtrType.Global，也可以直接填写一个 wheat_ptr，若这么做，则会跳过后面两个参数
+/// @arg {Real} _EWheatPtrType_Or_wheat_ptr 变量的类型，例如 EWheatPtrType.Global，也可以直接填写一个 wheat_ptr，若这么做，则会跳过后面两个参数
 /// @arg {Struct} _varMasterStructOrIns 如果变量类型为 EWheatPtrType.Struct或Ins，此处请填入目标结构体或实例，若为 Global 请跳过
 /// @arg {String} _variableName 变量名称（填入一个字符串）
 function make_wheat_ptr(_EWheatPtrType_Or_wheat_ptr = EWheatPtrType.Global, _varMasterStructOrIns = noone, _variableName = "") {
