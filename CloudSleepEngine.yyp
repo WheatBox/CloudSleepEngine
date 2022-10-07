@@ -37,6 +37,7 @@
     {"id":{"name":"Camera","path":"scripts/Camera/Camera.yy",},"order":8,},
     {"id":{"name":"obj_SceneElementBackground","path":"objects/obj_SceneElementBackground/obj_SceneElementBackground.yy",},"order":1,},
     {"id":{"name":"obj_GuiElement_DragObj","path":"objects/obj_GuiElement_DragObj/obj_GuiElement_DragObj.yy",},"order":2,},
+    {"id":{"name":"wheat_ptr_","path":"scripts/wheat_ptr_/wheat_ptr_.yy",},"order":17,},
     {"id":{"name":"GuiElements","path":"scripts/GuiElements/GuiElements.yy",},"order":4,},
     {"id":{"name":"Others","path":"scripts/Others/Others.yy",},"order":6,},
     {"id":{"name":"obj_GuiElement_Button","path":"objects/obj_GuiElement_Button/obj_GuiElement_Button.yy",},"order":0,},

@@ -18,8 +18,7 @@
 		, 32
 		, "焦点外图层透明度"
 		, _slidingRodOutFocusLayerAlphaWidth
-		, 0, 0
-		, "gOutFocusLayerAlpha"
+		, make_wheat_ptr(EWheatPtrType.Global, 0, "gOutFocusLayerAlpha")
 		, 0, 1
 		, function(n) { n *= 10; return round(n) / 10; }
 	);
