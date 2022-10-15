@@ -3,6 +3,7 @@
 #macro FILEPATH_decorates "\\contents\\decorates\\"
 #macro FILEPATH_beds "\\contents\\beds\\"
 
+#macro FILEPATH_sleepers_emotes "\\contents\\sleepers\\emotes\\"
 #macro FILEPATH_beds_bedsleep "\\contents\\beds\\bedsleep\\"
 
 #macro FILEJSON_sleepers "\\contents\\sleepers.json"
@@ -30,6 +31,7 @@ PackName = "";
 function SSingleStruct_Sleeper(_fname = "") constructor {
 	filename = _fname;
 	offset = [];
+	emotefilenames = [];
 };
 function SSingleStruct_Background(_fname = "") constructor {
 	filename = _fname;
@@ -226,7 +228,14 @@ function LoadCloudPack() {
 	ChildFunc_LoadSprites(WORKFILEPATH + FILEPATH_backgrounds, WORKFILEPATH + FILEJSON_backgrounds, gBackgroundsSpritesStruct, "gBackgroundsStruct", gSceneStruct.backgrounds);
 	ChildFunc_LoadSprites(WORKFILEPATH + FILEPATH_decorates, WORKFILEPATH + FILEJSON_decorates, gDecoratesSpritesStruct, "gDecoratesStruct", gSceneStruct.decorates);
 	ChildFunc_LoadSprites(WORKFILEPATH + FILEPATH_beds, WORKFILEPATH + FILEJSON_beds, gBedsSpritesStruct, "gBedsStruct", gSceneStruct.beds);
-
+	
+	
+	for(var i = 0; i < array_length(gSleepersStruct.materials); i++) {
+		gSleepersStruct.materials[i][$ "emotefilenames"] ??= [];
+	}
+	for(var i = 0; i < array_length(gBedsStruct.materials); i++) {
+		gBedsStruct.materials[i][$ "sleepfilenames"] ??= [];
+	}
 
 
 	if(1) {

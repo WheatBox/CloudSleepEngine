@@ -227,9 +227,18 @@ function GuiElement_CreateHitboxSetter(_materialMasterArr, _materialId, _sprite)
 	return ins;
 }
 
-function GuiElement_CreateBedSleepSetter(_materialMasterArr, _materialId, _sprite) {
+function GuiElement_CreateBedSleepSetter(/*_materialMasterArr, */_materialId, _sprite) {
 	var ins = instance_create_depth(0, 0, GUIDepth, obj_GuiElement_BedSleepSetter);
-	ins.materialMasterArr = _materialMasterArr;
+	// ins.materialMasterArr = _materialMasterArr;
+	ins.materialId = _materialId;
+	ins.sprite = _sprite;
+	
+	return ins;
+}
+
+function GuiElement_CreateSleeperEmoteSetter(/*_materialMasterArr, */_materialId, _sprite) {
+	var ins = instance_create_depth(0, 0, GUIDepth, obj_GuiElement_SleeperEmoteSetter);
+	// ins.materialMasterArr = _materialMasterArr;
 	ins.materialId = _materialId;
 	ins.sprite = _sprite;
 	

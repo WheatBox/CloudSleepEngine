@@ -14,33 +14,30 @@ if(sprite != undefined && sprite_exists(sprite)) {
 	xoff += 128;
 }
 
-if(surface_exists(surfSleepersSprites) == false) {
-	surfSleepersSprites = MyCreateSurfSleepersSprites();
-}
-GUI_DrawSurface(surfSleepersSprites, xoff, 0 - scrollY);
 
 
+xoff += 16 + myImageMinimumWidthHeight / 2;
 
-xoff += myImageMinimumWidthHeight + arrowXAddBegin + arrowXAddEnd + 16 + myImageMinimumWidthHeight / 2;
+mouseOnSleeperEmoteIndex = -1;
 
-mouseOnBedSleepIndex = -1;
-
-var _bedSleepArrLen = array_length(arrBedSleepStructs);
-for(var i = 0; i < _bedSleepArrLen; i++) {
-	var _yTemp = 0 - scrollY + (i * (myImageMinimumWidthHeight + sleepersSpritesSpacing)) + myImageMinimumWidthHeight / 2;
+var _sleeperEmoteArrLen = array_length(arrSleeperEmoteStructs);
+for(var i = 0; i <= _sleeperEmoteArrLen; i++) {
+	var _yTemp = 0 - scrollY + (i * (myImageMinimumWidthHeight + emotesSpritesSpacing)) + myImageMinimumWidthHeight / 2;
 	
-	if(mouseOnBedSleepIndex == -1) {
+	if(mouseOnSleeperEmoteIndex == -1) {
 		if(GUI_MouseGuiOnMe(xoff - myImageMinimumWidthHeight / 2, _yTemp - myImageMinimumWidthHeight / 2, xoff + myImageMinimumWidthHeight / 2, _yTemp + myImageMinimumWidthHeight / 2)) {
-			mouseOnBedSleepIndex = i;
+			mouseOnSleeperEmoteIndex = i;
 		}
 	}
 	
-	var _canDrawImportBt = true;
-	if(CheckStructCanBeUse(arrBedSleepStructs[i])) {
-		var _sprTemp = arrBedSleepStructs[i].sprite;
+	if(i == _sleeperEmoteArrLen) {
+		GUI_DrawLabel_ext("未定义\n点我导入", xoff, _yTemp, myImageMinimumWidthHeight / 2, myImageMinimumWidthHeight / 2, i == mouseOnSleeperEmoteIndex);
+		break;
+	}
+	
+	if(CheckStructCanBeUse(arrSleeperEmoteStructs[i])) {
+		var _sprTemp = arrSleeperEmoteStructs[i].sprite;
 		if(sprite_exists(_sprTemp)) {
-			_canDrawImportBt = false;
-			
 			var _scalesTemp;
 			if(sprite_get_width(_sprTemp) > sprite_get_height(_sprTemp)) {
 				_scalesTemp = SetSizeLockAspect_Width_Generic(myImageMinimumWidthHeight, sprite_get_width(_sprTemp));
@@ -49,9 +46,6 @@ for(var i = 0; i < _bedSleepArrLen; i++) {
 			}
 			GUI_DrawSprite_ext(_sprTemp, 0, xoff, _yTemp, _scalesTemp[0], _scalesTemp[1], 0, c_white, 1.0);
 		}
-	}
-	if(_canDrawImportBt) {
-		GUI_DrawLabel_ext("未定义\n点我导入", xoff, _yTemp, myImageMinimumWidthHeight / 2, myImageMinimumWidthHeight / 2, i == mouseOnBedSleepIndex);
 	}
 }
 
