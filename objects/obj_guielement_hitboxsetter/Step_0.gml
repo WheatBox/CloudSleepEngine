@@ -33,7 +33,12 @@ if(/*GUI_MouseGuiOnMe(spriteLeft, spriteTop, spriteRight, spriteBottom) && */mou
 }
 
 
-if(inited) {
+if(inited
+	&& InstanceExists(hitLeftTextboxIns)
+	&& InstanceExists(hitTopTextboxIns)
+	&& InstanceExists(hitRightTextboxIns)
+	&& InstanceExists(hitBottomTextboxIns)
+) {
 	var myhitLeftStr = string_digits(textbox_return(hitLeftTextboxIns));
 	var myhitTopStr = string_digits(textbox_return(hitTopTextboxIns));
 	var myhitRightStr = string_digits(textbox_return(hitRightTextboxIns));

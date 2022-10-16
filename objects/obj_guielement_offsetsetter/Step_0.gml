@@ -9,7 +9,10 @@ if(GUI_MouseGuiOnMe(left, top, right, bottom + bottomEdgeHeight)) {
 	}
 }
 
-if(inited) {
+if(inited
+	&& InstanceExists(xTextboxIns)
+	&& InstanceExists(yTextboxIns)
+) {
 	var myoffxStr = string_digits(textbox_return(xTextboxIns));
 	var myoffyStr = string_digits(textbox_return(yTextboxIns));
 

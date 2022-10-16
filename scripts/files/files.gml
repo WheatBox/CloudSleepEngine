@@ -115,7 +115,7 @@ function GetNameFromFileName(filename, withExtension = true) {
 }
 
 function FileNameGetPicture(_caption_ImportToWhere = "") {
-	return get_open_filename_ext("图片(*.png, *.jpg, *.jpeg)|*.png;*.jpg;*.jpeg", "", working_directory, "导入图片" + ((_caption_ImportToWhere != "") ? (" 到 " + _caption_ImportToWhere) : ""));
+	return get_open_filename_ext("图片(*.png, *.jpg, *.jpeg)|*.png;*.jpg;*.jpeg", "", "", "导入图片" + ((_caption_ImportToWhere != "") ? (" 到 " + _caption_ImportToWhere) : ""));
 }
 
 function LoadCloudPack() {
@@ -261,6 +261,7 @@ function SaveCloudPack() {
 		
 		
 		for(var i = 0; i < instance_count; i++) {
+			if(InstanceExists(instance_id[i]))
 			if(instance_id[i].object_index == _obj_SceneElement) {
 				if(instance_id[i].materialId >= 0 && instance_id[i].materialId < array_length(_gSpriteStruct.sprites)) {
 					array_push(_gSceneStructArr
