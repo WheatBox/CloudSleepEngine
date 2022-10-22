@@ -1,11 +1,13 @@
 #macro SceneDepthBackgrounds 1000
 #macro SceneDepthDynamicAdd -1000
 
-globalvar gSceneElementsGridAlignmentEnable;
+globalvar gSceneElementsGridAlignmentEnable, gGridShowHitBoxEnable;
 gSceneElementsGridAlignmentEnable = true;
+gGridShowHitBoxEnable = false;
 
-globalvar gOutFocusLayerAlpha;
+globalvar gOutFocusLayerAlpha, gGridAlpha;
 gOutFocusLayerAlpha = 0.3;
+gGridAlpha = 0.2;
 
 function SceneElement_CreateSleeper(_materialId, _isDragging = true, _x = mouse_x, _y = mouse_y, sprite = -1) {
 	return SceneElement_Create(obj_SceneElementSleeper, SceneDepthDynamicAdd, gSleepersSpritesStruct, _materialId, _isDragging, _x, _y, sprite);

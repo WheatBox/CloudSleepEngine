@@ -23,6 +23,57 @@ for(var ix = gSceneStruct.left; ix <= gSceneStruct.right; ix++) {
 */
 // LoadDrawSettings();
 
+if(gGridShowHitBoxEnable) {
+	if(mpGridHitboxDraw == -1) {
+		//mpGridHitboxDraw = mp_grid_create(
+		//	floor(CameraX() / cellSize) * cellSize
+		//	, floor(CameraY() / cellSize) * cellSize
+		//	, CameraWidth() / cellSize + 2
+		//	, CameraHeight() / cellSize + 2
+		//	, cellSize, cellSize
+		//);
+		mpGridHitboxDraw = mp_grid_create(
+			gSceneStruct.left * cellSize
+			, gSceneStruct.top * cellSize
+			, gSceneStruct.right - gSceneStruct.left
+			, gSceneStruct.bottom - gSceneStruct.top
+			, cellSize, cellSize
+		);
+		
+		with(obj_SceneElementDecorate) {
+			try {
+				mp_grid_add_rectangle(other.mpGridHitboxDraw
+					, basex - offsetx + gDecoratesStruct.materials[materialId].hitbox[0]
+					, basey - offsety + gDecoratesStruct.materials[materialId].hitbox[1]
+					, basex - offsetx + gDecoratesStruct.materials[materialId].hitbox[2]
+					, basey - offsety + gDecoratesStruct.materials[materialId].hitbox[3]
+				);
+			} catch(error) {
+				
+			}
+		}
+		with(obj_SceneElementBed) {
+			try {
+				mp_grid_add_rectangle(other.mpGridHitboxDraw
+					, basex - offsetx + gBedsStruct.materials[materialId].hitbox[0]
+					, basey - offsety + gBedsStruct.materials[materialId].hitbox[1]
+					, basex - offsetx + gBedsStruct.materials[materialId].hitbox[2]
+					, basey - offsety + gBedsStruct.materials[materialId].hitbox[3]
+				);
+			} catch(error) {
+				
+			}
+		}
+		
+		surface_free(gridHitboxSurf); // 主动清除 surface，以此来让后续的 MyCheckAndCreateGridHitboxSurf() 能够执行
+	}
+} else {
+	if(mpGridHitboxDraw != -1) {
+		mp_grid_destroy(mpGridHitboxDraw);
+		mpGridHitboxDraw = -1;
+	}
+}
+
 MyCheckAndCreateGridSurf();
 if(surface_exists(gridSurf)) {
 	var leftPixel = gSceneStruct.left * cellSize;
@@ -45,11 +96,13 @@ if(surface_exists(gridSurf)) {
 				_hAddTemp = lineWidth / 2 + 1;
 			}
 			
-			draw_surface_part_ext(gridSurf
-				, 0, 0, (gSceneStruct.right - ix) * cellSize + _wAddTemp, (gSceneStruct.bottom - iy) * cellSize + _hAddTemp
-				, ix * cellSize, iy * cellSize
-				, 1, 1, c_white
-				, gSceneElementsGridAlignmentEnable == false ? 0.05 : 0.2);
+			if(gSceneElementsGridAlignmentEnable) {
+				draw_surface_part_ext(gridSurf
+					, 0, 0, (gSceneStruct.right - ix) * cellSize + _wAddTemp, (gSceneStruct.bottom - iy) * cellSize + _hAddTemp
+					, ix * cellSize, iy * cellSize
+					, 1, 1, c_white
+					, gGridAlpha);
+			}
 		}
 	}
 }

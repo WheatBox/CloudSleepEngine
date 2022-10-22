@@ -11,6 +11,20 @@
 		}
 	);
 }
+{ // 显示碰撞 按钮
+	var _labelGridShowHitbox = "显示碰撞（做的比较懒，能用就行）";
+	_labelGridShowHitboxWidth = string_width(_labelGridShowHitbox);
+	var _labelGridShowHitboxHeight = string_height(_labelGridShowHitbox);
+	buttonGridShowHitboxIns = GuiElement_CreateButton(
+		GuiWidth() - _labelGridShowHitboxWidth / 2,
+		_labelGridShowHitboxHeight / 2,
+		_labelGridShowHitbox,
+		function() {
+			gGridShowHitBoxEnable = !gGridShowHitBoxEnable;
+		}
+	);
+}
+
 {
 	_slidingRodOutFocusLayerAlphaWidth = 228;
 	slidingRodOutFocusLayerAlphaIns = GuiElement_CreateSlidingRod(
@@ -21,6 +35,18 @@
 		, make_wheat_ptr(EWheatPtrType.Global, 0, "gOutFocusLayerAlpha")
 		, 0, 1
 		, function(n) { n *= 10; return round(n) / 10; }
+	);
+}
+{
+	_slidingRodGridAlphaWidth = 228;
+	slidingRodGridAlphaIns = GuiElement_CreateSlidingRod(
+		GuiWidth() - _slidingRodGridAlphaWidth
+		, 32
+		, "网格线透明度"
+		, _slidingRodGridAlphaWidth
+		, make_wheat_ptr(EWheatPtrType.Global, 0, "gGridAlpha")
+		, 0, 1
+		, function(n) { n *= 100; return round(n) / 100; }
 	);
 }
 
@@ -56,7 +82,8 @@ MySynchMyGuiElementsPosition = function() {
 		}
 	}
 	
-	_SynchSlidingRodXScreenRightFunc(slidingRodOutFocusLayerAlphaIns, 1, 1);
+	_SynchSlidingRodXScreenRightFunc(slidingRodOutFocusLayerAlphaIns, 1, 2);
+	_SynchSlidingRodXScreenRightFunc(slidingRodGridAlphaIns, 2, 2);
 }
 MySynchMyGuiElementsPosition();
 
