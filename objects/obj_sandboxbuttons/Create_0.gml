@@ -57,7 +57,7 @@ MySynchMyGuiElementsPosition = function() {
 			var _yTemp = _insTemp.y;
 			var _wTemp = _insTemp.width + 1;
 			var _hTemp = _insTemp.height;
-			if(GUI_MouseGuiOnMe(0 - 48, _yTemp, _xTemp + _wTemp + 48 + _wTemp * (_xToLeftMultiplyMax - _xToLeftMultiply), _yTemp + _hTemp) && GetPositionXOnGUI(mouse_x) > -48) {
+			if(gMouseDraggingSlidingRodIns == _insTemp || GUI_MouseGuiOnMe(0 - 48, _yTemp, _xTemp + _wTemp + 48 + _wTemp * (_xToLeftMultiplyMax - _xToLeftMultiply), _yTemp + _hTemp) && GetPositionXOnGUI(mouse_x) > -48) {
 				_xTemp = lerp(_xTemp, 0 + _wTemp * (_xToLeftMultiply - 1), 0.2);
 			} else {
 				_xTemp = lerp(_xTemp, 0 + 32 - _wTemp * (_xToLeftMultiplyMax - _xToLeftMultiply + 1), 0.2);
@@ -73,7 +73,7 @@ MySynchMyGuiElementsPosition = function() {
 			var _yTemp = _insTemp.y;
 			var _wTemp = _insTemp.width + 1;
 			var _hTemp = _insTemp.height;
-			if(GUI_MouseGuiOnMe(_xTemp - 48 - _wTemp * (_xToRightMultiplyMax - _xToRightMultiply), _yTemp, _guiW + 48, _yTemp + _hTemp) && GetPositionXOnGUI(mouse_x) < _guiW + 48) {
+			if(gMouseDraggingSlidingRodIns == _insTemp || GUI_MouseGuiOnMe(_xTemp - 48 - _wTemp * (_xToRightMultiplyMax - _xToRightMultiply), _yTemp, _guiW + 48, _yTemp + _hTemp) && GetPositionXOnGUI(mouse_x) < _guiW + 48) {
 				_xTemp = lerp(_xTemp, _guiW - _wTemp * _xToRightMultiply, 0.2);
 			} else {
 				_xTemp = lerp(_xTemp, _guiW - 32 + _wTemp * (_xToRightMultiplyMax - _xToRightMultiply), 0.2);

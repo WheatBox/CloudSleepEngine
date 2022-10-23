@@ -1,3 +1,5 @@
+show_debug_overlay(1);
+
 randomize();
 
 #macro DragObjBboxMode bboxmode_automatic

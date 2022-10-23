@@ -111,4 +111,3 @@ MyRemakeGridHitboxSurf = function() {
 	surface_reset_target();
 }
 
-show_debug_overlay(1);
