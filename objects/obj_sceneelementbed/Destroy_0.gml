@@ -1,0 +1,1 @@
+DragObjBedsCountSubtract(materialId);

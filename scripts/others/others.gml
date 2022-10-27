@@ -100,3 +100,37 @@ function ScrollYCalculate(scrollY, scrollYSpeed, _guiTop, _guiBottom, _pageHeigh
 	return scrollY;
 }
 
+globalvar gArrDragObjBedsCount;
+gArrDragObjBedsCount = [];
+// gArrDragObjBedsCount[materialId]：该床在场景中的数量
+
+function DragObjBedsCountAdd(_materialId) {
+	if(_materialId < 0) {
+		return;
+	}
+	if(array_length(gArrDragObjBedsCount) <= _materialId) {
+		gArrDragObjBedsCount[_materialId] = 0;
+	}
+	gArrDragObjBedsCount[_materialId]++;
+}
+
+function DragObjBedsCountSubtract(_materialId) {
+	if(_materialId < 0) {
+		return;
+	}
+	if(array_length(gArrDragObjBedsCount) <= _materialId) {
+		return;
+		// gArrDragObjBedsCount[_materialId] = 0;
+	}
+	gArrDragObjBedsCount[_materialId]--;
+}
+
+function DragObjBedsCountGet(_materialId) {
+	if(_materialId < 0) {
+		return 0;
+	}
+	if(array_length(gArrDragObjBedsCount) <= _materialId) {
+		return 0;
+	}
+	return gArrDragObjBedsCount[_materialId];
+}

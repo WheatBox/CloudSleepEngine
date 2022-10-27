@@ -1,9 +1,16 @@
 #macro SceneDepthBackgrounds 1000
 #macro SceneDepthDynamicAdd -1000
 
-globalvar gSceneElementsGridAlignmentEnable, gGridShowHitBoxEnable;
+enum ESandboxMode {
+	Normal,
+	Pencil,
+	Eraser,
+};
+
+globalvar gSceneElementsGridAlignmentEnable, gGridShowHitBoxEnable, gSandboxMode;
 gSceneElementsGridAlignmentEnable = true;
 gGridShowHitBoxEnable = false;
+gSandboxMode = ESandboxMode.Normal;
 
 globalvar gOutFocusLayerAlpha, gGridAlpha;
 gOutFocusLayerAlpha = 0.3;

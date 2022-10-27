@@ -4,6 +4,21 @@ draw_set_alpha(1.0);
 draw_set_color(c_white);
 GUI_DrawSprite_ext(sprite_index, image_index, x, y, image_xscale, image_yscale, image_angle, image_blend, image_alpha);
 
+if(mySandboxSceneElementsLayer == ESandboxSceneElementsLayers.beds) {
+	var _dragObjBedsCountGetRes = string(DragObjBedsCountGet(materialId));
+	
+	draw_set_alpha(0.5);
+	draw_set_color(c_black);
+	GUI_DrawRectangle(x - width / 2, y - height / 2, x - width / 2 + string_width(_dragObjBedsCountGetRes), y - height / 2 + string_height(_dragObjBedsCountGetRes), false);
+	
+	draw_set_color(c_white);
+	GUI_DrawText(
+		x - width / 2, y - height / 2
+		, _dragObjBedsCountGetRes
+		, false
+	);
+}
+
 if(mouseOnMe) {
 	gMouseOnGUI = true;
 	draw_set_alpha(GUIHighLightAlpha);

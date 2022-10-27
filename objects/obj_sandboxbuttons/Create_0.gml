@@ -24,6 +24,33 @@
 		}
 	);
 }
+{ // SandboxMode 按钮
+	var _labelSandboxMode = "普通模式";
+	_labelSandboxModeWidth = string_width(_labelSandboxMode);
+	var _labelGridShowHitboxHeight = string_height(_labelSandboxMode);
+	buttonSandboxModeIns = GuiElement_CreateButton_ext(
+		GuiWidth() - _labelSandboxModeWidth / 2,
+		_labelGridShowHitboxHeight / 2,
+		_labelSandboxMode, , , ,
+		function(args) {
+			switch(gSandboxMode) {
+				case ESandboxMode.Normal:
+					gSandboxMode = ESandboxMode.Pencil;
+					args[0].labelText = "铅笔模式";
+					break;
+				case ESandboxMode.Pencil:
+					gSandboxMode = ESandboxMode.Eraser;
+					args[0].labelText = "橡皮模式";
+					break;
+				case ESandboxMode.Eraser:
+					gSandboxMode = ESandboxMode.Normal;
+					args[0].labelText = "普通模式";
+					break;
+			}
+		}
+	);
+	buttonSandboxModeIns.MyPressedFunctionArgs = [buttonSandboxModeIns];
+}
 
 {
 	_slidingRodOutFocusLayerAlphaWidth = 228;
