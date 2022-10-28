@@ -1,4 +1,9 @@
-if(gMouseOnGUI == false && !InstanceExists(gSandboxSceneElementsDragging) && gSandboxGuiElementsDragObjIsOnRightClick == false) {
+if(
+	IsMouseOnGUI == false
+	&& !InstanceExists(gSandboxSceneElementsDragging)
+	&& gSandboxGuiElementsDragObjIsOnRightClick == false
+	&& gSandboxMode == ESandboxMode.Normal
+) {
 	var checkSceneElementObj = noone;
 	switch(gSandboxSceneElementsLayer) {
 		case ESandboxSceneElementsLayers.sleepers:

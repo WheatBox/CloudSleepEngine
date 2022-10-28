@@ -20,7 +20,6 @@ if(mySandboxSceneElementsLayer == ESandboxSceneElementsLayers.beds) {
 }
 
 if(mouseOnMe) {
-	gMouseOnGUI = true;
 	draw_set_alpha(GUIHighLightAlpha);
 	GUI_DrawRectangle(x - width / 2, y - height / 2, x + width / 2, y + height / 2);
 	

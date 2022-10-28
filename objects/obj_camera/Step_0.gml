@@ -5,7 +5,7 @@ if(canControlDelayTime > 0) {
 
 var cameraW = camera_get_view_width(view_camera[0]);
 var cameraH = camera_get_view_height(view_camera[0]);
-if(gMouseOnGUI == false) {
+if(IsMouseOnGUI == false) {
 	if(mouse_wheel_up()) {
 		camera_set_view_size(view_camera[0], cameraW * scaleMulitply, cameraH * scaleMulitply);
 	} else if(mouse_wheel_down()) {
@@ -19,7 +19,13 @@ cameraH = camera_get_view_height(view_camera[0]);
 mouseXPrevious ??= mouse_x;
 mouseYPrevious ??= mouse_y;
 
-if(MouseMidHold() || !InstanceExists(gSandboxSceneElementsDragging) && gMouseOnGUI == false && MouseLeftHold() && mouseCameraMoveLock == false) {
+if(MouseMidHold() || 
+	(MouseLeftHold()
+	&& gSandboxMode == ESandboxMode.Normal
+	&& !InstanceExists(gSandboxSceneElementsDragging)
+	&& IsMouseOnGUI == false
+	&& mouseCameraMoveLock == false)
+) {
 	cameraCenterX -= mouse_x - mouseXPrevious;
 	cameraCenterY -= mouse_y - mouseYPrevious;
 	
@@ -51,4 +57,11 @@ if(findingPlayer && InstanceExists(obj_client)) {
 
 */
 
-gMouseOnGUI = false;
+if(__MouseOnGUIBackswing > 0) {
+	__MouseOnGUIBackswing--;
+}
+if(gMouseOnGUI) {
+	gMouseOnGUI = false;
+	
+	__MouseOnGUIBackswing = 1;
+}
