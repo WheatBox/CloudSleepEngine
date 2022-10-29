@@ -134,3 +134,55 @@ function DragObjBedsCountGet(_materialId) {
 	}
 	return gArrDragObjBedsCount[_materialId];
 }
+
+globalvar __InstancesOptimizeFreezing;
+__InstancesOptimizeFreezing = 5;
+
+/// @desc 将该函数放在 obj_camera 中
+function InstancesOptimize() {
+	static _arrObjTemp = [
+		obj_SceneElementSleeper,
+		obj_SceneElementBackground,
+		obj_SceneElementDecorate,
+		obj_SceneElementBed,
+	];
+	static _arrObjTempLen = array_length(_arrObjTemp);
+	
+	if(__InstancesOptimizeFreezing > 0) {
+		__InstancesOptimizeFreezing--;
+		return;
+	}
+	
+	var _temp = 0;// 64;
+	
+	var _camleft = CameraX() - _temp;
+	var _camtop = CameraY() - _temp;
+	var _camright = _camleft + CameraWidth() + _temp;
+	var _cambottom = _camtop + CameraHeight() + _temp;
+	
+	for(var i = 0; i < _arrObjTempLen; i++) {
+		instance_activate_object(_arrObjTemp[i]);
+		
+		with(_arrObjTemp[i]) {
+			if(rectangle_in_rectangle(
+				_camleft, _camtop, _camright, _cambottom,
+				bbox_left, bbox_top, bbox_right, bbox_bottom
+			) == false) {
+				instance_deactivate_object(id);
+			}
+		}
+	}
+}
+
+function SceneElementsActivate() {
+	static _arrObjTemp = [
+		obj_SceneElementSleeper,
+		obj_SceneElementBackground,
+		obj_SceneElementDecorate,
+		obj_SceneElementBed,
+	];
+	static _arrObjTempLen = array_length(_arrObjTemp);
+	for(var i = 0; i < _arrObjTempLen; i++) {
+		instance_activate_object(_arrObjTemp[i]);
+	}
+}

@@ -250,7 +250,7 @@ function LoadCloudPack() {
 }
 
 function SaveCloudPack() {
-	var ChildFunc_Save = function(fileJson, _gStruct, _gSpriteStruct, _gSceneStructArr, _obj_SceneElement) {
+	static ChildFunc_Save = function(fileJson, _gStruct, _gSpriteStruct, _gSceneStructArr, _obj_SceneElement) {
 		for(var i = 0; i < array_length(_gSceneStructArr); i++) {
 			if(CheckStructCanBeUse(_gSceneStructArr[i]) == false) {
 				continue;
@@ -281,21 +281,29 @@ function SaveCloudPack() {
 		}
 	}
 	
+	SceneElementsActivate();
+	__InstancesOptimizeFreezing = 2;
 	
-	ChildFunc_Save(WORKFILEPATH + FILEJSON_sleepers, gSleepersStruct, gSleepersSpritesStruct, gSceneStruct.sleepers, obj_SceneElementSleeper);
-	ChildFunc_Save(WORKFILEPATH + FILEJSON_backgrounds, gBackgroundsStruct, gBackgroundsSpritesStruct, gSceneStruct.backgrounds, obj_SceneElementBackground);
-	ChildFunc_Save(WORKFILEPATH + FILEJSON_decorates, gDecoratesStruct, gDecoratesSpritesStruct, gSceneStruct.decorates, obj_SceneElementDecorate);
-	ChildFunc_Save(WORKFILEPATH + FILEJSON_beds, gBedsStruct, gBedsSpritesStruct, gSceneStruct.beds, obj_SceneElementBed);
+	// 让保存部分在所有场景元素激活后一帧再执行
+	var _timeSourceTemp = time_source_create(time_source_game, 1, time_source_units_frames, function() {
+		var ChildFunc_Save = argument[0];
+		
+		ChildFunc_Save(WORKFILEPATH + FILEJSON_sleepers, gSleepersStruct, gSleepersSpritesStruct, gSceneStruct.sleepers, obj_SceneElementSleeper);
+		ChildFunc_Save(WORKFILEPATH + FILEJSON_backgrounds, gBackgroundsStruct, gBackgroundsSpritesStruct, gSceneStruct.backgrounds, obj_SceneElementBackground);
+		ChildFunc_Save(WORKFILEPATH + FILEJSON_decorates, gDecoratesStruct, gDecoratesSpritesStruct, gSceneStruct.decorates, obj_SceneElementDecorate);
+		ChildFunc_Save(WORKFILEPATH + FILEJSON_beds, gBedsStruct, gBedsSpritesStruct, gSceneStruct.beds, obj_SceneElementBed);
 	
 	
-	var _jsonStr = json_stringify(gSceneStruct);
-	var _jsonSceneFileWriteRes = FileWrite(WORKFILEPATH + FILEJSON_scene, _jsonStr);
-	if(_jsonSceneFileWriteRes != 0) {
-		show_message(WORKFILEPATH + FILEJSON_scene + "保存失败！" + string(_jsonSceneFileWriteRes));
-	}
+		var _jsonStr = json_stringify(gSceneStruct);
+		var _jsonSceneFileWriteRes = FileWrite(WORKFILEPATH + FILEJSON_scene, _jsonStr);
+		if(_jsonSceneFileWriteRes != 0) {
+			show_message(WORKFILEPATH + FILEJSON_scene + "保存失败！" + string(_jsonSceneFileWriteRes));
+		}
 	
 	
-	GuiElement_CreateMessage("场景包保存完毕");
+		GuiElement_CreateMessage("场景包保存完毕");
+	}, [ChildFunc_Save]);
+	time_source_start(_timeSourceTemp);
 }
 
 
