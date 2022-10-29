@@ -1,4 +1,8 @@
-image_blend = c_white;
+if(myColorRedFrames <= 0) {
+	image_blend = c_white;
+} else {
+	myColorRedFrames--;
+}
 
 if(gSandboxSceneElementsDragging == id && isDragging == false) {
 	isDragging = true;
@@ -31,7 +35,8 @@ if(isDragging) {
 		var toDelR = obj_sandboxSceneElementsDeleteArea.myRight;
 		var toDelB = obj_sandboxSceneElementsDeleteArea.myBottom;
 		if(GUI_MouseGuiOnMe(toDelL, toDelT, toDelR, toDelB)) {
-			image_blend = GUIDangerousColor;
+			// image_blend = GUIDangerousColor;
+			MySetColorRed();
 			obj_sandboxSceneElementsDeleteArea.sceneElementOnMe = true;
 			
 			if(isDragging == false) {

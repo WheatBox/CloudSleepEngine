@@ -101,6 +101,7 @@ globalvar gSandboxPencilSceneElementsLayer, gSandboxPencilMaterialId;
 gSandboxPencilSceneElementsLayer = ESandboxSceneElementsLayers.backgrounds;
 gSandboxPencilMaterialId = 0;
 
+/// @desc 鼠标左键：放置当前指定的场景素材，鼠标右键：仅擦除与当前指定场景素材一样的场景素材
 function SandboxPencilWork() {
 	static _working = false;
 	static _firstX = 0, _firstY = 0;
@@ -111,11 +112,13 @@ function SandboxPencilWork() {
 	static _creatingXPrev = undefined, _creatingYPrev = undefined;
 	static _createFunc = undefined;
 	
+	static _eraserObj = noone;
+	
 	if(gSandboxMode != ESandboxMode.Pencil) {
 		return;
 	}
 	
-	if(MouseLeftPressed()) {
+	if(MouseLeftPressed() || MouseRightPressed()) {
 		_working = false;
 		
 		if(gSandboxPencilMaterialId < 0)
@@ -130,21 +133,25 @@ function SandboxPencilWork() {
 				_structToCheckTemp = gSleepersStruct;
 				_structSpriteTemp = gSleepersSpritesStruct;
 				_createFunc = SceneElement_CreateSleeper;
+				_eraserObj = obj_SceneElementSleeper;
 				break;
 			case ESandboxSceneElementsLayers.backgrounds:
 				_structToCheckTemp = gBackgroundsStruct;
 				_structSpriteTemp = gBackgroundsSpritesStruct;
 				_createFunc = SceneElement_CreateBackground;
+				_eraserObj = obj_SceneElementBackground;
 				break;
 			case ESandboxSceneElementsLayers.decorates:
 				_structToCheckTemp = gDecoratesStruct;
 				_structSpriteTemp = gDecoratesSpritesStruct;
 				_createFunc = SceneElement_CreateDecorate;
+				_eraserObj = obj_SceneElementDecorate;
 				break;
 			case ESandboxSceneElementsLayers.beds:
 				_structToCheckTemp = gBedsStruct;
 				_structSpriteTemp = gBedsSpritesStruct;
 				_createFunc = SceneElement_CreateBed;
+				_eraserObj = obj_SceneElementBed;
 				break;
 			default:
 				return;
@@ -181,7 +188,6 @@ function SandboxPencilWork() {
 		if(array_length(_arrToCheckTemp[gSandboxPencilMaterialId].offset) >= 2) {
 			_xoff = _arrToCheckTemp[gSandboxPencilMaterialId].offset[0];
 			_yoff = _arrToCheckTemp[gSandboxPencilMaterialId].offset[1];
-			DebugMes(["off", _xoff, _yoff]);
 		}
 		ds_map_clear(_mapCreatingPos);
 		_creatingXPrev = undefined;
@@ -190,49 +196,122 @@ function SandboxPencilWork() {
 		_working = true;
 	}
 	
+	var _mouseLeftHold = MouseLeftHold();
+	var _mouseRightHold = MouseRightHold();
+	
 	var _cxtemp = 0, _cytemp = 0;
 	
-	if(sprite_exists(_sprite)) {
-		if(!_working) {
-			if(gSceneElementsGridAlignmentEnable) {
-				_firstX = GetPositionXGridStandardization(mouse_x);
-				_firstY = GetPositionYGridStandardization(mouse_y);
-			} else {
-				_firstX = mouse_x;
-				_firstY = mouse_y;
+	if(_mouseRightHold == false) {
+		if(sprite_exists(_sprite)) {
+			if(!_working) {
+				if(gSceneElementsGridAlignmentEnable) {
+					_firstX = GetPositionXGridStandardization(mouse_x);
+					_firstY = GetPositionYGridStandardization(mouse_y);
+				} else {
+					_firstX = mouse_x;
+					_firstY = mouse_y;
+				}
 			}
-		}
 		
-		if(gSceneElementsGridAlignmentEnable) {
-			_cxtemp = GetPositionXGridStandardization(mouse_x);
-			_cytemp = GetPositionYGridStandardization(mouse_y);
+			if(gSceneElementsGridAlignmentEnable) {
+				_cxtemp = GetPositionXGridStandardization(mouse_x);
+				_cytemp = GetPositionYGridStandardization(mouse_y);
+			} else {
+				_cxtemp = mouse_x;
+				_cytemp = mouse_y;
+			}
+		
+			_cxtemp = round((_cxtemp - _firstX) / _width) * _width + _firstX;
+			_cytemp = round((_cytemp - _firstY) / _height) * _height + _firstY;
+		
+			draw_set_color(c_white);
+			draw_set_alpha(1.0);
+			draw_sprite(_sprite, 0, _cxtemp + _width / 2 - _xoff, _cytemp + _height / 2 - _yoff);
 		} else {
-			_cxtemp = mouse_x;
-			_cytemp = mouse_y;
+			_working = false;
+			return;
 		}
-		
-		_cxtemp = round((_cxtemp - _firstX) / _width) * _width + _firstX;
-		_cytemp = round((_cytemp - _firstY) / _height) * _height + _firstY;
-		
-		draw_set_color(c_white);
-		draw_set_alpha(1.0);
-		draw_sprite(_sprite, 0, _cxtemp + _width / 2 - _xoff, _cytemp + _height / 2 - _yoff);
-	} else {
-		_working = false;
-		return;
 	}
 	
 	if(!_working) {
 		return;
 	}
 	
-	if(MouseLeftHold() == false) {
+	if(_mouseLeftHold == false && _mouseRightHold == false) {
 		_working = false;
 	} else if(IsMouseOnGUI == false) {
-		var _mapCreatingPosStrTemp = string(_cxtemp) + "," + string(_cytemp);
-		if(_mapCreatingPos[? _mapCreatingPosStrTemp] == undefined) {
-			_mapCreatingPos[? _mapCreatingPosStrTemp] = 1;
-			_createFunc(gSandboxPencilMaterialId, false, _cxtemp, _cytemp, _sprite);
+		if(_mouseLeftHold) {
+			var _mapCreatingPosStrTemp = string(_cxtemp) + "," + string(_cytemp);
+			if(_mapCreatingPos[? _mapCreatingPosStrTemp] == undefined) {
+				_mapCreatingPos[? _mapCreatingPosStrTemp] = 1;
+				_createFunc(gSandboxPencilMaterialId, false, _cxtemp, _cytemp, _sprite);
+			}
+		} else if(_mouseRightHold) {
+			var _eraserListTemp = ds_list_create();
+			var _eraserListTempLen = instance_position_list(mouse_x, mouse_y, _eraserObj, _eraserListTemp, false);
+			for(var i = 0; i < _eraserListTempLen; i++) {
+				if(_eraserListTemp[| i][$ "materialId"] == gSandboxPencilMaterialId) {
+					instance_destroy(_eraserListTemp[| i]);
+				}
+			}
+			ds_list_destroy(_eraserListTemp);
 		}
+	}
+}
+
+/// @desc
+function SandboxEraserWork() {
+	if(gSandboxMode != ESandboxMode.Eraser) {
+		return;
+	}
+	
+	if(gSandboxSceneElementsLayer == ESandboxSceneElementsLayers.nothing) {
+		var _arrEraserObj = [
+			obj_SceneElementSleeper,
+			obj_SceneElementBackground,
+			obj_SceneElementDecorate,
+			obj_SceneElementBed
+		];
+		var _eraserListTemp = ds_list_create();
+		for(var j = 0; j < array_length(_arrEraserObj); j++) {
+			var _eraserListTempLen = instance_position_list(mouse_x, mouse_y, _arrEraserObj[j], _eraserListTemp, false);
+			for(var i = 0; i < _eraserListTempLen; i++) {
+				if(MouseLeftHold()) {
+					instance_destroy(_eraserListTemp[| i]);
+				} else {
+					_eraserListTemp[| i].MySetColorRed();
+				}
+			}
+			ds_list_clear(_eraserListTemp)
+		}
+		ds_list_destroy(_eraserListTemp);
+	} else {
+		var _eraserObj = noone;
+		switch(gSandboxSceneElementsLayer) {
+			case ESandboxSceneElementsLayers.sleepers:
+				_eraserObj = obj_SceneElementSleeper;
+				break;
+			case ESandboxSceneElementsLayers.backgrounds:
+				_eraserObj = obj_SceneElementBackground;
+				break;
+			case ESandboxSceneElementsLayers.decorates:
+				_eraserObj = obj_SceneElementDecorate;
+				break;
+			case ESandboxSceneElementsLayers.beds:
+				_eraserObj = obj_SceneElementBed;
+				break;
+			default:
+				return;
+		}
+		var _eraserListTemp = ds_list_create();
+		var _eraserListTempLen = instance_position_list(mouse_x, mouse_y, _eraserObj, _eraserListTemp, false);
+		for(var i = 0; i < _eraserListTempLen; i++) {
+			if(MouseLeftHold()) {
+				instance_destroy(_eraserListTemp[| i]);
+			} else {
+				_eraserListTemp[| i].MySetColorRed();
+			}
+		}
+		ds_list_destroy(_eraserListTemp);
 	}
 }
