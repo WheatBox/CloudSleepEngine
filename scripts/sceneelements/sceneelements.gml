@@ -265,6 +265,10 @@ function SandboxEraserWork() {
 		return;
 	}
 	
+	if(IsMouseOnGUI) {
+		return;
+	}
+	
 	if(gSandboxSceneElementsLayer == ESandboxSceneElementsLayers.nothing) {
 		var _arrEraserObj = [
 			obj_SceneElementSleeper,
