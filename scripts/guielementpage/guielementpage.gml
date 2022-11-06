@@ -142,6 +142,8 @@ function GuiElement_PageAlign(_pageIns) {
 		ins.y -= _pageIns.vecChildElementsHeight.Container[i] / 2;
 	}
 	
-	_pageIns.childElementsBottom = ins.y + _pageIns.vecChildElementsHeight.back() - _pageIns.scrollY;
+	if(InstanceExists(ins)) {
+		_pageIns.childElementsBottom = ins.y + _pageIns.vecChildElementsHeight.back() - _pageIns.scrollY;
+	}
 }
 
