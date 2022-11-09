@@ -20,8 +20,8 @@ mouseIsDragging = false;
 
 
 gridSurf = -1;
-gridSurfWidth = 8192;
-gridSurfHeight = 8192;
+gridSurfWidth = 2048;
+gridSurfHeight = 2048;
 
 MyCheckAndCreateGridSurf = function() {
 	if(gridSurf == -1 || surface_exists(gridSurf) == false) {
@@ -43,11 +43,11 @@ MyRemakeGridSurf = function() {
 	
 	// 画横线
 	for(var iy = 0; iy <= _h / cellSize; iy++) {
-		draw_line_width(0, iy * cellSize, _w, iy * cellSize, lineWidth);
+		draw_line_width(0, iy * cellSize, _w - 2, iy * cellSize, lineWidth);
 	}
 	// 画竖线
 	for(var ix = 0; ix <= _w / cellSize; ix++) {
-		draw_line_width(ix * cellSize, 0, ix * cellSize, _h, lineWidth);
+		draw_line_width(ix * cellSize, 0, ix * cellSize, _h - 2, lineWidth);
 	}
 	
 	draw_set_color(c_white);
@@ -61,11 +61,10 @@ cameraYPrev = CameraY();
 
 mpGridHitboxDraw = -1;
 
-// 其实可以将这个做成一个存储surface的二维数组来使得无限延申的，但没有必要，外加上懒，就没做
-// 或者是用 mp_grid_draw() 直接绘制，但是 mp_grid_draw() 这个函数的执行效率巨慢
+
 gridHitboxSurf = -1;
-gridHitboxSurfWidth = 16384;
-gridHitboxSurfHeight = 16384;
+gridHitboxSurfWidth = 1;
+gridHitboxSurfHeight = 1;
 
 MyCheckAndCreateGridHitboxSurf = function() {
 	if(gridHitboxSurf == -1 || surface_exists(gridHitboxSurf) == false) {
@@ -74,8 +73,8 @@ MyCheckAndCreateGridHitboxSurf = function() {
 }
 
 MyRemakeGridHitboxSurf = function() {
-	gridHitboxSurfWidth = min(16384, CameraWidth());
-	gridHitboxSurfHeight = min(16384, CameraHeight());
+	gridHitboxSurfWidth = GuiWidth();
+	gridHitboxSurfHeight = GuiHeight();
 	
 	var _w = gridHitboxSurfWidth, _h = gridHitboxSurfHeight;
 	if(gridHitboxSurf != -1 && surface_exists(gridHitboxSurf)) {
@@ -89,20 +88,43 @@ MyRemakeGridHitboxSurf = function() {
 	
 	draw_set_alpha(1.0);
 	
-	var _xoff = GetPositionXOnGUI(gSceneStruct.left * cellSize) * CameraScale();
-	var _yoff = GetPositionYOnGUI(gSceneStruct.top * cellSize) * CameraScale();
+	var _xoff = GetPositionXOnGUI(gSceneStruct.left * cellSize);
+	var _yoff = GetPositionYOnGUI(gSceneStruct.top * cellSize);
+	
+	var _drawScale = 1 / CameraScale();
+	
+	var _surflTemp = 0;
+	var _surftTemp = 0;
+	var _surfrTemp = _surflTemp + CameraWidth();
+	var _surfbTemp = _surftTemp + CameraHeight();
+	
+	var _colPrev = undefined;
 	
 	for(var iy = gSceneStruct.top; iy < gSceneStruct.bottom; iy++) {
+		var _ttemp = _yoff + (iy - gSceneStruct.top) * cellSize * _drawScale;
+		var _btemp = _yoff + ((iy - gSceneStruct.top + 1) * cellSize - 1) * _drawScale;
+		
+		if(_ttemp > _surfbTemp || _btemp < _surftTemp) {
+			continue;
+		}
+		
 		for(var ix = gSceneStruct.left; ix < gSceneStruct.right; ix++) {
-			draw_set_color(
-				(mp_grid_get_cell(mpGridHitboxDraw, (ix - gSceneStruct.left), (iy - gSceneStruct.top)) == 0)
+			var _ltemp = _xoff + (ix - gSceneStruct.left) * cellSize * _drawScale;
+			var _rtemp = _xoff + ((ix - gSceneStruct.left + 1) * cellSize - 1) * _drawScale;
+			
+			if(_ltemp > _surfrTemp || _rtemp < _surflTemp) {
+				continue;
+			}
+			
+			var _colNext = (mp_grid_get_cell(mpGridHitboxDraw, (ix - gSceneStruct.left), (iy - gSceneStruct.top)) == 0)
 				? c_lime
-				: c_red
-			);
-			draw_rectangle(_xoff + (ix - gSceneStruct.left) * cellSize, _yoff + (iy - gSceneStruct.top) * cellSize
-				, _xoff + (ix - gSceneStruct.left + 1) * cellSize - 1, _yoff + (iy - gSceneStruct.top + 1) * cellSize - 1
-				, false
-			);
+				: c_red;
+			
+			if(_colNext != _colPrev) {
+				draw_set_color(_colNext);
+				_colPrev = _colNext;
+			}
+			draw_rectangle(_ltemp, _ttemp, _rtemp, _btemp, false);
 		}
 	}
 	

@@ -76,10 +76,20 @@ if(mouseOnMe) {
 				
 				break;
 		}
+		
 		switch(mySandboxSceneElementsLayer) {
 			case ESandboxSceneElementsLayers.sleepers:
 				newbtStr = "编辑睡客表情包";
 				newins = GuiElement_CreateButton(buttonsOffsetX + string_width(newbtStr) / 2, buttonsOffsetY + string_height(newbtStr) / 2, newbtStr, function() { GuiElement_CreateSleeperEmoteSetter(/*materialMasterArr, */materialId, sprite_index); gSandboxGuiElementsDragObjIsOnRightClick = false; }, true);
+				newins.depth = depth - 1;
+				
+				buttonsOffsetY += newbtYAdd;
+				
+				break;
+				
+			case ESandboxSceneElementsLayers.backgrounds:
+				newbtStr = "设为默认背景图";
+				newins = GuiElement_CreateButton(buttonsOffsetX + string_width(newbtStr) / 2, buttonsOffsetY + string_height(newbtStr) / 2, newbtStr, function() { SetSceneDefaultBackground(materialId); gSandboxGuiElementsDragObjIsOnRightClick = false; }, true);
 				newins.depth = depth - 1;
 				
 				buttonsOffsetY += newbtYAdd;

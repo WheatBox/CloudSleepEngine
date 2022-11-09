@@ -12,7 +12,7 @@
 	);
 }
 { // 显示碰撞 按钮
-	var _labelGridShowHitbox = "显示碰撞（做的比较懒，能用就行）";
+	var _labelGridShowHitbox = "显示碰撞";
 	_labelGridShowHitboxWidth = string_width(_labelGridShowHitbox);
 	var _labelGridShowHitboxHeight = string_height(_labelGridShowHitbox);
 	buttonGridShowHitboxIns = GuiElement_CreateButton(

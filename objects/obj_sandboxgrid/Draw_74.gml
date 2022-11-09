@@ -7,7 +7,7 @@ if(gGridShowHitBoxEnable) {
 		exit;
 	}
 	
-	var _scale = 1 / CameraScale();
+	var _scale = 1; // / CameraScale();
 	MyCheckAndCreateGridHitboxSurf();
 	if(surface_exists(gridHitboxSurf)) {
 		draw_surface_ext(

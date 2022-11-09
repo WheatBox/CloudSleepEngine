@@ -97,6 +97,7 @@ if(surface_exists(gridSurf)) {
 			}
 			
 			if(gSceneElementsGridAlignmentEnable) {
+				draw_text_color(ix * cellSize, iy * cellSize, string([ix, iy]), c_black, c_black, c_black, c_black, 0.2);
 				draw_surface_part_ext(gridSurf
 					, 0, 0, (gSceneStruct.right - ix) * cellSize + _wAddTemp, (gSceneStruct.bottom - iy) * cellSize + _hAddTemp
 					, ix * cellSize, iy * cellSize

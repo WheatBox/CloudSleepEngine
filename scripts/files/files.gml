@@ -85,7 +85,10 @@ gSceneStruct = {
 	sleepers : [],
 	backgrounds : [],
 	decorates : [],
-	beds : []
+	beds : [],
+	
+	// 默认背景 materialId
+	defaultBackground : -1,
 }
 
 /// @desc 由文件目录获取文件名称
@@ -220,6 +223,8 @@ function LoadCloudPack() {
 		gSceneStruct[$ "backgrounds"] ??= [];
 		gSceneStruct[$ "decorates"] ??= [];
 		gSceneStruct[$ "beds"] ??= [];
+		
+		gSceneStruct[$ "defaultBackground"] ??= -1;
 	}
 	
 	
@@ -533,3 +538,78 @@ function OpenInExplorer(fname) {
 	systemCmd("start \"\" \"" + fname + "\"");
 }
 
+
+//globalvar gArrSceneDefaultBackgroundsSurf;
+//gArrSceneDefaultBackgroundsSurf = undefined;
+
+/// @desc 设置场景包的默认背景
+function SetSceneDefaultBackground(_materialId) {
+	gSceneStruct.defaultBackground = _materialId;
+	
+	//var _ylen = array_length(gArrSceneDefaultBackgroundsSurf);
+	//for(var iy = 0; iy < _ylen; iy++) {
+	//	var _xlen = array_length(gArrSceneDefaultBackgroundsSurf[iy]);
+	//	for(var ix = 0; ix < _xlen; ix++) {
+	//		surface_free(gArrSceneDefaultBackgroundsSurf[iy][ix]);
+	//	}
+	//}
+	
+	//gArrSceneDefaultBackgroundsSurf = undefined;
+	//CheckAndRemakeSceneDefaultBackgroundsSurf();
+}
+
+//function CheckAndRemakeSceneDefaultBackgroundsSurf() {
+//	static _singleSurfSize = 16384;
+	
+//	var _defaultBackgroundMaterialId = gSceneStruct.defaultBackground;
+//	if(_defaultBackgroundMaterialId < 0 || _defaultBackgroundMaterialId >= array_length(gBackgroundsStruct.materials)) {
+//		return;
+//	}
+	
+//	if(gArrSceneDefaultBackgroundsSurf != undefined) {
+//		if(surface_exists(gArrSceneDefaultBackgroundsSurf[0][0])) {
+//			return;
+//		}
+//	}
+	
+//	var _spr = gBackgroundsSpritesStruct.sprites[_defaultBackgroundMaterialId];
+//	if(!sprite_exists(_spr)) {
+//		return;
+//	}
+//	var _sprW = sprite_get_width(_spr);
+//	var _sprH = sprite_get_height(_spr);
+	
+//	var _xoff = 0, _yoff = 0;
+	
+//	SaveDrawSettings();
+	
+//	draw_set_color(c_white);
+//	draw_set_alpha(1);
+	
+//	var _ylen = ceil((gSceneStruct.bottom - gSceneStruct.top) * SCENE_CellSize / _singleSurfSize);
+//	for(var iy = 0; iy < _ylen; iy++) {
+//		var _xlen = ceil((gSceneStruct.right - gSceneStruct.left) * SCENE_CellSize / _singleSurfSize);
+//		for(var ix = 0; ix < _xlen; ix++) {
+//			var _surfTemp = surface_create(_singleSurfSize, _singleSurfSize);
+			
+//			surface_set_target(_surfTemp);
+			
+//			var _jxlen = ceil(_singleSurfSize / _sprW);
+//			var _jylen = ceil(_singleSurfSize / _sprH);
+//			for(var jy = 0; jy < _jylen; jy++) {
+//				for(var jx = 0; jx < _jxlen; jx++) {
+//					draw_sprite(_spr, 0, _xoff + jx * _sprW, _yoff + jy * _sprH);
+//				}
+//			}
+			
+//			_xoff = _singleSurfSize - (_jxlen * _sprW + _xoff) - _sprW;
+//			_yoff = _singleSurfSize - (_jylen * _sprH + _yoff) - _sprH;
+			
+//			surface_reset_target();
+			
+//			gArrSceneDefaultBackgroundsSurf[iy][ix] = _surfTemp;
+//		}
+//	}
+	
+//	LoadDrawSettings();
+//}
