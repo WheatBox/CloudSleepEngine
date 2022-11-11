@@ -44,8 +44,8 @@ MySurfCheckAndRemake = function() {
 	for(var iy = 0; iy < _iylen; iy++) {
 		for(var ix = 0; ix < _ixlen; ix++) {
 			draw_sprite_ext(_spr, 0
-				, GetPositionXOnGUI(_xoff + ix * (_sprW + 1))
-				, GetPositionYOnGUI(_yoff + iy * (_sprH + 1))
+				, GetPositionXOnGUI(_xoff + ix * _sprW)
+				, GetPositionYOnGUI(_yoff + iy * _sprH)
 				, 1 / _camScale, 1 / _camScale, 0, c_white, 1.0
 			);
 		}

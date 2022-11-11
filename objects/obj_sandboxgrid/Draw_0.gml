@@ -76,31 +76,46 @@ if(gGridShowHitBoxEnable) {
 
 MyCheckAndCreateGridSurf();
 if(surface_exists(gridSurf)) {
-	var leftPixel = gSceneStruct.left * cellSize;
-	var rightPixel = gSceneStruct.right * cellSize;
-	var topPixel = gSceneStruct.top * cellSize;
-	var bottomPixel = gSceneStruct.bottom * cellSize;
+	var _camlTemp = CameraX();
+	var _camtTemp = CameraY();
+	var _camrTemp = _camlTemp + CameraWidth();
+	var _cambTemp = _camtTemp + CameraHeight();
 	
 	for(var iy = gSceneStruct.top; iy < gSceneStruct.bottom; iy += gridSurfHeight / cellSize) {
+		var _hAddTemp = 0;
+		
+		// 是否为纵向上最后一个
+		if(iy + gridSurfHeight / cellSize > gSceneStruct.bottom) {
+			_hAddTemp = lineWidth / 2 + 1;
+		}
+		
+		var _yTemp = iy * cellSize;
+		var _hTemp = (gSceneStruct.bottom - iy) * cellSize + _hAddTemp;
+		
+		if(_yTemp > _cambTemp || _yTemp + _hTemp < _camtTemp) {
+			continue;
+		}
+		
 		for(var ix = gSceneStruct.left; ix < gSceneStruct.right; ix += gridSurfWidth / cellSize) {
 			var _wAddTemp = 0;
-			var _hAddTemp = 0;
 			
 			// 是否为横向上最后一个
 			if(ix + gridSurfWidth / cellSize > gSceneStruct.right) {
 				_wAddTemp = lineWidth / 2 + 1;
 			}
 			
-			// 是否为纵向上最后一个
-			if(iy + gridSurfHeight / cellSize > gSceneStruct.bottom) {
-				_hAddTemp = lineWidth / 2 + 1;
+			var _xTemp = ix * cellSize;
+			var _wTemp = (gSceneStruct.right - ix) * cellSize + _wAddTemp;
+			
+			if(_xTemp > _camrTemp || _xTemp + _wTemp< _camlTemp) {
+				continue;
 			}
 			
 			if(gSceneElementsGridAlignmentEnable) {
-				draw_text_color(ix * cellSize, iy * cellSize, string([ix, iy]), c_black, c_black, c_black, c_black, 0.2);
+				// draw_text_color(ix * cellSize, iy * cellSize, string([ix, iy]), c_black, c_black, c_black, c_black, 0.2);
 				draw_surface_part_ext(gridSurf
-					, 0, 0, (gSceneStruct.right - ix) * cellSize + _wAddTemp, (gSceneStruct.bottom - iy) * cellSize + _hAddTemp
-					, ix * cellSize, iy * cellSize
+					, 0, 0, _wTemp, _hTemp
+					, _xTemp, _yTemp
 					, 1, 1, c_white
 					, gGridAlpha);
 			}

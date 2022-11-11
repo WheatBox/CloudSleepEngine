@@ -13,6 +13,10 @@ MySurfCheckAndRemake();
 
 if(mysurf != -1) {
 	if(surface_exists(mysurf)) {
-		draw_surface_ext(mysurf, _camx, _camy, _camScale, _camScale, 0, c_white, 1.0);
+		var _alpha = 1.0;
+		if(gSandboxSceneElementsLayer != ESandboxSceneElementsLayers.nothing) {
+			_alpha = gOutFocusLayerAlpha;
+		}
+		draw_surface_ext(mysurf, _camx, _camy, _camScale, _camScale, 0, c_white, _alpha);
 	}
 }
