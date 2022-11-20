@@ -319,7 +319,8 @@ function SaveCloudPack() {
 	"mainclient":"xxxxxxxx",
 	"mainclient_howtoget":"xxxxxxxx",
 	"compatibleclients":"xxxxxx$$xxxxxx$$xxxx",
-	"ipport":"xxx.xxx.xxx.xxx:xxxxx"
+	"ipport":"xxx.xxx.xxx.xxx:xxxxx",
+	"description":"xxxxxxxx"
 }
 */
 
@@ -415,7 +416,7 @@ function EditCloudPack_Head() {
 	return [packfname, _structTemp];
 }
 
-function EditCloudPackMainClient() {
+function EditCloudPackArgEasy(_var_name, _get_string_showStr) {
 	var temp = EditCloudPack_Head();
 	if(temp == NULL) {
 		return;
@@ -425,98 +426,40 @@ function EditCloudPackMainClient() {
 	
 	
 	var strTemp = "";
-	if(variable_struct_get(_structTemp, "mainclient") != undefined) {
-		strTemp = get_string("编辑该场景包的主客户端版本号", string(_structTemp.mainclient));
+	if(variable_struct_get(_structTemp, _var_name) != undefined) {
+		strTemp = get_string(_get_string_showStr, string(_structTemp[$ _var_name]));
 	} else {
-		_structTemp.mainclient = "";
-		strTemp = get_string("编辑该场景包的主客户端版本号", "");
+		_structTemp[$ _var_name] = "";
+		strTemp = get_string(_get_string_showStr, "");
 	}
 	if(strTemp != "") {
-		_structTemp.mainclient = strTemp;
+		_structTemp[$ _var_name] = strTemp;
 	}
 	
 	var fWriteRes = FileWrite(packfname, json_stringify(_structTemp));
 	if(fWriteRes != 0) {
 		show_message("写入文件失败");
 	}
+}
+
+function EditCloudPackMainClient() {
+	EditCloudPackArgEasy("mainclient", "编辑该场景包的主客户端版本号");
 }
 
 function EditCloudPackMainClientHowToGet() {
-	var temp = EditCloudPack_Head();
-	if(temp == NULL) {
-		return;
-	}
-	var packfname = temp[0];
-	var _structTemp = temp[1];
-	
-	
-	var strTemp = "";
-	if(variable_struct_get(_structTemp, "mainclient_howtoget") != undefined) {
-		strTemp = get_string("编辑该场景包的主客户端的获取方式", string(_structTemp.mainclient_howtoget));
-	} else {
-		_structTemp.mainclient_howtoget = "";
-		strTemp = get_string("编辑该场景包的主客户端的获取方式", "");
-	}
-	if(strTemp != "") {
-		_structTemp.mainclient_howtoget = strTemp;
-	}
-	
-	var fWriteRes = FileWrite(packfname, json_stringify(_structTemp));
-	if(fWriteRes != 0) {
-		show_message("写入文件失败");
-	}
+	EditCloudPackArgEasy("mainclient_howtoget", "编辑该场景包的主客户端的获取方式（如需换行请在换行处输入\"\\n\"）");
 }
 
 function EditCloudPackCompatibleClients() {
-	var temp = EditCloudPack_Head();
-	if(temp == NULL) {
-		return;
-	}
-	var packfname = temp[0];
-	var _structTemp = temp[1];
-	
-	
-	var strTemp = "";
-	if(variable_struct_get(_structTemp, "compatibleclients") != undefined) {
-		strTemp = get_string("编辑该场景包的兼容客户端的版本号（不同客户端之间用\"$$\"分割\n例如AVer1.0.0$$BVer1.2.1$$CVer1.5.6）", string(_structTemp.compatibleclients));
-	} else {
-		_structTemp.compatibleclients = "";
-		strTemp = get_string("编辑该场景包的兼容客户端的版本号（不同客户端之间用\"$$\"分割\n例如AVer1.0.0$$BVer1.2.1$$CVer1.5.6）", "");
-	}
-	if(strTemp != "") {
-		_structTemp.compatibleclients = strTemp;
-	}
-	
-	var fWriteRes = FileWrite(packfname, json_stringify(_structTemp));
-	if(fWriteRes != 0) {
-		show_message("写入文件失败");
-	}
+	EditCloudPackArgEasy("compatibleclients", "编辑该场景包的兼容客户端的版本号（不同客户端之间用\"$$\"分割\n例如AVer1.0.0$$BVer1.2.1$$CVer1.5.6）");
 }
 
 function EditCloudPackIpPort() {
-	var temp = EditCloudPack_Head();
-	if(temp == NULL) {
-		return;
-	}
-	var packfname = temp[0];
-	var _structTemp = temp[1];
-	
-	
-	var strTemp = "";
-	if(variable_struct_get(_structTemp, "ipport") != undefined) {
-		strTemp = get_string("编辑该场景包的默认服务器地址（IP和端口间用\":\"分割\n例如：127.0.0.1:14514）", string(_structTemp.ipport));
-	} else {
-		_structTemp.ipport = "";
-		strTemp = get_string("编辑该场景包的默认服务器地址（IP和端口间用\":\"分割\n例如：127.0.0.1:14514）", "");
-	}
-	if(strTemp != "") {
-		_structTemp.ipport = strTemp;
-	}
-	
-	var fWriteRes = FileWrite(packfname, json_stringify(_structTemp));
-	if(fWriteRes != 0) {
-		show_message("写入文件失败");
-	}
+	EditCloudPackArgEasy("ipport", "编辑该场景包的默认服务器地址（IP和端口间用\":\"分割\n例如：127.0.0.1:14514）");
+}
+
+function EditCloudPackDescription() {
+	EditCloudPackArgEasy("description", "编辑该场景包的简介（如需换行请在换行处输入\"\\n\"）");
 }
 
 

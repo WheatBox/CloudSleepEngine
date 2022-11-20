@@ -3,6 +3,8 @@ depth = SceneDepthBackgrounds + 100;
 camxPrevious = undefined;
 camyPrevious = undefined;
 
+myDefaultBackground = -1;
+
 mysurf = -1;
 MySurfCheckAndRemake = function() {
 	var _willFreeSurf = false;

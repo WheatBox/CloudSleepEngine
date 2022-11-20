@@ -2,6 +2,10 @@ var _camx = CameraX();
 var _camy = CameraY();
 var _camScale = CameraScale();
 
+if(gSceneStruct[$ "defaultBackground"] != undefined && myDefaultBackground != gSceneStruct.defaultBackground) {
+	myDefaultBackground = gSceneStruct.defaultBackground;
+	MyFreeSurf();
+} else
 if(camxPrevious != _camx || camyPrevious != _camy) {
 	MyFreeSurf();
 	

@@ -128,7 +128,13 @@ MyDelete = function() {
 		
 		// 修改其它 DragObj 的 materialId
 		if(myIOnMasterPage != -1) {
+			if(materialId == gSceneStruct.defaultBackground) {
+				gSceneStruct.defaultBackground = -1;
+			}
 			for(var i = myIOnMasterPage; i < myIOnMasterPageLen - 1; i++) {
+				if(gSceneStruct.defaultBackground != -1 && gSceneStruct.defaultBackground == masterPage.vecChildElements.Container[i].materialId) {
+					gSceneStruct.defaultBackground--;
+				}
 				masterPage.vecChildElements.Container[i].materialId--;
 			}
 		}
