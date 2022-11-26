@@ -148,6 +148,10 @@ MyDelete = function() {
 			}
 		}
 		
+		if(mySandboxSceneElementsLayer == ESandboxSceneElementsLayers.beds) {
+			array_delete(gArrDragObjBedsCount, materialId, 1);
+		}
+		
 		instance_destroy(id);
 	}
 }

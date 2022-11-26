@@ -1,4 +1,4 @@
-show_debug_overlay(1);
+// show_debug_overlay(1);
 
 randomize();
 
