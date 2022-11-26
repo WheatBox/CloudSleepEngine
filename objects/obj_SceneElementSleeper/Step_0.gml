@@ -15,6 +15,7 @@ if(inited == false) {
 	inited = true;
 }
 
+if(array_length(gSleepersStruct.materials) > materialId)
 if(array_length(gSleepersStruct.materials[materialId].offset) >= 2) {
 	offsetx = gSleepersStruct.materials[materialId].offset[0];
 	offsety = gSleepersStruct.materials[materialId].offset[1];

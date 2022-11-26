@@ -24,15 +24,23 @@ MyDelete = function() {
 		switch(mySandboxSceneElementsLayer) {
 			case ESandboxSceneElementsLayers.sleepers:
 				_tempStruct = gSleepersStruct;
+				
+				instance_activate_object(obj_SceneElementSleeper);
 				break;
 			case ESandboxSceneElementsLayers.backgrounds:
 				_tempStruct = gBackgroundsStruct;
+				
+				instance_activate_object(obj_SceneElementBackground);
 				break;
 			case ESandboxSceneElementsLayers.decorates:
 				_tempStruct = gDecoratesStruct;
+				
+				instance_activate_object(obj_SceneElementDecorate);
 				break;
 			case ESandboxSceneElementsLayers.beds:
 				_tempStruct = gBedsStruct;
+				
+				instance_activate_object(obj_SceneElementBed);
 				break;
 		}
 		if(_tempStruct == undefined) {
@@ -132,6 +140,7 @@ MyDelete = function() {
 				gSceneStruct.defaultBackground = -1;
 			}
 			for(var i = myIOnMasterPage; i < myIOnMasterPageLen - 1; i++) {
+				if(mySandboxSceneElementsLayer == ESandboxSceneElementsLayers.backgrounds)
 				if(gSceneStruct.defaultBackground != -1 && gSceneStruct.defaultBackground == masterPage.vecChildElements.Container[i].materialId) {
 					gSceneStruct.defaultBackground--;
 				}

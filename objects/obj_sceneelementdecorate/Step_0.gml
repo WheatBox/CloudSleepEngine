@@ -15,6 +15,7 @@ if(inited == false) {
 	inited = true;
 }
 
+if(array_length(gDecoratesStruct.materials) > materialId)
 if(array_length(gDecoratesStruct.materials[materialId].offset) >= 2) {
 	offsetx = gDecoratesStruct.materials[materialId].offset[0];
 	offsety = gDecoratesStruct.materials[materialId].offset[1];
